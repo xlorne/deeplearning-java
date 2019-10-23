@@ -7,12 +7,12 @@
 若你懂的java，了解springboot，对AI感兴趣就一块加入学习吧。
 
 # 学习分享
-机器学习
-https://study.163.com/course/courseMain.htm?courseId=1004570029
-深度学习
-https://mooc.study.163.com/smartSpec/detail/1001319001.htm
-基于java的DeepLearning框架 DL4j
-https://deeplearning4j.org/
+机器学习  
+https://study.163.com/course/courseMain.htm?courseId=1004570029   
+深度学习   
+https://mooc.study.163.com/smartSpec/detail/1001319001.htm  
+基于java的DeepLearning框架 DL4j  
+https://deeplearning4j.org/  
 
 我也是基于吴恩达老师的开源课程学习的，大家感兴趣可以先去看吴恩达老师的公开课，建议先去看机器学习，然后再看深度学习的课程。
 
