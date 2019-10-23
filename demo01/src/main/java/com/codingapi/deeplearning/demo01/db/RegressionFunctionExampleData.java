@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
+ * 数据操作工具类
  * @author lorne
  * @date 2019-10-22
  * @description y = 1+5x

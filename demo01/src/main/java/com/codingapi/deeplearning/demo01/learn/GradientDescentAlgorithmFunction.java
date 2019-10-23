@@ -70,7 +70,9 @@ public class GradientDescentAlgorithmFunction {
      * x0 x1 ,x0是指 y=ax0+bx1,将x0 看成1 x1 还是之前的x
      *
      */
-    private BigDecimal costFunctionDerivative(HypothesisFunction hypothesisFunction,double[] x,double[] y,int paramIndex) {
+    private BigDecimal costFunctionDerivative(HypothesisFunction hypothesisFunction,
+                                              double[] x,double[] y,
+                                              int paramIndex) {
         int m = y.length;
         BigDecimal sum = new BigDecimal(0);
         for(int i=0;i<m;i++){

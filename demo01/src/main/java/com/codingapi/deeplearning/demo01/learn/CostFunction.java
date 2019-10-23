@@ -4,7 +4,7 @@ package com.codingapi.deeplearning.demo01.learn;
  * 代价函数
  * @author lorne
  * @date 2019-10-22
- * J(θ0,θ1) = 1/2m ∑...  (对不起，实在打不出来，看图片吧)
+ * J(θ0,θ1) = 1/2m ∑...  (sorry，实在打不出来，看图片吧)
  * 见:images/cost&hypothesis.jpeg
  *
  */
