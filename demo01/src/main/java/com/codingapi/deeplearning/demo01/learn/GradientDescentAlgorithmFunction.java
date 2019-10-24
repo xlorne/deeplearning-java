@@ -48,12 +48,11 @@ public class GradientDescentAlgorithmFunction {
      * @param y
      */
     public void train(double[] x,double[] y){
-
         for(int i=0;i<batch;i++){
-            BigDecimal gradientTemp0 = costFunctionDerivative(hypothesisFunction,x,y,0);
+            BigDecimal gradientTemp0 = derivativeFunction(hypothesisFunction,x,y,0);
             temp0 = temp0.subtract(alpha.multiply(gradientTemp0));
 
-            BigDecimal gradientTemp1 = costFunctionDerivative(hypothesisFunction,x,y,1);
+            BigDecimal gradientTemp1 = derivativeFunction(hypothesisFunction,x,y,1);
             temp1 = temp1.subtract(alpha.multiply(gradientTemp1));
 
             hypothesisFunction.updateParam(temp0,temp1);
@@ -70,9 +69,9 @@ public class GradientDescentAlgorithmFunction {
      * x0 x1 ,x0是指 y=ax0+bx1,将x0 看成1 x1 还是之前的x
      *
      */
-    private BigDecimal costFunctionDerivative(HypothesisFunction hypothesisFunction,
-                                              double[] x,double[] y,
-                                              int paramIndex) {
+    private BigDecimal derivativeFunction(HypothesisFunction hypothesisFunction,
+                                          double[] x, double[] y,
+                                          int paramIndex) {
         int m = y.length;
         BigDecimal sum = new BigDecimal(0);
         for(int i=0;i<m;i++){
