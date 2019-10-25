@@ -17,7 +17,7 @@ https://mooc.study.163.com/smartSpec/detail/1001319001.htm
 基于java的DeepLearning框架 DL4j  
 https://deeplearning4j.org/   
 
-我会将实现的过程用视频方式来讲解，然后再将视频发布到B站和YouTube上，视频地址我会整理到下面，若大家有问题可以在知识星球([智慧实验室](images/discuss.jpg))上与我讨论。
+我会将实现的过程用视频方式来讲解，然后再将视频发布到B站和YouTube上，视频地址我会整理到下面，若大家有问题可以在知识星球([智慧探索实验室](images/discuss.jpg))上与我讨论。
 
 
 ## demo01
