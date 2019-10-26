@@ -28,7 +28,7 @@ https://www.youtube.com/watch?v=FCZIVqNY9GQ
 https://www.bilibili.com/video/av73467652  
 003 线性回归机器学习java实现  
 https://www.bilibili.com/video/av73467810  
-
+https://www.youtube.com/watch?v=UGWr-O6PBug
 
 
 ## demo01
