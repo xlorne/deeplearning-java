@@ -45,6 +45,15 @@ https://www.bilibili.com/video/av73467652
 003 线性回归机器学习java实现  
 https://www.bilibili.com/video/av73467810  
 https://www.youtube.com/watch?v=UGWr-O6PBug
+004 逻辑回归的机器学习原理  
+录制中...
+005 逻辑回归的机器学习java实现  
+录制中...
+006 理解神经网络  
+录制中...
+007 基于神经网络的java实现  
+录制中...
+
 
 ## 项目目录
 
@@ -54,9 +63,11 @@ https://www.youtube.com/watch?v=UGWr-O6PBug
 ### demo02
 实现一个简单的线性回归机器学习过程,基于矩阵方式。
 
-### demo03(实现中...)
+### demo03
 实现一个简单的逻辑回归机器学习过程，基于矩阵方式。
 
+### demo04(实现中...)
+基于神经网络的逻辑回归实现过程。
 
 ## QA
 Q: 为什么用java的方式去实现深度学习，而不用已有的Python、GO这些语言？  
