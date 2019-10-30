@@ -31,7 +31,7 @@ https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes
 ## 视频课程
 
 ### 学习讨论
-我会将实现的过程用视频方式来讲解，然后再将视频发布到B站和YouTube上，视频地址我会整理到下面，若大家有问题可以在知识星球([智慧探索实验室](images/discuss.jpg))上与我讨论。
+我会将实现的过程用视频方式来讲解，然后再将视频发布到B站和YouTube上，视频地址我会整理到下面，若有问题可在知识星球([智慧探索实验室](images/discuss.jpg))上讨论。
 
 ### 目录
 001 重新认识人工智能技术    
@@ -58,8 +58,8 @@ https://www.youtube.com/watch?v=UGWr-O6PBug
 
 ## QA
 Q: 为什么用java的方式去实现深度学习，而不用已有的Python、GO这些语言？  
-A: 我才有java的方式去实现，首先是为了自己动手去深刻掌握深度学习的技术，也希望通过这样的方式可以让更多懂java的人也能很好的理解这些技术。
+A: 我采样java的方式去实现，首先是希望通过这样的方式可以让更多懂java的人也能很好的理解这门技术，也为了自己去深刻掌握深度学习的技术。
 
 Q: 当学习过程中遇到问题，如何请教与讨论？  
-A: 大家可加我的[微信](images/weixin.jpeg)，大家可在知识星球([智慧探索实验室](images/discuss.jpg))上讨论。  
+A: 大家可加我的[微信](images/weixin.jpeg)，我会邀请大家在知识星球([智慧探索实验室](images/discuss.jpg))上讨论。  
 
