@@ -27,30 +27,25 @@ public class GradientDescentAlgorithmFunction {
      */
     private int batch;
 
+    private INDArray x,y;
 
-    public GradientDescentAlgorithmFunction(double alpha,int batch) {
+
+    public GradientDescentAlgorithmFunction(double alpha,int batch,INDArray array) {
         this.alpha = alpha;
-        this.thetaTemp = Nd4j.rand(2,1);
         this.batch = batch;
+        this.thetaTemp = Nd4j.rand(array.columns()-1,1);
+        this.x =  array.getColumns(0,1);
+        this.y = array.getColumn(2);
     }
 
     /**
-     * https://www.cnblogs.com/bonelee/p/8996304.html
      * 基于矩阵的 梯度下降算法
-     * @param array
      */
-    public void train(INDArray array){
-        INDArray x =  array.getColumns(0,1);
-        INDArray y = array.getColumn(2);
-
-        double m = y.columns();
-
+    public void train(){
         for(int i=0;i<batch;i++){
-
-            INDArray diff = x.mmul(thetaTemp).sub(y);
-            INDArray derivative = x.transpose().mmul(diff).div(m);
+            INDArray gradient = gradient(x,y);
             //theta 赋值
-            thetaTemp = thetaTemp.sub(derivative.mul(alpha));
+            thetaTemp = thetaTemp.sub(gradient.mul(alpha));
 
             log.info("train count {},params:{}",i,thetaTemp);
 
@@ -59,6 +54,23 @@ public class GradientDescentAlgorithmFunction {
     }
 
 
+    private INDArray gradient(INDArray x,INDArray y){
+        double m = y.columns();
+        INDArray gradient = Nd4j.create(x.columns(),1);
+        INDArray error = error(x,y);
+        for(int j=0;j<x.columns();j++) {
+            gradient.putScalar(j,Nd4j.sum(error.mul(x.getColumn(j))).div(m).sumNumber().doubleValue());
+        }
+        return gradient;
+    }
 
+
+    private INDArray error(INDArray x,INDArray y){
+        return hypothesisFunction(x).sub(y);
+    }
+
+    private INDArray hypothesisFunction(INDArray x){
+        return thetaTemp.transpose().mmul(x.transpose());
+    }
 
 }
