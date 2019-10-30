@@ -12,7 +12,7 @@
 
 机器学习  
 https://study.163.com/course/courseMain.htm?courseId=1004570029   
-文刀 机器学习|理论与实战
+文刀 机器学习|理论与实战  
 https://www.youtube.com/playlist?list=PL_iBl5c4lkzpgB9ixAcHBZTwaupKSdb1i   
 深度学习   
 https://mooc.study.163.com/smartSpec/detail/1001319001.htm  
