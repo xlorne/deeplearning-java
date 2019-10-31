@@ -33,7 +33,7 @@ public class NeuralNetwork {
 
 
     /**
-     * 反向传播的训练过程
+     * 训练过程
      * @param dataSet   数据集
      *
      */

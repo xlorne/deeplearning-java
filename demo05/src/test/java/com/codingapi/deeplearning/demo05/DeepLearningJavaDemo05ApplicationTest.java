@@ -42,7 +42,7 @@ class DeepLearningJavaDemo05ApplicationTest {
 
         //创建神经网络
         NeuralNetwork neuralNetwork =
-                new NeuralNetwork(0,0.1,100
+                new NeuralNetwork(100,0.1,100
                         ,simpleNeuralNetworkLayerBuilder);
         //训练数据
         neuralNetwork.train(dataSet);
