@@ -1,4 +1,4 @@
-package com.codingapi.deeplearning.demo05.learn;
+package com.codingapi.deeplearning.demo04.learn;
 
 import lombok.Data;
 import org.nd4j.linalg.api.ndarray.INDArray;

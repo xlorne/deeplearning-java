@@ -1,4 +1,4 @@
-package com.codingapi.deeplearning.demo05.learn;
+package com.codingapi.deeplearning.demo04.learn;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,7 +22,7 @@ class BackPropagationFunctionTest {
         scalingHelper.scaling();
 
         BackPropagationFunction backPropagationFunction =
-                new BackPropagationFunction(0,0.1,100,3);
+                new BackPropagationFunction(0,0.1,10000,3);
         backPropagationFunction.train(dataSet);
     }
 }

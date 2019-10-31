@@ -1,4 +1,4 @@
-package com.codingapi.deeplearning.demo05.learn;
+package com.codingapi.deeplearning.demo04.learn;
 
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
@@ -82,7 +82,7 @@ public class BackPropagationFunction {
             INDArray a2 = Transforms.sigmoid(z2);
 
             //BP
-            delta2 = dataSet.getY().sub(a2);
+            delta2 = a2.sub(dataSet.getY());
             delta1 = delta2.mmul(w2.transpose()).mul(a1.mul(a1.rsub(1)));
 
             dw1 = dataSet.getX().transpose().mmul(delta1).add(w1.mul(lambda));
@@ -94,13 +94,27 @@ public class BackPropagationFunction {
             b1 = b1.sub(db1.mul(alpha));
             w2 = w2.sub(dw2.mul(alpha));
             b2 = b2.sub(db2.mul(alpha));
+
+            costFunction(dataSet.getY(),a2);
         }
+
+
 
         log.info("w1:->\n{}",w1);
         log.info("b1:->\n{}",b1);
         log.info("w2:->\n{}",w2);
         log.info("b2:->\n{}",b2);
 
+    }
+
+    private void costFunction(INDArray y,INDArray prediction){
+
+        INDArray first = y.mul(-1).mul(Transforms.log(prediction));
+        INDArray second = y.rsub(1).mul(Transforms.log(prediction.rsub(1)));
+
+        INDArray cost = first.sub(second);
+        INDArray sum = Nd4j.sum(cost.div(y.rows()));
+        log.info("cost:->{}",sum.sumNumber());
     }
 
 
