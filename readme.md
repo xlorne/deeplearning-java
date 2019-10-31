@@ -35,7 +35,7 @@ https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes
 ### 学习讨论
 我会将实现的过程用视频方式来讲解，然后再将视频发布到B站和YouTube上，视频地址我会整理到下面，若有问题可在知识星球([智慧探索实验室](images/discuss.jpg))上讨论。
 
-### 目录
+### 视频目录
 001 重新认识人工智能技术    
 https://www.youtube.com/watch?v=4qaXSGdK3S8  
 https://www.bilibili.com/video/av73467525  
@@ -56,16 +56,16 @@ https://www.youtube.com/watch?v=UGWr-O6PBug
 
 
 ## 项目目录
-demo01  
-实现一个简单的线性回归机器学习过程,基于数组方式。
-demo02  
-实现一个简单的线性回归机器学习过程,基于矩阵方式。
-demo03  
-实现一个简单的逻辑回归机器学习过程，基于矩阵方式。
-demo04  
-基于神经网络的逻辑回归的简单实现。
-demo05  
-基于神经网络的逻辑回归的封装，组建自己的神经网络框架。
+[demo01](demo01)   
+实现一个简单的线性回归机器学习过程,基于数组方式    
+[demo02](demo02)    
+实现一个简单的线性回归机器学习过程,基于矩阵方式    
+[demo03](demo03)    
+实现一个简单的逻辑回归机器学习过程,基于矩阵方式   
+[demo04](demo04)    
+基于神经网络的逻辑回归的简单实现   
+[demo05](demo05)      
+基于神经网络的逻辑回归的封装,组建自己的神经网络框架   
 
 ## QA
 Q: 为什么用java的方式去实现深度学习，而不用已有的Python、GO这些语言？  
