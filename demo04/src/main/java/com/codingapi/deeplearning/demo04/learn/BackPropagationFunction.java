@@ -83,12 +83,13 @@ public class BackPropagationFunction {
 
             //BP
             delta2 = a2.sub(dataSet.getY());
-            delta1 = delta2.mmul(w2.transpose()).mul(a1.mul(a1.rsub(1)));
-
-            dw1 = dataSet.getX().transpose().mmul(delta1).add(w1.mul(lambda));
-            db1 = Nd4j.sum(delta1, 0);
             dw2 = a1.transpose().mmul(delta2).add(w2.mul(lambda));
             db2 = Nd4j.sum(delta2, 0);
+
+            delta1 = delta2.mmul(w2.transpose()).mul(a1.mul(a1.rsub(1)));
+            dw1 = dataSet.getX().transpose().mmul(delta1).add(w1.mul(lambda));
+            db1 = Nd4j.sum(delta1, 0);
+
 
             w1 = w1.sub(dw1.mul(alpha));
             b1 = b1.sub(db1.mul(alpha));
