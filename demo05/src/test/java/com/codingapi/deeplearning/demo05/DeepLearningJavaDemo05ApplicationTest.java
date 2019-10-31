@@ -28,16 +28,17 @@ class DeepLearningJavaDemo05ApplicationTest {
         //创建神经网络层
         SimpleNeuralNetworkLayerBuilder simpleNeuralNetworkLayerBuilder
                 = SimpleNeuralNetworkLayerBuilder.build()
-                .addLayer(dataSet.inputSize(),2)
+                .addLayer(dataSet.inputSize(),3)
+                .addLayer(3,2)
                 .outLayer(2,1);
 
         //创建神经网络
         NeuralNetwork neuralNetwork =
-                new NeuralNetwork(0,0.1,10000
+                new NeuralNetwork(1e-4,0.1,10000
                         ,simpleNeuralNetworkLayerBuilder);
 
-        //添加代价函数的打印
-        neuralNetwork.addScoreIterationListener(new ScoreIterationListener());
+        //代价函数得分
+        neuralNetwork.addScoreIterationListener(new ScoreIterationListener(100));
 
         //训练数据
         neuralNetwork.train(dataSet);

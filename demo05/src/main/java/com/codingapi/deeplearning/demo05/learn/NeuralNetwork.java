@@ -13,13 +13,28 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 public class NeuralNetwork {
 
 
+    /**
+     * 正则化参数
+     */
     private double lambda;
+    /**
+     * 学习率
+     */
     private double alpha;
 
+    /**
+     * 训练次数
+     */
     private int batch;
 
+    /**
+     * 神经网络层
+     */
     private SimpleNeuralNetworkLayerBuilder builder;
 
+    /**
+     * 监听函数
+     */
     private ScoreIterationListener iterationListener;
 
     public NeuralNetwork(double lambda, double alpha, int batch,
@@ -45,7 +60,7 @@ public class NeuralNetwork {
      */
     public void train(DataSet dataSet){
         log.info("train => start");
-        for(int i=0;i<batch;i++) {
+        for(int i=1;i<=batch;i++) {
             //向前传播算法 FP
             INDArray data = dataSet.getX();
             for(int j=0;j<builder.size();j++ ){
@@ -72,9 +87,9 @@ public class NeuralNetwork {
                 layer.updateParam(alpha);
             }
 
-            //打印得分(查看损失函数的值)
+            //损失函数得分
             if(iterationListener!=null){
-                iterationListener.cost(data,dataSet.getY());
+                iterationListener.cost(i,data,dataSet.getY());
             }
         }
         log.info("train => over");
