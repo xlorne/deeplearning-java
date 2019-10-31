@@ -1,9 +1,6 @@
 package com.codingapi.deeplearning.demo05;
 
-import com.codingapi.deeplearning.demo05.learn.NeuralNetwork;
-import com.codingapi.deeplearning.demo05.learn.DataSetScalingHelper;
-import com.codingapi.deeplearning.demo05.learn.DataSet;
-import com.codingapi.deeplearning.demo05.learn.SimpleNeuralNetworkLayerBuilder;
+import com.codingapi.deeplearning.demo05.learn.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -31,22 +28,19 @@ class DeepLearningJavaDemo05ApplicationTest {
         //创建神经网络层
         SimpleNeuralNetworkLayerBuilder simpleNeuralNetworkLayerBuilder
                 = SimpleNeuralNetworkLayerBuilder.build()
-                .addLayer(dataSet.inputSize(),5)
-                .addLayer(5,5)
-                .addLayer(5,5)
-                .addLayer(5,5)
-                .addLayer(5,5)
-                .addLayer(5,5)
-                .addLayer(5,3)
-                .outLayer(3,1);
+                .addLayer(dataSet.inputSize(),2)
+                .outLayer(2,1);
 
         //创建神经网络
         NeuralNetwork neuralNetwork =
-                new NeuralNetwork(100,0.1,100
+                new NeuralNetwork(0,0.1,10000
                         ,simpleNeuralNetworkLayerBuilder);
+
+        //添加代价函数的打印
+        neuralNetwork.addScoreIterationListener(new ScoreIterationListener());
+
         //训练数据
         neuralNetwork.train(dataSet);
-
     }
 
 }

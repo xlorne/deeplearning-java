@@ -20,6 +20,8 @@ public class NeuralNetwork {
 
     private SimpleNeuralNetworkLayerBuilder builder;
 
+    private ScoreIterationListener iterationListener;
+
     public NeuralNetwork(double lambda, double alpha, int batch,
                          SimpleNeuralNetworkLayerBuilder builder) {
         this.lambda = lambda;
@@ -31,6 +33,10 @@ public class NeuralNetwork {
         builder.init();
     }
 
+
+    public void addScoreIterationListener(ScoreIterationListener scoreIterationListener){
+        this.iterationListener = scoreIterationListener;
+    }
 
     /**
      * 训练过程
@@ -49,7 +55,7 @@ public class NeuralNetwork {
 
             //反向传播 BP
             //输出层的反向传播
-            INDArray delta = dataSet.getY().sub(data);
+            INDArray delta = data.sub(dataSet.getY());
             SimpleNeuralNetworkLayer outLayer = builder.get(builder.size()-1);
             delta = outLayer.back(delta,lambda);
 
@@ -64,6 +70,11 @@ public class NeuralNetwork {
             for(int j=0;j<builder.size();j++ ){
                 SimpleNeuralNetworkLayer layer = builder.get(j);
                 layer.updateParam(alpha);
+            }
+
+            //打印得分(查看损失函数的值)
+            if(iterationListener!=null){
+                iterationListener.cost(data,dataSet.getY());
             }
         }
         log.info("train => over");
