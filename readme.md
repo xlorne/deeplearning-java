@@ -35,7 +35,7 @@ https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes
 ### 学习讨论
 我会将实现的过程用视频方式来讲解，然后再将视频发布到B站和YouTube上，视频地址我会整理到下面，若有问题可在知识星球([智慧探索实验室](images/discuss.jpg))上讨论。
 
-### 目录
+### 视频目录
 001 重新认识人工智能技术    
 https://www.youtube.com/watch?v=4qaXSGdK3S8  
 https://www.bilibili.com/video/av73467525  
