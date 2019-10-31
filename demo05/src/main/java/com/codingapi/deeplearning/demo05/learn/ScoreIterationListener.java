@@ -20,12 +20,12 @@ public class ScoreIterationListener {
         this.printIterations = printIterations;
     }
 
-    public void cost(int index,INDArray prediction, INDArray y) {
+    public void cost(int index,INDArray predict, INDArray y) {
 
         if(index % printIterations ==0) {
 
-            INDArray first = y.mul(-1).mul(Transforms.log(prediction));
-            INDArray second = y.rsub(1).mul(Transforms.log(prediction.rsub(1)));
+            INDArray first = y.mul(-1).mul(Transforms.log(predict));
+            INDArray second = y.rsub(1).mul(Transforms.log(predict.rsub(1)));
 
             INDArray cost = first.sub(second);
             INDArray sum = Nd4j.sum(cost.div(y.rows()));

@@ -3,6 +3,9 @@ package com.codingapi.deeplearning.demo05.learn;
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+
 /**
  *
  * @author lorne
@@ -95,5 +98,20 @@ public class NeuralNetwork {
         log.info("train => over");
 
     }
+
+
+    /**
+     * 预测数据 返回的是100%
+     * @param data  测试数据
+     * @return  预测值
+     */
+    public INDArray predict(INDArray data){
+        for(int j=0;j<builder.size();j++ ){
+            SimpleNeuralNetworkLayer layer = builder.get(j);
+            data = layer.forward(data);
+        }
+        return data;
+    }
+
 
 }
