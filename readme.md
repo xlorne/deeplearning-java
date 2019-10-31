@@ -44,7 +44,7 @@ https://www.youtube.com/watch?v=FCZIVqNY9GQ
 https://www.bilibili.com/video/av73467652  
 003 线性回归机器学习java实现  
 https://www.bilibili.com/video/av73467810  
-https://www.youtube.com/watch?v=UGWr-O6PBug
+https://www.youtube.com/watch?v=UGWr-O6PBug  
 004 逻辑回归的机器学习原理  
 录制中...  
 005 逻辑回归的机器学习java实现  
