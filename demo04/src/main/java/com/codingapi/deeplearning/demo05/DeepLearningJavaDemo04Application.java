@@ -1,4 +1,4 @@
-package com.codingapi.deeplearning.demo04;
+package com.codingapi.deeplearning.demo05;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

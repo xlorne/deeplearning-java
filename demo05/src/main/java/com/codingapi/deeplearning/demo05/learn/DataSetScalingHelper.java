@@ -1,4 +1,4 @@
-package com.codingapi.deeplearning.demo04.learn;
+package com.codingapi.deeplearning.demo05.learn;
 
 import org.nd4j.linalg.api.ndarray.INDArray;
 
@@ -8,13 +8,14 @@ import org.nd4j.linalg.api.ndarray.INDArray;
  * @date 2019-10-31
  * @description
  */
-public class DataScalingHelper {
+public class DataSetScalingHelper {
+
 
     private double max;
     private double min;
     private DataSet data;
 
-    public DataScalingHelper(DataSet data) {
+    public DataSetScalingHelper(DataSet data) {
         this.data = data;
         this.max = data.getX().maxNumber().doubleValue();
         this.min = data.getY().maxNumber().doubleValue();

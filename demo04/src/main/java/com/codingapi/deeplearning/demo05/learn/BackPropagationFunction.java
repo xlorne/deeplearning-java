@@ -1,4 +1,4 @@
-package com.codingapi.deeplearning.demo04.learn;
+package com.codingapi.deeplearning.demo05.learn;
 
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;

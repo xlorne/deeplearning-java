@@ -1,4 +1,4 @@
-package com.codingapi.deeplearning.demo04.learn;
+package com.codingapi.deeplearning.demo05.learn;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

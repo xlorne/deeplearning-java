@@ -1,4 +1,4 @@
-package com.codingapi.deeplearning.demo04.learn;
+package com.codingapi.deeplearning.demo05.learn;
 
 /**
  * @author lorne
