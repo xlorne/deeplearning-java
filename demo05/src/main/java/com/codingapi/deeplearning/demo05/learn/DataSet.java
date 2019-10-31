@@ -21,6 +21,7 @@ public class DataSet {
     private INDArray y;
 
 
+    //加载数据
     public DataSet() throws IOException {
         String filePath = "init/lr_data.csv";
         INDArray data =  Nd4j.readNumpy(filePath,",");
@@ -29,7 +30,7 @@ public class DataSet {
         y = data.getColumns(2);
     }
 
-
+    //数据的input数量
     public int inputSize(){
         return x.columns();
     }

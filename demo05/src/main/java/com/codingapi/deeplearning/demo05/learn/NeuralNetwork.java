@@ -26,6 +26,9 @@ public class NeuralNetwork {
         this.alpha = alpha;
         this.batch = batch;
         this.builder = builder;
+
+        //初始化权重
+        builder.init();
     }
 
 
@@ -35,7 +38,7 @@ public class NeuralNetwork {
      *
      */
     public void train(DataSet dataSet){
-
+        log.info("train => start");
         for(int i=0;i<batch;i++) {
             //向前传播算法 FP
             INDArray data = dataSet.getX();
@@ -57,11 +60,13 @@ public class NeuralNetwork {
                 delta = layer.back(delta,lambda);
             }
 
+            //更新参数
             for(int j=0;j<builder.size();j++ ){
                 SimpleNeuralNetworkLayer layer = builder.get(j);
                 layer.updateParam(alpha);
             }
         }
+        log.info("train => over");
 
     }
 

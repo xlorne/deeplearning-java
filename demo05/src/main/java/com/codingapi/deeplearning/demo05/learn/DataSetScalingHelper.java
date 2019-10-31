@@ -7,24 +7,50 @@ import org.nd4j.linalg.api.ndarray.INDArray;
  * @author lorne
  * @date 2019-10-31
  * @description
+ *  至于为什么将以构造的方式去记录 max,min 为了统一全部特征缩放比例
  */
 public class DataSetScalingHelper {
 
+    /**
+     * x 的极值
+     */
+    private double Xmax;
+    private double Xmin;
 
-    private double max;
-    private double min;
+    /**
+     * y 的极值
+     */
+    private double Ymax;
+    private double Ymin;
+
+    /**
+     * 数据源
+     */
     private DataSet data;
 
+
+    /**
+     * 记录极值
+     */
     public DataSetScalingHelper(DataSet data) {
         this.data = data;
-        this.max = data.getX().maxNumber().doubleValue();
-        this.min = data.getY().maxNumber().doubleValue();
+        this.Xmax = data.getX().maxNumber().doubleValue();
+        this.Xmin = data.getX().minNumber().doubleValue();
+
+        this.Ymax = data.getY().maxNumber().doubleValue();
+        this.Ymin = data.getY().minNumber().doubleValue();
     }
 
+    /**
+     * 缩放数据
+     */
     public void scaling(){
-       INDArray array =  data.getX();
-       array =  array.sub(min).div((max-min));
-       data.setX(array);
-    }
+       INDArray x =  data.getX();
+       x =  x.sub(Xmin).div((Xmax-Xmin));
+       data.setX(x);
 
+       INDArray y =  data.getY();
+       y =  y.sub(Ymin).div((Ymax-Ymin));
+       data.setY(y);
+    }
 }
