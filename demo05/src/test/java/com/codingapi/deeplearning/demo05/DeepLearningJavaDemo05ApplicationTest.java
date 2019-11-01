@@ -25,7 +25,7 @@ class DeepLearningJavaDemo05ApplicationTest {
         DataSet dataSet = new DataSet();
         //特征缩放
         DataSetScalingHelper scalingHelper = new DataSetScalingHelper(dataSet);
-        scalingHelper.scaling();
+        scalingHelper.scalingSelf();
 
         //创建神经网络层
         SimpleNeuralNetworkLayerBuilder simpleNeuralNetworkLayerBuilder
@@ -35,7 +35,7 @@ class DeepLearningJavaDemo05ApplicationTest {
 
         //创建神经网络
         NeuralNetwork neuralNetwork =
-                new NeuralNetwork(0,0.01,20000
+                new NeuralNetwork(0,0.3,20000
                         ,simpleNeuralNetworkLayerBuilder);
 
         //代价函数得分
@@ -46,10 +46,12 @@ class DeepLearningJavaDemo05ApplicationTest {
 
         //预测数据
         INDArray test = Nd4j.create(1,2);
-        test.putScalar(0,0,6.4);
-        test.putScalar(0,1,3.3);
+        test.putScalar(0,0,7.5);
+        test.putScalar(0,1,4.5);
+
         //返回的百分比
-        INDArray res = neuralNetwork.predict(test);
+        System.out.println("test:"+test);
+        INDArray res = neuralNetwork.predict(scalingHelper.scaling(test));
         System.out.println("res为1的可能性为:"+res);
     }
 

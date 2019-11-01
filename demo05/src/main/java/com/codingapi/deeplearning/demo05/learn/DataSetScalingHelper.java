@@ -44,13 +44,24 @@ public class DataSetScalingHelper {
     /**
      * 缩放数据
      */
-    public void scaling(){
-       INDArray x =  data.getX();
-       x =  x.sub(Xmin).div((Xmax-Xmin));
-       data.setX(x);
-
-       INDArray y =  data.getY();
-       y =  y.sub(Ymin).div((Ymax-Ymin));
-       data.setY(y);
+    public INDArray scaling(INDArray data,boolean isLabel){
+       if(isLabel){
+           return  data.sub(Ymin).div((Ymax-Ymin));
+       }else{
+           return data.sub(Xmin).div((Xmax-Xmin));
+       }
     }
+
+    /**
+     * 缩放数据
+     */
+    public INDArray scaling(INDArray data){
+       return scaling(data,false);
+    }
+
+    public void scalingSelf(){
+       data.setX(scaling( data.getX(),false));
+       data.setY(scaling(data.getY(),true));
+    }
+
 }
