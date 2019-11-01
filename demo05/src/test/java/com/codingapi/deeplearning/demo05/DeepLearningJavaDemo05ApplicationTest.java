@@ -12,7 +12,6 @@ import java.io.IOException;
  *
  * @author lorne
  * @date 2019-10-31
- * @description
  */
 @SpringBootTest
 class DeepLearningJavaDemo05ApplicationTest {
@@ -46,8 +45,8 @@ class DeepLearningJavaDemo05ApplicationTest {
 
         //预测数据
         INDArray test = Nd4j.create(1,2);
-        test.putScalar(0,0,7.5);
-        test.putScalar(0,1,4.5);
+        test.putScalar(0,0,7.8);
+        test.putScalar(0,1,4.3);
 
         //返回的百分比
         System.out.println("test:"+test);
