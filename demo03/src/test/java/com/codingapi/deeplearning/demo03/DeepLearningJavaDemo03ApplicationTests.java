@@ -1,5 +1,7 @@
 package com.codingapi.deeplearning.demo03;
 
+import com.codingapi.deeplearning.demo03.db.DataScalingHelper;
+import com.codingapi.deeplearning.demo03.db.DataSet;
 import com.codingapi.deeplearning.demo03.db.RegressionFunctionExampleData;
 import com.codingapi.deeplearning.demo03.learn.GradientDescentAlgorithmFunction;
 import lombok.extern.slf4j.Slf4j;
@@ -19,13 +21,18 @@ class DeepLearningJavaDemo03ApplicationTests {
 
     @Test
     void train(){
-        INDArray data = regressionFunctionExampleData.loadData();
+        DataSet data = regressionFunctionExampleData.loadData();
+        DataScalingHelper dataScalingHelper = new DataScalingHelper(data);
+        dataScalingHelper.scaling();
+        data.putX0();
+
+        data.print();
         GradientDescentAlgorithmFunction gradientDescentAlgorithmFunction
-                = new GradientDescentAlgorithmFunction(0.01,20,data);
+                = new GradientDescentAlgorithmFunction(0.1,20000,data);
         gradientDescentAlgorithmFunction.train();
 
-        INDArray test = Nd4j.create(1,5);
-        test.putRow(1,Nd4j.create(new double[]{1,21,62,55,1}));
+        INDArray test = Nd4j.create(1,4);
+        test.putRow(1,Nd4j.create(new double[]{1,21,62,23}));
 
         System.out.println(gradientDescentAlgorithmFunction.hypothesisFunction(test));
 

@@ -1,7 +1,6 @@
 package com.codingapi.deeplearning.demo03.db;
 
-import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.factory.Nd4j;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -13,20 +12,19 @@ import java.io.IOException;
  * @description y = ax+b
  */
 @Component
+@Slf4j
 public class RegressionFunctionExampleData {
 
     private String filePath = "init/demo03.csv";
 
-
-    public INDArray loadData(){
+    public DataSet loadData(){
+        DataSet dataSet = null;
         try {
-            INDArray data =  Nd4j.readNumpy(filePath,",");
-            INDArray ones = Nd4j.ones(data.rows(),1);
-            return Nd4j.concat(1,ones,data);
+            dataSet = new DataSet(filePath);
         } catch (IOException e) {
-            e.printStackTrace();
-            return null;
+           log.error("load error",e);
         }
+        return dataSet;
     }
 
 }

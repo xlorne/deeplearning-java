@@ -1,5 +1,6 @@
 package com.codingapi.deeplearning.demo03.learn;
 
+import com.codingapi.deeplearning.demo03.db.DataSet;
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
@@ -31,13 +32,12 @@ public class GradientDescentAlgorithmFunction {
 
     private INDArray x,y;
 
-    public GradientDescentAlgorithmFunction(double alpha, int batch,INDArray array) {
+    public GradientDescentAlgorithmFunction(double alpha, int batch, DataSet dataSet) {
         this.alpha = alpha;
         this.batch = batch;
-        this.thetaTemp = Nd4j.rand(array.columns()-1,1);
-        this.x =  array.getColumns(0,1,2,3,4);
-
-        this.y = array.getColumns(5);
+        this.thetaTemp = Nd4j.rand(dataSet.getX().columns(),1);
+        this.x =  dataSet.getX();
+        this.y = dataSet.getY();
     }
 
 
@@ -49,8 +49,6 @@ public class GradientDescentAlgorithmFunction {
             INDArray gradient = gradient(x,y);
             //theta 赋值
             thetaTemp = thetaTemp.sub(gradient.mul(alpha));
-
-//            log.info("train count {},params:{}",i,thetaTemp);
 
             cost(i,1,hypothesisFunction(x),y);
         }
