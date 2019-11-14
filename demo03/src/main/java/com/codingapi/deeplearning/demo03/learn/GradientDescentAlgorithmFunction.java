@@ -36,7 +36,8 @@ public class GradientDescentAlgorithmFunction {
         this.batch = batch;
         this.thetaTemp = Nd4j.rand(array.columns()-1,1);
         this.x =  array.getColumns(0,1,2,3,4);
-        this.y = array.getColumn(5);
+
+        this.y = array.getColumns(5);
     }
 
 
@@ -44,13 +45,14 @@ public class GradientDescentAlgorithmFunction {
      * 基于矩阵的 梯度下降算法
      */
     public void train(){
-        for(int i=0;i<batch;i++){
+        for(int i=1;i<=batch;i++){
             INDArray gradient = gradient(x,y);
             //theta 赋值
             thetaTemp = thetaTemp.sub(gradient.mul(alpha));
 
-            log.info("train count {},params:{}",i,thetaTemp);
+//            log.info("train count {},params:{}",i,thetaTemp);
 
+            cost(i,1,hypothesisFunction(x),y);
         }
         log.info("train over params:{}",thetaTemp);
     }
@@ -73,7 +75,20 @@ public class GradientDescentAlgorithmFunction {
 
 
     public INDArray hypothesisFunction(INDArray x){
-        return Transforms.sigmoid(thetaTemp.transpose().mmul(x.transpose()));
+        return Transforms.sigmoid(x.mmul(thetaTemp));
+    }
+
+
+    public void cost(int index,int printIterations,INDArray predict, INDArray y) {
+        if(index % printIterations ==0) {
+
+            INDArray first = y.mul(-1).mul(Transforms.log(predict));
+            INDArray second = y.rsub(1).mul(Transforms.log(predict.rsub(1)));
+
+            INDArray cost = first.sub(second);
+            INDArray sum = Nd4j.sum(cost.div(y.rows()));
+            log.info("index:{}=>cost:{}", index,sum.sumNumber().doubleValue());
+        }
     }
 
 

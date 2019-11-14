@@ -33,9 +33,12 @@ public class GradientDescentAlgorithmFunction {
     public GradientDescentAlgorithmFunction(double alpha,int batch,INDArray array) {
         this.alpha = alpha;
         this.batch = batch;
-        this.thetaTemp = Nd4j.rand(array.columns()-1,1);
-        this.x =  array.getColumns(0,1);
-        this.y = array.getColumn(2);
+        this.thetaTemp = Nd4j.rand(array.columns()-1,1);    //[2,1]
+        this.x =  array.getColumns(0,1);//[2,100]
+        this.y = array.getColumns(2);//[1,100]
+
+        log.info("thetaTemp->shape:{},x->shape:{},y->shape:{}",
+                thetaTemp.shape(),x.shape(),y.shape());
     }
 
     /**
@@ -56,9 +59,10 @@ public class GradientDescentAlgorithmFunction {
 
     private INDArray gradient(INDArray x,INDArray y){
         double m = y.columns();
-        INDArray gradient = Nd4j.create(x.columns(),1);
-        INDArray error = error(x,y);
+        INDArray gradient = Nd4j.create(x.columns(),1);//[2,1]
+        INDArray error = error(x,y);//[100,1]
         for(int j=0;j<x.columns();j++) {
+            //
             gradient.putScalar(j,Nd4j.sum(error.mul(x.getColumn(j))).div(m).sumNumber().doubleValue());
         }
         return gradient;
@@ -70,7 +74,8 @@ public class GradientDescentAlgorithmFunction {
     }
 
     private INDArray hypothesisFunction(INDArray x){
-        return thetaTemp.transpose().mmul(x.transpose());
+        //[100,2] * [2,1]
+        return x.mmul(thetaTemp);//[100,1]
     }
 
 }

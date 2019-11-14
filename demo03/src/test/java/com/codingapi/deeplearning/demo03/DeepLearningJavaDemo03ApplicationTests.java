@@ -20,7 +20,8 @@ class DeepLearningJavaDemo03ApplicationTests {
     @Test
     void train(){
         INDArray data = regressionFunctionExampleData.loadData();
-        GradientDescentAlgorithmFunction gradientDescentAlgorithmFunction = new GradientDescentAlgorithmFunction(0.01,20000,data);
+        GradientDescentAlgorithmFunction gradientDescentAlgorithmFunction
+                = new GradientDescentAlgorithmFunction(0.01,20,data);
         gradientDescentAlgorithmFunction.train();
 
         INDArray test = Nd4j.create(1,5);

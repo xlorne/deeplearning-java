@@ -19,7 +19,6 @@ class DeepLearningJavaDemo05ApplicationTest {
 
     @Test
     void train() throws IOException {
-
         //创建数据集
         DataSet dataSet = new DataSet();
         //特征缩放
