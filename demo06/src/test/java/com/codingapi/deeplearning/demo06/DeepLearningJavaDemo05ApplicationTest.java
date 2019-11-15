@@ -31,10 +31,14 @@ class DeepLearningJavaDemo05ApplicationTest {
                 .addLayer(new DenseLayer(dataSet.inputSize(),2))
                 .addLayer(new DenseLayer(2,1,true));
 
+
         //创建神经网络
         NeuralNetwork neuralNetwork =
-                new NeuralNetwork(0,0.1,20000
-                        , neuralNetworkLayerBuilder,new LogisticRegressionLossFunction());
+                new NeuralNetwork.Builder()
+                        .layers(neuralNetworkLayerBuilder)
+                        .lossFunction(new LogisticRegressionLossFunction())
+                        .batch(20000)
+                        .build();
 
         //Loss函数监听
         neuralNetwork.initScoreIterationListener(1000,new ScorePrint());

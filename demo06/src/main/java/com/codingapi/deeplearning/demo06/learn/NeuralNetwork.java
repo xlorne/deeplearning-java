@@ -2,6 +2,9 @@ package com.codingapi.deeplearning.demo06.learn;
 
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.factory.Nd4j;
+
+import java.util.Random;
 
 /**
  *
@@ -43,14 +46,67 @@ public class NeuralNetwork {
     private LossFunction lossFunction;
 
 
-    public NeuralNetwork(double lambda, double alpha, int batch,
+
+    public static class Builder{
+        private NeuralNetworkLayerBuilder builder;
+        private double lambda;
+        private double alpha;
+        private int batch;
+        private long seed;
+        private LossFunction lossFunction;
+
+        public Builder() {
+            lambda = 0;
+            alpha = 0.1;
+            batch = 10000;
+            seed = 123;
+        }
+
+        public Builder layers(NeuralNetworkLayerBuilder builder){
+            this.builder = builder;
+            return this;
+        }
+
+        public Builder batch(int batch){
+            this.batch = batch;
+            return this;
+        }
+
+        public Builder lambda(double lambda){
+            this.lambda = lambda;
+            return this;
+        }
+
+        public Builder alpha(double alpha){
+            this.alpha = alpha;
+            return this;
+        }
+
+        public Builder seed(long seed){
+            this.seed = seed;
+            return this;
+        }
+
+        public Builder lossFunction(LossFunction lossFunction){
+            this.lossFunction = lossFunction;
+            return this;
+        }
+
+        public NeuralNetwork build(){
+            return new NeuralNetwork(lambda,alpha,batch,seed,builder,lossFunction);
+        }
+
+
+    }
+
+    private NeuralNetwork(double lambda, double alpha, int batch,long seed,
                          NeuralNetworkLayerBuilder builder,LossFunction lossFunction) {
         this.lambda = lambda;
         this.alpha = alpha;
         this.batch = batch;
         this.builder = builder;
         this.lossFunction = lossFunction;
-
+        Nd4j.getRandom().setSeed(seed);
         //初始化权重
         builder.init();
     }
