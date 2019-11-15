@@ -18,6 +18,11 @@ https://www.youtube.com/playlist?list=PL_iBl5c4lkzpgB9ixAcHBZTwaupKSdb1i
 https://mooc.study.163.com/smartSpec/detail/1001319001.htm  
 基于java的DeepLearning框架 DL4j  
 https://deeplearning4j.org/   
+机器学习支持向量机   
+https://www.youtube.com/watch?v=o3oRG9VpVXU   
+自然常数e   
+https://www.youtube.com/watch?v=mZE0RmCbDe8   
+
       
 
 ### 参考资料
