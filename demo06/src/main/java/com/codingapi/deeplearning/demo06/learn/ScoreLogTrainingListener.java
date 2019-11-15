@@ -20,7 +20,7 @@ public class ScoreLogTrainingListener implements NeuralListener.TrainingListener
     @Override
     public void done(int index,INDArray sum) {
         if(index % printIterations ==0) {
-            log.info("cost:{}",sum.amaxNumber().doubleValue());
+            log.info("index:{},cost:{}",index,sum.amaxNumber().doubleValue());
         }
     }
 }

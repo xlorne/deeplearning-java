@@ -14,7 +14,7 @@ import java.io.IOException;
  * @date 2019-10-31
  */
 @SpringBootTest
-class DeepLearningJavaDemo05ApplicationTest {
+class DeepLearningJavaDemo06ApplicationTest {
 
 
     @Test
@@ -30,7 +30,7 @@ class DeepLearningJavaDemo05ApplicationTest {
                 = NeuralNetworkLayerBuilder.Builder()
                 .addLayer(new DenseLayer.Builder()
                         .input(dataSet.inputSize(),2)
-                        .activation(new SigmoidActivation())
+                        .activation(new SoftMaxActivation())
                         .isOutLayer(true)
                         .builder())
                 .builder();
@@ -40,9 +40,9 @@ class DeepLearningJavaDemo05ApplicationTest {
         NeuralNetwork neuralNetwork =
                 new NeuralNetwork.Builder()
                         .layers(neuralNetworkLayerBuilder)
-                        .lossFunction(new LogisticRegressionLossFunction())
-                        .batch(20000)
-                        .alpha(0.3)
+                        .lossFunction(new SoftMaxLossFunction())
+                        .batch(10000)
+                        .alpha(0.003)
                         .lambda(1e-5)
                         .build();
 
