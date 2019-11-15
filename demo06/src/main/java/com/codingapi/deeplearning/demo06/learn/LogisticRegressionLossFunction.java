@@ -20,4 +20,10 @@ public class LogisticRegressionLossFunction implements LossFunction {
         INDArray sum = Nd4j.sum(cost.div(y.rows()));
         return sum;
     }
+
+    @Override
+    public INDArray gradient(INDArray data, INDArray y) {
+        //简化完就是预测值减去y
+        return data.sub(y);
+    }
 }

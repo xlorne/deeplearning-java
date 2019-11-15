@@ -4,8 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 
-import java.util.List;
-
 /**
  *
  * @author lorne
@@ -134,7 +132,7 @@ public class NeuralNetwork {
 
             //反向传播 BP
             //输出层的反向传播
-            INDArray delta = data.sub(dataSet.getY());
+            INDArray delta = lossFunction.gradient(data,dataSet.getY());
             NeuralNetworkLayer outLayer = builder.get(builder.size()-1);
             delta = outLayer.back(delta,lambda);
 

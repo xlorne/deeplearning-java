@@ -11,14 +11,22 @@ public interface Activation {
 
 
     /**
-     * 激活函数计算
+     * 激活函数正向传播
      *
      * @param x  x
      * @param w     W
      * @param b     b
      * @return
      */
-    INDArray calculation(INDArray x, INDArray w, INDArray b);
+    INDArray forward(INDArray x, INDArray w, INDArray b);
+
+
+    /**
+     * 激活函数反向传播
+     * @param a
+     * @return
+     */
+    INDArray back(INDArray a);
 
 
 }

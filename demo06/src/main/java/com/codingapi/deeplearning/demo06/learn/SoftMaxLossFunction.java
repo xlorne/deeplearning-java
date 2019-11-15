@@ -16,8 +16,12 @@ public class SoftMaxLossFunction implements LossFunction {
         //max y
         int columns =  y.max(1).amaxNumber().intValue();
         // x 误差值
-        return Transforms.log(predict.getColumn(columns)).mul(-1);
+        return y.mul(Transforms.log(predict.getColumn(columns)).mul(-1));
     }
 
-
+    @Override
+    public INDArray gradient(INDArray data, INDArray y) {
+        //简化完就是预测值减去y
+        return data.sub(y);
+    }
 }

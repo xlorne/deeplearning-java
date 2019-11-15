@@ -152,7 +152,7 @@ public class DenseLayer implements NeuralNetworkLayer {
         if (index == 0) {
             x = data;
         }
-        a = activation.calculation(data, w, b);
+        a = activation.forward(data, w, b);
         log.debug("forward res => {}, w.shape->{},b.shape->{},a.shape->{}",
                 index, w.shape(), b.shape(), a.shape());
         return a;
@@ -172,7 +172,7 @@ public class DenseLayer implements NeuralNetworkLayer {
             delta = data;
         } else {
             //delta(l) = delta(l-1)* w(l-1).T*(a(l)*(1-a(l))))
-            delta = data.mmul(builder.get(index + 1).w().transpose()).mul(a.mul(a.rsub(1)));
+            delta = data.mmul(builder.get(index + 1).w().transpose()).mul(activation.back(a));
         }
         //dw(l) = a(l-1).T*delta(l) + lambda*w(l)
         INDArray _a = index == 0 ? x : builder.get(index - 1).a();

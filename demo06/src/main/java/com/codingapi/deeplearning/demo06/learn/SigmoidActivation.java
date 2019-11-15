@@ -11,11 +11,17 @@ import org.nd4j.linalg.ops.transforms.Transforms;
 public class SigmoidActivation implements Activation{
 
     @Override
-    public INDArray calculation(INDArray x, INDArray w, INDArray b) {
+    public INDArray forward(INDArray x, INDArray w, INDArray b) {
         int length = x.rows();
         //z = w.Tx+b
         INDArray z = x.mmul(w).add(b.broadcast(length, b.columns()));
         //a = sigmoid(z)
         return Transforms.sigmoid(z);
+    }
+
+
+    @Override
+    public INDArray back(INDArray a) {
+        return a.mul(a.rsub(1));
     }
 }

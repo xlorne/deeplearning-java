@@ -12,7 +12,7 @@ import org.nd4j.linalg.ops.transforms.Transforms;
 public class SoftMaxActivation implements Activation{
 
     @Override
-    public INDArray calculation(INDArray x, INDArray w, INDArray b) {
+    public INDArray forward(INDArray x, INDArray w, INDArray b) {
         int length = x.rows();
         //z = w.Tx+b
         INDArray z = x.mmul(w).add(b.broadcast(length, b.columns()));
@@ -25,5 +25,11 @@ public class SoftMaxActivation implements Activation{
         //exp/sum
         INDArray res =  exp.divi(sum);
         return res;
+    }
+
+
+    @Override
+    public INDArray back(INDArray a) {
+        return null;
     }
 }

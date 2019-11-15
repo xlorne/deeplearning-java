@@ -17,4 +17,12 @@ public interface LossFunction {
      */
     INDArray score(INDArray predict, INDArray y);
 
+    /**
+     * 损失函数导数
+     * @param data
+     * @param y
+     * @return
+     */
+    INDArray gradient(INDArray data,INDArray y);
+
 }
