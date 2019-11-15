@@ -14,7 +14,7 @@ import java.util.List;
 @Slf4j
 public class NeuralNetworkLayerBuilder {
 
-    private boolean noOutLay = true;
+    private boolean noOutLay = false;
 
     private List<NeuralNetworkLayer> layers;
 
@@ -27,25 +27,18 @@ public class NeuralNetworkLayerBuilder {
         return  new NeuralNetworkLayerBuilder();
     }
 
-    public NeuralNetworkLayerBuilder addDenseLayer(int in, int out){
-        if(!noOutLay){
+
+    public NeuralNetworkLayerBuilder addLayer(NeuralNetworkLayer layer){
+        if(noOutLay){
             throw new RuntimeException("已经存在输出层");
         }
         int index = layers.size();
-        layers.add(new DenseLayer(this,in,out,index,false));
+        layer.build(this,index);
+        layers.add(layer);
+        noOutLay = layer.isOutLayer();
         return this;
     }
 
-
-    public NeuralNetworkLayerBuilder outDenseLayer(int in, int out){
-        if(!noOutLay){
-            throw new RuntimeException("已经存在输出层");
-        }
-        int index = layers.size();
-        layers.add(new DenseLayer(this,in,out,index,true));
-        noOutLay = false;
-        return this;
-    }
 
     public List<NeuralNetworkLayer> list(){
         return layers;
@@ -63,7 +56,7 @@ public class NeuralNetworkLayerBuilder {
      * 初始化所有层的权重 w,b
      */
     public void init() {
-        if(noOutLay){
+        if(!noOutLay){
             throw new RuntimeException("没有输出层");
         }
         for (NeuralNetworkLayer layer:list()){

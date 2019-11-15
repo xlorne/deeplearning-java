@@ -84,13 +84,15 @@ public class DenseLayer implements NeuralNetworkLayer {
     private int in,out;
 
 
-
-    public DenseLayer(NeuralNetworkLayerBuilder builder,
-                      int in, int out, int index) {
-        this.in = in;
-        this.out = out;
+    @Override
+    public void build(NeuralNetworkLayerBuilder builder, int index) {
         this.index = index;
         this.builder = builder;
+    }
+
+    public DenseLayer(int in, int out) {
+        this.in = in;
+        this.out = out;
         //打印隐藏参数大小
         log.info("index:{},size:{}x{}",index,in,out);
     }
@@ -108,9 +110,8 @@ public class DenseLayer implements NeuralNetworkLayer {
 
     }
 
-    public DenseLayer(NeuralNetworkLayerBuilder builder,
-                      int in, int out, int index, boolean isOutLayer) {
-       this(builder,in, out,index);
+    public DenseLayer(int in, int out, boolean isOutLayer) {
+       this(in, out);
        this.isOutLayer = isOutLayer;
     }
 
@@ -181,5 +182,10 @@ public class DenseLayer implements NeuralNetworkLayer {
     @Override
     public INDArray a() {
         return a;
+    }
+
+    @Override
+    public boolean isOutLayer() {
+        return isOutLayer;
     }
 }

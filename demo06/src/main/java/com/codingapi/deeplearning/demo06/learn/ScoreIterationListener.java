@@ -2,8 +2,6 @@ package com.codingapi.deeplearning.demo06.learn;
 
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.factory.Nd4j;
-import org.nd4j.linalg.ops.transforms.Transforms;
 
 /**
  * 计算代价函数的值，打印得分
@@ -16,21 +14,33 @@ public class ScoreIterationListener {
 
     private int printIterations;
 
-    public ScoreIterationListener(int printIterations) {
+    private LossFunction lossFunction;
+
+    private ScoreDoing scoreDoing;
+
+    public ScoreIterationListener(int printIterations,ScoreDoing scoreDoing) {
         this.printIterations = printIterations;
+        this.scoreDoing = scoreDoing;
+    }
+
+    public void init(LossFunction lossFunction){
+        this.lossFunction = lossFunction;
     }
 
     public void cost(int index,INDArray predict, INDArray y) {
-
         if(index % printIterations ==0) {
-
-            INDArray first = y.mul(-1).mul(Transforms.log(predict));
-            INDArray second = y.rsub(1).mul(Transforms.log(predict.rsub(1)));
-
-            INDArray cost = first.sub(second);
-            INDArray sum = Nd4j.sum(cost.div(y.rows()));
-            log.info("index:{}=>cost:{}", index,sum.sumNumber().doubleValue());
+            INDArray sum =  lossFunction.score(predict,y);
+            scoreDoing.doing(sum);
         }
+    }
+
+
+    public static interface ScoreDoing{
+        /**
+         * 执行监听业务
+         * @param sum   损失值
+         */
+        void doing(INDArray sum);
     }
 
 }

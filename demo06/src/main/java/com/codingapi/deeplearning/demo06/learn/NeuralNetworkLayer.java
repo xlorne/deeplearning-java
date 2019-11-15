@@ -48,4 +48,17 @@ public interface NeuralNetworkLayer {
      * @param alpha
      */
     void updateParam(double alpha);
+
+    /**
+     * 构建网络层
+     * @param layer
+     * @param index
+     */
+    void build(NeuralNetworkLayerBuilder layer,int index);
+
+    /**
+     * 是否是输出层
+     * @return
+     */
+    boolean isOutLayer();
 }

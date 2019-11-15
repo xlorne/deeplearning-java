@@ -37,20 +37,28 @@ public class NeuralNetwork {
      */
     private ScoreIterationListener iterationListener;
 
+    /**
+     * 损失函数
+     */
+    private LossFunction lossFunction;
+
+
     public NeuralNetwork(double lambda, double alpha, int batch,
-                         NeuralNetworkLayerBuilder builder) {
+                         NeuralNetworkLayerBuilder builder,LossFunction lossFunction) {
         this.lambda = lambda;
         this.alpha = alpha;
         this.batch = batch;
         this.builder = builder;
+        this.lossFunction = lossFunction;
 
         //初始化权重
         builder.init();
     }
 
 
-    public void addScoreIterationListener(ScoreIterationListener scoreIterationListener){
-        this.iterationListener = scoreIterationListener;
+    public void initScoreIterationListener(int printIterations, ScoreIterationListener.ScoreDoing scoreDoing ){
+        this.iterationListener = new ScoreIterationListener(printIterations, scoreDoing);
+        this.iterationListener.init(lossFunction);
     }
 
     /**

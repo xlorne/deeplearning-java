@@ -28,16 +28,16 @@ class DeepLearningJavaDemo05ApplicationTest {
         //创建神经网络层
         NeuralNetworkLayerBuilder neuralNetworkLayerBuilder
                 = NeuralNetworkLayerBuilder.build()
-                .addDenseLayer(dataSet.inputSize(),2)
-                .outDenseLayer(2,1);
+                .addLayer(new DenseLayer(dataSet.inputSize(),2))
+                .addLayer(new DenseLayer(2,1,true));
 
         //创建神经网络
         NeuralNetwork neuralNetwork =
-                new NeuralNetwork(0,0.3,20000
-                        , neuralNetworkLayerBuilder);
+                new NeuralNetwork(0,0.1,20000
+                        , neuralNetworkLayerBuilder,new LogisticRegressionLossFunction());
 
-        //代价函数得分
-        neuralNetwork.addScoreIterationListener(new ScoreIterationListener(1000));
+        //Loss函数监听
+        neuralNetwork.initScoreIterationListener(1000,new ScorePrint());
 
         //训练数据
         neuralNetwork.train(dataSet);
