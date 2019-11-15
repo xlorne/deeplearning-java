@@ -23,7 +23,7 @@ public class NeuralNetworkLayerBuilder {
     }
 
 
-    public static NeuralNetworkLayerBuilder build(){
+    public static NeuralNetworkLayerBuilder Builder(){
         return  new NeuralNetworkLayerBuilder();
     }
 
@@ -63,5 +63,9 @@ public class NeuralNetworkLayerBuilder {
             layer.init();
         }
         log.info("init rand w,b ");
+    }
+
+    public NeuralNetworkLayerBuilder builder(){
+        return this;
     }
 }

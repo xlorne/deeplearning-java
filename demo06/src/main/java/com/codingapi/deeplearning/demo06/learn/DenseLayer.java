@@ -3,7 +3,6 @@ package com.codingapi.deeplearning.demo06.learn;
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
-import org.nd4j.linalg.ops.transforms.Transforms;
 
 
 //关于运算Nd4j下的运算符号介绍:
@@ -22,35 +21,32 @@ import org.nd4j.linalg.ops.transforms.Transforms;
 /**
  * @author lorne
  * @date 2019-10-31
- * @description
- *
- * 简单的神经网络层
- *
+ * @description 简单的神经网络层
+ * <p>
  * 涉及到的参数:
  * lambda 正则化参数
  * alpha  学习率\步长
- *
+ * <p>
  * w的初始化叫做W的权重
  * z = w.Tx+b
- *
+ * <p>
  * sigmoid是激活函数
  * a = sigmoid(z)
- *
+ * <p>
  * L是损失函数
  * L = −y⋅lna−(1−y)⋅ln(1−a)
- *
+ * <p>
  * 用于计算各层dw、db导数的delta
  * delta(l) = delta(l-1)* w(l-1).T*(a(l)*(1-a(l))))
- *
+ * <p>
  * 各层的w导数
  * dw(l) = a(l-1).T*delta(l) + lambda*w(l)
  * 各层的b导数
  * db(l) = delta(l).*ones()
- *
+ * <p>
  * 梯度下降公式
  * dw = dw-alpha*dw
  * db = db-alpha*db
- *
  */
 @Slf4j
 public class DenseLayer implements NeuralNetworkLayer {
@@ -75,13 +71,15 @@ public class DenseLayer implements NeuralNetworkLayer {
     private int index;
     //所有的网络层
     private NeuralNetworkLayerBuilder builder;
+    //激活函数
+    private Activation activation;
 
     /**
      * 该网络层的大小(in,out)
      * out 标示输出值的大小，可以等同于神经单元的数量
      * in  接受到的数据大小
      */
-    private int in,out;
+    private int in, out;
 
 
     @Override
@@ -90,48 +88,71 @@ public class DenseLayer implements NeuralNetworkLayer {
         this.builder = builder;
     }
 
-    public DenseLayer(int in, int out) {
-        this.in = in;
-        this.out = out;
-        //打印隐藏参数大小
-        log.info("index:{},size:{}x{}",index,in,out);
-    }
-
-
     /**
      * 初始化权重参数
      */
     @Override
-    public void init(){
+    public void init() {
         //w 实际的维度就是 输入,输出值的大小
-        w = Nd4j.rand(in,out);
+        w = Nd4j.rand(in, out);
         //b 是一个Vector 长度为out
-        b = Nd4j.rand(1,out);
-
+        b = Nd4j.rand(1, out);
     }
 
-    public DenseLayer(int in, int out, boolean isOutLayer) {
-       this(in, out);
-       this.isOutLayer = isOutLayer;
+    private DenseLayer(int in, int out, Activation activation, boolean isOutLayer) {
+        this.in = in;
+        this.out = out;
+        this.activation = activation;
+        this.isOutLayer = isOutLayer;
+        //打印隐藏参数大小
+        log.info("index:{},size:{}x{}", index, in, out);
     }
 
+
+    public static class Builder {
+        private int in;
+        private int out;
+        private Activation activation = new SigmoidActivation();
+        private boolean isOutLayer = false;
+
+        public Builder() {
+        }
+
+        public Builder input(int in, int out) {
+            this.in = in;
+            this.out = out;
+            return this;
+        }
+
+        public Builder isOutLayer(boolean isOutLayer) {
+            this.isOutLayer = isOutLayer;
+            return this;
+        }
+
+        public Builder activation(Activation activation) {
+            this.activation = activation;
+            return this;
+        }
+
+        public DenseLayer builder() {
+            return new DenseLayer(in, out, activation, isOutLayer);
+        }
+
+    }
 
     /**
      * 正向传播
-     * @param data  a,当index==0时，传入的实际是x,即a0 = x
-     * @return  正向传播结果
+     *
+     * @param data a,当index==0时，传入的实际是x,即a0 = x
+     * @return 正向传播结果
      */
     @Override
-    public INDArray forward(INDArray data){
-        log.debug("forward before=> {}, w.shape->{},b.shape->{}",index,w.shape(),b.shape());
-        if(index==0){
+    public INDArray forward(INDArray data) {
+        log.debug("forward before=> {}, w.shape->{},b.shape->{}", index, w.shape(), b.shape());
+        if (index == 0) {
             x = data;
         }
-        int length = data.rows();
-        //z = w.Tx+b
-        INDArray z = data.mmul(w).add(b.broadcast(length, b.columns()));
-        //a = sigmoid(z)
-        a = Transforms.sigmoid(z);
+        a = activation.calculation(data, w, b);
         log.debug("forward res => {}, w.shape->{},b.shape->{},a.shape->{}",
                 index, w.shape(), b.shape(), a.shape());
         return a;
@@ -140,38 +161,40 @@ public class DenseLayer implements NeuralNetworkLayer {
 
     /**
      * 反向传播
-     * @param data  delta 当是输出层的时候其实是 y-a(l)
-     * @return  该层的delta，以及更新了dw,db值
+     *
+     * @param data delta 当是输出层的时候其实是 y-a(l)
+     * @return 该层的delta，以及更新了dw,db值
      */
     @Override
-    public INDArray back(INDArray data,double lambda){
-        log.debug("back=> {}, w.shape->{},b.shape->{}",index,w.shape(),b.shape());
-        if(isOutLayer){
+    public INDArray back(INDArray data, double lambda) {
+        log.debug("back=> {}, w.shape->{},b.shape->{}", index, w.shape(), b.shape());
+        if (isOutLayer) {
             delta = data;
-        }else{
+        } else {
             //delta(l) = delta(l-1)* w(l-1).T*(a(l)*(1-a(l))))
-            delta = data.mmul(builder.get(index+1).w().transpose()).mul(a.mul(a.rsub(1)));
+            delta = data.mmul(builder.get(index + 1).w().transpose()).mul(a.mul(a.rsub(1)));
         }
         //dw(l) = a(l-1).T*delta(l) + lambda*w(l)
-        INDArray _a = index==0?x:builder.get(index-1).a();
+        INDArray _a = index == 0 ? x : builder.get(index - 1).a();
         dw = _a.transpose().mmul(delta).add(w.mul(lambda));
         //db(l) = delta(l).*ones() => sum(delta(l),0)
         db = Nd4j.sum(delta, 0);
         log.debug("back res=> {}, delta.shape->{},dw.shape->{},db.shape->{}",
-                index,delta.shape(),dw.shape(),db.shape());
+                index, delta.shape(), dw.shape(), db.shape());
         return delta;
     }
 
 
     /**
      * 一次梯度后的更新参数方法
+     *
      * @param alpha 学习率
      */
     @Override
     public void updateParam(double alpha) {
         w = w.sub(dw.mul(alpha));
         b = b.sub(db.mul(alpha));
-        log.debug("updateParam=> {}, w.shape->{},b.shape->{}",index,w.shape(),b.shape());
+        log.debug("updateParam=> {}, w.shape->{},b.shape->{}", index, w.shape(), b.shape());
     }
 
     @Override

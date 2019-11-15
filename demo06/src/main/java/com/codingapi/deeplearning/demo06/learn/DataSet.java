@@ -27,7 +27,7 @@ public class DataSet {
         INDArray data =  Nd4j.readNumpy(filePath,",");
 
         x = data.getColumns(0,1);
-        y = data.getColumns(2);
+        y = data.getColumns(2,3);
     }
 
     //数据的input数量
