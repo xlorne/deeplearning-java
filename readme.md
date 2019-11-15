@@ -66,6 +66,9 @@ https://www.youtube.com/watch?v=UGWr-O6PBug
 基于神经网络的逻辑回归的简单实现   
 [demo05](demo05)      
 基于神经网络的逻辑回归的封装,组建自己的神经网络框架   
+[demo06](demo06)      
+实现SoftMax回归，实现手写数字的识别,实现中...    
+    
 
 ## QA
 Q: 为什么用java的方式去实现深度学习，而不用已有的Python、GO这些语言？  
