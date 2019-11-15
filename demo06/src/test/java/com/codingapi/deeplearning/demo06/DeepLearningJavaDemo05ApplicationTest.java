@@ -38,10 +38,12 @@ class DeepLearningJavaDemo05ApplicationTest {
                         .layers(neuralNetworkLayerBuilder)
                         .lossFunction(new LogisticRegressionLossFunction())
                         .batch(20000)
+                        .alpha(0.3)
+                        .lambda(1e-5)
                         .build();
 
         //Loss函数监听
-        neuralNetwork.initScoreIterationListener(1000,new ScorePrint());
+        neuralNetwork.initListeners(new ScoreLogTrainingListener(1000));
 
         //训练数据
         neuralNetwork.train(dataSet);

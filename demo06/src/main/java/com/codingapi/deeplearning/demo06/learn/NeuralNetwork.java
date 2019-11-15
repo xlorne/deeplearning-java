@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 
+import java.util.List;
+
 /**
  *
  * @author lorne
@@ -36,7 +38,7 @@ public class NeuralNetwork {
     /**
      * 监听函数
      */
-    private ScoreIterationListener iterationListener;
+    private NeuralListener iterationListener;
 
     /**
      * 损失函数
@@ -110,8 +112,8 @@ public class NeuralNetwork {
     }
 
 
-    public void initScoreIterationListener(int printIterations, ScoreIterationListener.ScoreDoing scoreDoing ){
-        this.iterationListener = new ScoreIterationListener(printIterations, scoreDoing);
+    public void initListeners(NeuralListener.TrainingListener... trainingListeners){
+        this.iterationListener = new NeuralListener(trainingListeners);
         this.iterationListener.init(lossFunction);
     }
 

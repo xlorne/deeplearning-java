@@ -10,17 +10,15 @@ import org.nd4j.linalg.api.ndarray.INDArray;
  * @description 逻辑回归损失函数
  */
 @Slf4j
-public class ScoreIterationListener {
+public class NeuralListener {
 
-    private int printIterations;
 
     private LossFunction lossFunction;
 
-    private ScoreDoing scoreDoing;
+    private TrainingListener[] trainingListeners;
 
-    public ScoreIterationListener(int printIterations,ScoreDoing scoreDoing) {
-        this.printIterations = printIterations;
-        this.scoreDoing = scoreDoing;
+    public NeuralListener(NeuralListener.TrainingListener... trainingListeners) {
+        this.trainingListeners = trainingListeners;
     }
 
     public void init(LossFunction lossFunction){
@@ -28,19 +26,20 @@ public class ScoreIterationListener {
     }
 
     public void cost(int index,INDArray predict, INDArray y) {
-        if(index % printIterations ==0) {
-            INDArray sum =  lossFunction.score(predict,y);
-            scoreDoing.doing(sum);
+        INDArray sum =  lossFunction.score(predict,y);
+        for (TrainingListener trainingListener:trainingListeners){
+            trainingListener.done(index,sum);
         }
     }
 
 
-    public static interface ScoreDoing{
+    public  interface TrainingListener{
         /**
          * 执行监听业务
+         * @param index   训练次数
          * @param sum   损失值
          */
-        void doing(INDArray sum);
+        void done(int index,INDArray sum);
     }
 
 }
