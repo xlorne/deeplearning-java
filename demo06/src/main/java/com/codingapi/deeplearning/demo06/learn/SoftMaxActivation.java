@@ -7,7 +7,7 @@ import org.nd4j.linalg.ops.transforms.Transforms;
 /**
  * @author lorne
  * @date 2019-11-15
- * @description {1 \over {1+e^{-\W \times x}}}
+ * @description e^{z}\over {sum_k e^zk}
  */
 public class SoftMaxActivation implements Activation{
 
@@ -30,6 +30,16 @@ public class SoftMaxActivation implements Activation{
 
     @Override
     public INDArray back(INDArray a) {
-        return null;
+        int columns =  a.max(1).amaxNumber().intValue();
+        long length = a.length();
+        double values[] = new double[(int)length];
+        for(int i=0;i<length;i++){
+            if(i==columns){
+                values[i] = a.getDouble(i)*(1-a.getDouble(i));
+            }else{
+                values[i] = -a.getDouble(columns)*a.getDouble(i);
+            }
+        }
+        return Nd4j.create(values).reshape(a.shape());
     }
 }
