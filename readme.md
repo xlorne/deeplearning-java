@@ -72,7 +72,10 @@ https://www.youtube.com/watch?v=UGWr-O6PBug
 [demo05](demo05)      
 基于神经网络的逻辑回归的封装,组建自己的神经网络框架   
 [demo06](demo06)      
-实现SoftMax回归，实现手写数字的识别,实现中...    
+实现SoftMax回归神经网络框架，进一步对神经网络做优化   
+[demo07](demo07)      
+增加随机梯度下降算法，增加测试集。完善中...      
+ 
     
 
 ## QA
