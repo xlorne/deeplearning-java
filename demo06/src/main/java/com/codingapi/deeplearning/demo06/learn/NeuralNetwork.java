@@ -133,13 +133,9 @@ public class NeuralNetwork {
             //反向传播 BP
             //输出层的反向传播
             INDArray delta = lossFunction.gradient(data,dataSet.getY());
-            NeuralNetworkLayer outLayer = builder.get(builder.size()-1);
-            delta = outLayer.back(delta,lambda);
 
-            //倒数第2层开始向后传播
-            for(int j=builder.size()-2;j>=0;j-- ){
+            for(int j=builder.size()-1;j>=0;j-- ){
                 NeuralNetworkLayer layer = builder.get(j);
-                layer = builder.get(j);
                 delta = layer.back(delta,lambda);
             }
 

@@ -26,7 +26,7 @@ public class NeuralListener {
     }
 
     public void cost(int index,INDArray predict, INDArray y) {
-        INDArray sum =  lossFunction.score(predict,y);
+        double sum =  lossFunction.score(predict,y);
         for (TrainingListener trainingListener:trainingListeners){
             trainingListener.done(index,sum);
         }
@@ -39,7 +39,7 @@ public class NeuralListener {
          * @param index   训练次数
          * @param sum   损失值
          */
-        void done(int index,INDArray sum);
+        void done(int index,double cost);
     }
 
 }

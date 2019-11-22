@@ -29,7 +29,11 @@ class DeepLearningJavaDemo06ApplicationTest {
         NeuralNetworkLayerBuilder neuralNetworkLayerBuilder
                 = NeuralNetworkLayerBuilder.Builder()
                 .addLayer(new DenseLayer.Builder()
-                        .input(dataSet.inputSize(),2)
+                        .input(dataSet.inputSize(),3)
+                        .activation(new SigmoidActivation())
+                        .builder())
+                .addLayer(new DenseLayer.Builder()
+                        .input(3,2)
                         .activation(new SoftMaxActivation())
                         .isOutLayer(true)
                         .builder())
@@ -41,8 +45,8 @@ class DeepLearningJavaDemo06ApplicationTest {
                 new NeuralNetwork.Builder()
                         .layers(neuralNetworkLayerBuilder)
                         .lossFunction(new SoftMaxLossFunction())
-                        .batch(10000)
-                        .alpha(0.003)
+                        .batch(20000)
+                        .alpha(0.05)
                         .lambda(1e-5)
                         .build();
 
@@ -60,7 +64,7 @@ class DeepLearningJavaDemo06ApplicationTest {
         //返回的百分比
         System.out.println("test:"+test);
         INDArray res = neuralNetwork.predict(scalingHelper.scaling(test));
-        System.out.println("res为1的可能性为:"+res);
+        System.out.println("res的可能性结果:"+res);
     }
 
 }

@@ -13,12 +13,12 @@ public class LogisticRegressionLossFunction implements LossFunction {
 
 
     @Override
-    public INDArray score(INDArray predict, INDArray y) {
+    public double score(INDArray predict, INDArray y) {
         INDArray first = y.mul(-1).mul(Transforms.log(predict));
         INDArray second = y.rsub(1).mul(Transforms.log(predict.rsub(1)));
         INDArray cost = first.sub(second);
         INDArray sum = Nd4j.sum(cost.div(y.rows()));
-        return sum;
+        return sum.sumNumber().doubleValue();
     }
 
     @Override

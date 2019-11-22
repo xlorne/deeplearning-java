@@ -12,9 +12,10 @@ public class SoftMaxLossFunction implements LossFunction {
 
 
     @Override
-    public INDArray score(INDArray predict, INDArray y) {
+    public double score(INDArray predict, INDArray y) {
         // x 误差值
-        return y.mul(Transforms.log(predict).mul(-1));
+        INDArray res =  y.mul(Transforms.log(predict).mul(-1));
+        return res.sumNumber().doubleValue();
     }
 
     @Override

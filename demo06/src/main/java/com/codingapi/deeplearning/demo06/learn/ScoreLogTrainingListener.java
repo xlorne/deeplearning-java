@@ -1,7 +1,6 @@
 package com.codingapi.deeplearning.demo06.learn;
 
 import lombok.extern.slf4j.Slf4j;
-import org.nd4j.linalg.api.ndarray.INDArray;
 
 /**
  * @author lorne
@@ -18,9 +17,9 @@ public class ScoreLogTrainingListener implements NeuralListener.TrainingListener
     }
 
     @Override
-    public void done(int index,INDArray sum) {
+    public void done(int index,double cost) {
         if(index % printIterations ==0) {
-            log.info("index:{},cost:{}",index,sum.amaxNumber().doubleValue());
+            log.info("index:{},cost:{}",index,cost);
         }
     }
 }

@@ -15,7 +15,7 @@ public interface LossFunction {
      * @param y         实际值
      * @return          得分值
      */
-    INDArray score(INDArray predict, INDArray y);
+    double score(INDArray predict, INDArray y);
 
     /**
      * 损失函数导数
