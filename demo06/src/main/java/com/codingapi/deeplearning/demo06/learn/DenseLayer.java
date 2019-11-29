@@ -108,33 +108,36 @@ public class DenseLayer implements NeuralNetworkLayer {
         log.info("index:{},size:{}x{}", index, in, out);
     }
 
+    public static DenseLayerBuilder builder(){
+        return new DenseLayerBuilder();
+    }
 
-    public static class Builder {
+    public static class DenseLayerBuilder {
         private int in;
         private int out;
         private Activation activation = new SigmoidActivation();
         private boolean isOutLayer = false;
 
-        public Builder() {
+        private DenseLayerBuilder() {
         }
 
-        public Builder input(int in, int out) {
+        public DenseLayerBuilder input(int in, int out) {
             this.in = in;
             this.out = out;
             return this;
         }
 
-        public Builder isOutLayer(boolean isOutLayer) {
+        public DenseLayerBuilder isOutLayer(boolean isOutLayer) {
             this.isOutLayer = isOutLayer;
             return this;
         }
 
-        public Builder activation(Activation activation) {
+        public DenseLayerBuilder activation(Activation activation) {
             this.activation = activation;
             return this;
         }
 
-        public DenseLayer builder() {
+        public DenseLayer build() {
             return new DenseLayer(in, out, activation, isOutLayer);
         }
 

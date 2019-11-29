@@ -28,24 +28,25 @@ class DeepLearningJavaDemo06ApplicationTest {
         //创建神经网络层
         NeuralNetworkLayerBuilder neuralNetworkLayerBuilder
                 = NeuralNetworkLayerBuilder.Builder()
-                .addLayer(new DenseLayer.Builder()
+                .addLayer(DenseLayer.builder()
                         .input(dataSet.inputSize(),3)
                         .activation(new SigmoidActivation())
-                        .builder())
-                .addLayer(new DenseLayer.Builder()
+                        .build())
+                .addLayer(DenseLayer.builder()
                         .input(3,2)
                         .activation(new SoftMaxActivation())
                         .isOutLayer(true)
-                        .builder())
+                        .build())
                 .builder();
-
 
         //创建神经网络
         NeuralNetwork neuralNetwork =
-                new NeuralNetwork.Builder()
+                 NeuralNetwork.builder()
                         .layers(neuralNetworkLayerBuilder)
                         .lossFunction(new SoftMaxLossFunction())
-                        .batch(20000)
+                        .seed(123)
+                        .batchSize(13)
+                        .numEpochs(20000)
                         .alpha(0.05)
                         .lambda(1e-5)
                         .build();

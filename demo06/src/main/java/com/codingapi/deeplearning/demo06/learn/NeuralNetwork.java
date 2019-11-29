@@ -24,9 +24,14 @@ public class NeuralNetwork {
     private double alpha;
 
     /**
+     * 批次训练大小
+     */
+    private int batchSize;
+
+    /**
      * 训练次数
      */
-    private int batch;
+    private int numEpochs;
 
     /**
      * 神经网络层
@@ -44,64 +49,73 @@ public class NeuralNetwork {
     private LossFunction lossFunction;
 
 
+    public static NeuralNetworkBuilder builder(){
+        return new NeuralNetworkBuilder();
+    }
 
-    public static class Builder{
+    public static class NeuralNetworkBuilder{
         private NeuralNetworkLayerBuilder builder;
         private double lambda;
         private double alpha;
-        private int batch;
+        private int batchSize;
+        private int numEpochs;
         private long seed;
         private LossFunction lossFunction;
 
-        public Builder() {
+        private NeuralNetworkBuilder() {
             lambda = 0;
             alpha = 0.1;
-            batch = 10000;
+            numEpochs = 10000;
             seed = 123;
         }
 
-        public Builder layers(NeuralNetworkLayerBuilder builder){
+        public NeuralNetworkBuilder layers(NeuralNetworkLayerBuilder builder){
             this.builder = builder;
             return this;
         }
 
-        public Builder batch(int batch){
-            this.batch = batch;
+        public NeuralNetworkBuilder batchSize(int batchSize){
+            this.batchSize = batchSize;
+            return this;
+        }
+        public NeuralNetworkBuilder numEpochs(int numEpochs){
+            this.numEpochs = numEpochs;
             return this;
         }
 
-        public Builder lambda(double lambda){
+        public NeuralNetworkBuilder lambda(double lambda){
             this.lambda = lambda;
             return this;
         }
 
-        public Builder alpha(double alpha){
+        public NeuralNetworkBuilder alpha(double alpha){
             this.alpha = alpha;
             return this;
         }
 
-        public Builder seed(long seed){
+        public NeuralNetworkBuilder seed(long seed){
             this.seed = seed;
             return this;
         }
 
-        public Builder lossFunction(LossFunction lossFunction){
+        public NeuralNetworkBuilder lossFunction(LossFunction lossFunction){
             this.lossFunction = lossFunction;
             return this;
         }
 
         public NeuralNetwork build(){
-            return new NeuralNetwork(lambda,alpha,batch,seed,builder,lossFunction);
+            return new NeuralNetwork(lambda,alpha,batchSize,numEpochs,seed,builder,lossFunction);
         }
 
 
     }
 
-    private NeuralNetwork(double lambda, double alpha, int batch,long seed,
+    private NeuralNetwork(double lambda, double alpha, int batchSize,int numEpochs,long seed,
                          NeuralNetworkLayerBuilder builder,LossFunction lossFunction) {
         this.lambda = lambda;
         this.alpha = alpha;
-        this.batch = batch;
+        this.batchSize = batchSize;
+        this.numEpochs = numEpochs;
         this.builder = builder;
         this.lossFunction = lossFunction;
         Nd4j.getRandom().setSeed(seed);
@@ -122,9 +136,11 @@ public class NeuralNetwork {
      */
     public void train(DataSet dataSet){
         log.info("train => start");
-        for(int i=1;i<=batch;i++) {
+        for(int i=1;i<=numEpochs;i++) {
             //向前传播算法 FP
-            INDArray data = dataSet.getX();
+            DataSet batch = dataSet.getBatch(batchSize);
+            INDArray data = batch.getX();
+            INDArray label = batch.getY();
             for(int j=0;j<builder.size();j++ ){
                 NeuralNetworkLayer layer = builder.get(j);
                 data = layer.forward(data);
@@ -132,7 +148,7 @@ public class NeuralNetwork {
 
             //反向传播 BP
             //输出层的反向传播
-            INDArray delta = lossFunction.gradient(data,dataSet.getY());
+            INDArray delta = lossFunction.gradient(data,label);
 
             for(int j=builder.size()-1;j>=0;j-- ){
                 NeuralNetworkLayer layer = builder.get(j);
@@ -147,7 +163,7 @@ public class NeuralNetwork {
 
             //损失函数得分
             if(iterationListener!=null){
-                iterationListener.cost(i,data,dataSet.getY());
+                iterationListener.cost(i,data,label);
             }
         }
         log.info("train => over");

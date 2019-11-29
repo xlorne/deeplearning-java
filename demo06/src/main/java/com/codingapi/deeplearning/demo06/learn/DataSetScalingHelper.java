@@ -46,7 +46,7 @@ public class DataSetScalingHelper {
      */
     public INDArray scaling(INDArray data,boolean isLabel){
        if(isLabel){
-           return  data.sub(Ymin).div((Ymax-Ymin));
+           return data.sub(Ymin).div((Ymax-Ymin));
        }else{
            return data.sub(Xmin).div((Xmax-Xmin));
        }
@@ -60,7 +60,7 @@ public class DataSetScalingHelper {
     }
 
     public void scalingSelf(){
-       data.setX(scaling( data.getX(),false));
+       data.setX(scaling(data.getX(),false));
        data.setY(scaling(data.getY(),true));
     }
 
