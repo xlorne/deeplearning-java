@@ -19,8 +19,12 @@ class DeepLearningJavaDemo06ApplicationTest {
 
     @Test
     void train() throws IOException {
+
+        int batchSize = 13;
+        int rngSeed = 123;
+
         //创建数据集
-        DataSet dataSet = new DataSet();
+        DataSet dataSet = new DataSet(batchSize);
         //特征缩放
         DataSetScalingHelper scalingHelper = new DataSetScalingHelper(dataSet);
         scalingHelper.scalingSelf();
@@ -29,7 +33,7 @@ class DeepLearningJavaDemo06ApplicationTest {
         NeuralNetworkLayerBuilder neuralNetworkLayerBuilder
                 = NeuralNetworkLayerBuilder.Builder()
                 .addLayer(DenseLayer.builder()
-                        .input(dataSet.inputSize(),3)
+                        .input(2,3)
                         .activation(new SigmoidActivation())
                         .build())
                 .addLayer(DenseLayer.builder()
@@ -44,9 +48,8 @@ class DeepLearningJavaDemo06ApplicationTest {
                  NeuralNetwork.builder()
                         .layers(neuralNetworkLayerBuilder)
                         .lossFunction(new SoftMaxLossFunction())
-                        .seed(123)
-                        .batchSize(13)
-                        .numEpochs(20000)
+                        .seed(rngSeed)
+                        .numEpochs(1500)
                         .alpha(0.05)
                         .lambda(1e-5)
                         .build();

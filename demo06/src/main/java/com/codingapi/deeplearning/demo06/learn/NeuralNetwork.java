@@ -24,11 +24,6 @@ public class NeuralNetwork {
     private double alpha;
 
     /**
-     * 批次训练大小
-     */
-    private int batchSize;
-
-    /**
      * 训练次数
      */
     private int numEpochs;
@@ -57,7 +52,6 @@ public class NeuralNetwork {
         private NeuralNetworkLayerBuilder builder;
         private double lambda;
         private double alpha;
-        private int batchSize;
         private int numEpochs;
         private long seed;
         private LossFunction lossFunction;
@@ -74,10 +68,6 @@ public class NeuralNetwork {
             return this;
         }
 
-        public NeuralNetworkBuilder batchSize(int batchSize){
-            this.batchSize = batchSize;
-            return this;
-        }
         public NeuralNetworkBuilder numEpochs(int numEpochs){
             this.numEpochs = numEpochs;
             return this;
@@ -104,17 +94,16 @@ public class NeuralNetwork {
         }
 
         public NeuralNetwork build(){
-            return new NeuralNetwork(lambda,alpha,batchSize,numEpochs,seed,builder,lossFunction);
+            return new NeuralNetwork(lambda,alpha,numEpochs,seed,builder,lossFunction);
         }
 
 
     }
 
-    private NeuralNetwork(double lambda, double alpha, int batchSize,int numEpochs,long seed,
+    private NeuralNetwork(double lambda, double alpha,int numEpochs,long seed,
                          NeuralNetworkLayerBuilder builder,LossFunction lossFunction) {
         this.lambda = lambda;
         this.alpha = alpha;
-        this.batchSize = batchSize;
         this.numEpochs = numEpochs;
         this.builder = builder;
         this.lossFunction = lossFunction;
@@ -137,33 +126,35 @@ public class NeuralNetwork {
     public void train(DataSet dataSet){
         log.info("train => start");
         for(int i=1;i<=numEpochs;i++) {
-            //向前传播算法 FP
-            DataSet batch = dataSet.getBatch(batchSize);
-            INDArray data = batch.getX();
-            INDArray label = batch.getY();
-            for(int j=0;j<builder.size();j++ ){
-                NeuralNetworkLayer layer = builder.get(j);
-                data = layer.forward(data);
-            }
+            while (dataSet.hasNext()) {
+                //向前传播算法 FP
+                DataSet batch = dataSet.next();
+                INDArray data = batch.getX();
+                INDArray label = batch.getY();
+                for (int j = 0; j < builder.size(); j++) {
+                    NeuralNetworkLayer layer = builder.get(j);
+                    data = layer.forward(data);
+                }
 
-            //反向传播 BP
-            //输出层的反向传播
-            INDArray delta = lossFunction.gradient(data,label);
+                //反向传播 BP
+                //输出层的反向传播
+                INDArray delta = lossFunction.gradient(data, label);
 
-            for(int j=builder.size()-1;j>=0;j-- ){
-                NeuralNetworkLayer layer = builder.get(j);
-                delta = layer.back(delta,lambda);
-            }
+                for (int j = builder.size() - 1; j >= 0; j--) {
+                    NeuralNetworkLayer layer = builder.get(j);
+                    delta = layer.back(delta, lambda);
+                }
 
-            //更新参数
-            for(int j=0;j<builder.size();j++ ){
-                NeuralNetworkLayer layer = builder.get(j);
-                layer.updateParam(alpha);
-            }
+                //更新参数
+                for (int j = 0; j < builder.size(); j++) {
+                    NeuralNetworkLayer layer = builder.get(j);
+                    layer.updateParam(alpha);
+                }
 
-            //损失函数得分
-            if(iterationListener!=null){
-                iterationListener.cost(i,data,label);
+                //损失函数得分
+                if (iterationListener != null) {
+                    iterationListener.cost(i, data, label);
+                }
             }
         }
         log.info("train => over");

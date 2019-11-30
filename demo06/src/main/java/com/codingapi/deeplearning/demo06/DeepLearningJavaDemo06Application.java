@@ -9,9 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @description
  */
 @SpringBootApplication
-public class DeepLearningJavaDemo05Application {
+public class DeepLearningJavaDemo06Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(DeepLearningJavaDemo05Application.class,args);
+        SpringApplication.run(DeepLearningJavaDemo06Application.class,args);
     }
 }

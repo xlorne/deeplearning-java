@@ -23,9 +23,11 @@ public class DataSet {
     private INDArray y;
 
     private int count = 0;
+    private int batchSize;
 
     //加载数据
-    public DataSet() throws IOException {
+    public DataSet(int batchSize) throws IOException {
+        this.batchSize = batchSize;
         String filePath = "init/lr_data.csv";
         INDArray data =  Nd4j.readNumpy(filePath,",");
 
@@ -45,9 +47,15 @@ public class DataSet {
         return x.columns();
     }
 
-    private int location = 0;
+    private int location = -1;
 
     private int[] rows(int batch){
+        if(location==-1){
+            location = 0;
+        }
+        if(location+batch>count){
+            batch = count-location;
+        }
         int [] rows = new int[batch];
         for(int i=0;i<batch;i++){
             rows[i] = location;
@@ -60,13 +68,22 @@ public class DataSet {
         return rows;
     }
 
-    public DataSet getBatch(int batch){
+    private DataSet getBatch(int batch){
         int[] batchRows = rows(batch);
         INDArray x = getX().getRows(batchRows);
         INDArray y = getY().getRows(batchRows);
         return new DataSet(x,y);
     }
 
+    public boolean hasNext() {
+        if(location==0){
+            location = -1;
+            return false;
+        }
+        return true;
+    }
 
-
+    public DataSet next() {
+        return getBatch(batchSize);
+    }
 }
