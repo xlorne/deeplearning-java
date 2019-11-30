@@ -34,7 +34,7 @@ public class NeuralNetwork {
     /**
      * 神经网络层
      */
-    private NeuralNetworkLayerBuilder builder;
+    private NeuralNetworkLayerBuilder layerBuilder;
 
     /**
      * 监听函数
@@ -104,15 +104,15 @@ public class NeuralNetwork {
     }
 
     private NeuralNetwork(double lambda, double alpha, int numEpochs,long seed,
-                         NeuralNetworkLayerBuilder builder,LossFunction lossFunction) {
+                         NeuralNetworkLayerBuilder layerBuilder,LossFunction lossFunction) {
         this.lambda = lambda;
         this.alpha = alpha;
         this.numEpochs = numEpochs;
-        this.builder = builder;
+        this.layerBuilder = layerBuilder;
         this.lossFunction = lossFunction;
         Nd4j.getRandom().setSeed(seed);
         //初始化权重
-        builder.init();
+        layerBuilder.init();
     }
 
 
@@ -135,8 +135,8 @@ public class NeuralNetwork {
                 DataSet batch = iterator.next();
                 INDArray data = batch.getFeatures();
                 INDArray label = batch.getLabels();
-                for (int j = 0; j < builder.size(); j++) {
-                    NeuralNetworkLayer layer = builder.get(j);
+                for (int j = 0; j < layerBuilder.size(); j++) {
+                    NeuralNetworkLayer layer = layerBuilder.get(j);
                     data = layer.forward(data);
                 }
 
@@ -144,14 +144,14 @@ public class NeuralNetwork {
                 //输出层的反向传播
                 INDArray delta = lossFunction.gradient(data, label);
 
-                for (int j = builder.size() - 1; j >= 0; j--) {
-                    NeuralNetworkLayer layer = builder.get(j);
+                for (int j = layerBuilder.size() - 1; j >= 0; j--) {
+                    NeuralNetworkLayer layer = layerBuilder.get(j);
                     delta = layer.back(delta, lambda);
                 }
 
                 //更新参数
-                for (int j = 0; j < builder.size(); j++) {
-                    NeuralNetworkLayer layer = builder.get(j);
+                for (int j = 0; j < layerBuilder.size(); j++) {
+                    NeuralNetworkLayer layer = layerBuilder.get(j);
                     layer.updateParam(alpha);
                 }
 
@@ -160,6 +160,7 @@ public class NeuralNetwork {
                     iterationListener.cost(count++, data, label);
                 }
             }
+            iterator.reset();
         }
         log.info("train => over");
 
@@ -172,8 +173,8 @@ public class NeuralNetwork {
      * @return  预测值
      */
     public INDArray predict(INDArray data){
-        for(int j=0;j<builder.size();j++ ){
-            NeuralNetworkLayer layer = builder.get(j);
+        for(int j=0;j<layerBuilder.size();j++ ){
+            NeuralNetworkLayer layer = layerBuilder.get(j);
             data = layer.forward(data);
         }
         return data;

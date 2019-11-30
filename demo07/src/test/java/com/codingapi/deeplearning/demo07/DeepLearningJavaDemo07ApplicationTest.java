@@ -32,17 +32,21 @@ class DeepLearningJavaDemo07ApplicationTest {
 
         //创建神经网络层
         NeuralNetworkLayerBuilder neuralNetworkLayerBuilder
-                = NeuralNetworkLayerBuilder.Builder()
+                = NeuralNetworkLayerBuilder.builder()
                 .addLayer(DenseLayer.builder()
                         .input(28*28,1000)
                         .activation(new SigmoidActivation())
                         .build())
                 .addLayer(DenseLayer.builder()
-                        .input(1000,10)
+                        .input(1000,100)
+                        .activation(new SigmoidActivation())
+                        .build())
+                .addLayer(DenseLayer.builder()
+                        .input(100,10)
                         .activation(new SoftMaxActivation())
                         .isOutLayer(true)
                         .build())
-                .builder();
+                .build();
 
         //创建神经网络
         NeuralNetwork neuralNetwork =
@@ -50,13 +54,13 @@ class DeepLearningJavaDemo07ApplicationTest {
                         .layers(neuralNetworkLayerBuilder)
                         .lossFunction(new SoftMaxLossFunction())
                         .seed(rngSeed)
-                        .numEpochs(15)
+                        .numEpochs(10000)
                         .alpha(0.005)
                         .lambda(1e-4)
                         .build();
 
         //Loss函数监听
-        neuralNetwork.initListeners(new ScoreLogTrainingListener(1));
+        neuralNetwork.initListeners(new ScoreLogTrainingListener(100));
 
         //训练数据
         neuralNetwork.train(mnistTrain);
