@@ -19,11 +19,11 @@ public interface NeuralNetworkLayer {
 
     /**
      * 反向传播
-     * @param data
+     * @param delta
      * @param lambda
      * @return
      */
-    INDArray back(INDArray data,double lambda);
+    INDArray back(INDArray delta,double lambda);
 
 
     /**

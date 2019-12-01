@@ -61,12 +61,10 @@ public class DenseLayer implements NeuralNetworkLayer {
     private INDArray dw;
     //b的代价函数导数
     private INDArray db;
-    //delta用于计算导数
-    private INDArray delta;
     //第一层时接受的x的参数，仅当第一层时才会有值
     private INDArray x;
     //是否是输出层
-    private boolean isOutLayer = false;
+    private boolean isOutLayer;
     //当前层数索引
     private int index;
     //所有的网络层
@@ -172,26 +170,27 @@ public class DenseLayer implements NeuralNetworkLayer {
     /**
      * 反向传播
      *
-     * @param data delta 当是输出层的时候其实是 y-a(l)
+     * @param delta delta 当是输出层的时候其实是 y-a(l)
      * @return 该层的delta，以及更新了dw,db值
      */
     @Override
-    public INDArray back(INDArray data, double lambda) {
+    public INDArray back(INDArray delta, double lambda) {
+        INDArray newDelta;
         log.debug("back=> {}, w.shape->{},b.shape->{}", index, w.shape(), b.shape());
         if (isOutLayer) {
-            delta = data;
+            newDelta = delta;
         } else {
-            //delta(l) = delta(l-1)* w(l-1).T*(a(l)*(1-a(l))))
-            delta = data.mmul(layerBuilder.get(index + 1).w().transpose()).mul(activation.back(a));
+            //delta(l) = delta(l+1)* w(l+1).T*(a(l)*(1-a(l))))
+            newDelta = delta.mmul(layerBuilder.get(index + 1).w().transpose()).mul(activation.back(a));
         }
         //dw(l) = a(l-1).T*delta(l) + lambda*w(l)
-        INDArray _a = index == 0 ? x : layerBuilder.get(index - 1).a();
-        dw = _a.transpose().mmul(delta).add(w.mul(lambda));
+        INDArray a = (index == 0) ? x : layerBuilder.get(index - 1).a();
+        dw = a.transpose().mmul(newDelta).add(w.mul(lambda));
         //db(l) = delta(l).*ones() => sum(delta(l),0)
-        db = Nd4j.sum(delta, 0);
+        db = Nd4j.sum(newDelta, 0);
         log.debug("back res=> {}, delta.shape->{},dw.shape->{},db.shape->{}",
-                index, delta.shape(), dw.shape(), db.shape());
-        return delta;
+                index, newDelta.shape(), dw.shape(), db.shape());
+        return newDelta;
     }
 
 

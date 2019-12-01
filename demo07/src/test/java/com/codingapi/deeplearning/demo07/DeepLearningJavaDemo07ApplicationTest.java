@@ -23,12 +23,11 @@ class DeepLearningJavaDemo07ApplicationTest {
     @Test
     void train() throws IOException {
 
-        int batchSize = 64;
+        int batchSize = 128;
         int rngSeed = 123;
 
         DataSetIterator mnistTrain = new MnistDataSetIterator(batchSize, true, rngSeed);
         DataSetIterator mnistTest = new MnistDataSetIterator(batchSize, true, rngSeed);
-
 
         //创建神经网络层
         NeuralNetworkLayerBuilder neuralNetworkLayerBuilder
@@ -38,11 +37,11 @@ class DeepLearningJavaDemo07ApplicationTest {
                         .activation(new SigmoidActivation())
                         .build())
                 .addLayer(DenseLayer.builder()
-                        .input(1000,100)
+                        .input(1000,1000)
                         .activation(new SigmoidActivation())
                         .build())
                 .addLayer(DenseLayer.builder()
-                        .input(100,10)
+                        .input(1000,10)
                         .activation(new SoftMaxActivation())
                         .isOutLayer(true)
                         .build())
@@ -54,8 +53,8 @@ class DeepLearningJavaDemo07ApplicationTest {
                         .layers(neuralNetworkLayerBuilder)
                         .lossFunction(new SoftMaxLossFunction())
                         .seed(rngSeed)
-                        .numEpochs(10000)
-                        .alpha(0.005)
+                        .numEpochs(100)
+                        .alpha(0.0001)
                         .lambda(1e-4)
                         .build();
 
