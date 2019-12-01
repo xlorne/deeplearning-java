@@ -1,4 +1,4 @@
-package com.codingapi.deeplearning.demo06;
+package com.codingapi.deeplearning.demo07;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,9 +9,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @description
  */
 @SpringBootApplication
-public class DeepLearningJavaDemo05Application {
+public class DeepLearningJavaDemo07Application {
 
     public static void main(String[] args) {
-        SpringApplication.run(DeepLearningJavaDemo05Application.class,args);
+        SpringApplication.run(DeepLearningJavaDemo07Application.class,args);
     }
 }

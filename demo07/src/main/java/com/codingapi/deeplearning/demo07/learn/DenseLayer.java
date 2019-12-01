@@ -1,4 +1,4 @@
-package com.codingapi.deeplearning.demo06.learn;
+package com.codingapi.deeplearning.demo07.learn;
 
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
@@ -70,7 +70,7 @@ public class DenseLayer implements NeuralNetworkLayer {
     //当前层数索引
     private int index;
     //所有的网络层
-    private NeuralNetworkLayerBuilder builder;
+    private NeuralNetworkLayerBuilder layerBuilder;
     //激活函数
     private Activation activation;
 
@@ -83,9 +83,9 @@ public class DenseLayer implements NeuralNetworkLayer {
 
 
     @Override
-    public void build(NeuralNetworkLayerBuilder builder, int index) {
+    public void build(NeuralNetworkLayerBuilder layerBuilder, int index) {
         this.index = index;
-        this.builder = builder;
+        this.layerBuilder = layerBuilder;
     }
 
     /**
@@ -97,6 +97,9 @@ public class DenseLayer implements NeuralNetworkLayer {
         w = Nd4j.rand(in, out);
         //b 是一个Vector 长度为out
         b = Nd4j.rand(1, out);
+
+        //打印隐藏参数大小
+        log.info("index:{},size:{}x{}", index, in, out);
     }
 
     private DenseLayer(int in, int out, Activation activation, boolean isOutLayer) {
@@ -104,13 +107,17 @@ public class DenseLayer implements NeuralNetworkLayer {
         this.out = out;
         this.activation = activation;
         this.isOutLayer = isOutLayer;
-        //打印隐藏参数大小
-        log.info("index:{},size:{}x{}", index, in, out);
     }
 
+    private static DenseLayerBuilder builder;
+
     public static DenseLayerBuilder builder(){
-        return new DenseLayerBuilder();
+        if(builder==null){
+            builder = new DenseLayerBuilder();
+        }
+        return builder;
     }
+
 
     public static class DenseLayerBuilder {
         private int in;
@@ -175,10 +182,10 @@ public class DenseLayer implements NeuralNetworkLayer {
             delta = data;
         } else {
             //delta(l) = delta(l-1)* w(l-1).T*(a(l)*(1-a(l))))
-            delta = data.mmul(builder.get(index + 1).w().transpose()).mul(activation.back(a));
+            delta = data.mmul(layerBuilder.get(index + 1).w().transpose()).mul(activation.back(a));
         }
         //dw(l) = a(l-1).T*delta(l) + lambda*w(l)
-        INDArray _a = index == 0 ? x : builder.get(index - 1).a();
+        INDArray _a = index == 0 ? x : layerBuilder.get(index - 1).a();
         dw = _a.transpose().mmul(delta).add(w.mul(lambda));
         //db(l) = delta(l).*ones() => sum(delta(l),0)
         db = Nd4j.sum(delta, 0);

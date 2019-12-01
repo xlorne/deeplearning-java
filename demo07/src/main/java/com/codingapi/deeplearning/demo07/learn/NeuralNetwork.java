@@ -1,7 +1,9 @@
-package com.codingapi.deeplearning.demo06.learn;
+package com.codingapi.deeplearning.demo07.learn;
 
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.dataset.api.DataSet;
+import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.factory.Nd4j;
 
 /**
@@ -23,6 +25,7 @@ public class NeuralNetwork {
      */
     private double alpha;
 
+
     /**
      * 训练次数
      */
@@ -31,7 +34,7 @@ public class NeuralNetwork {
     /**
      * 神经网络层
      */
-    private NeuralNetworkLayerBuilder builder;
+    private NeuralNetworkLayerBuilder layerBuilder;
 
     /**
      * 监听函数
@@ -100,16 +103,16 @@ public class NeuralNetwork {
 
     }
 
-    private NeuralNetwork(double lambda, double alpha,int numEpochs,long seed,
-                         NeuralNetworkLayerBuilder builder,LossFunction lossFunction) {
+    private NeuralNetwork(double lambda, double alpha, int numEpochs,long seed,
+                         NeuralNetworkLayerBuilder layerBuilder,LossFunction lossFunction) {
         this.lambda = lambda;
         this.alpha = alpha;
         this.numEpochs = numEpochs;
-        this.builder = builder;
+        this.layerBuilder = layerBuilder;
         this.lossFunction = lossFunction;
         Nd4j.getRandom().setSeed(seed);
         //初始化权重
-        builder.init();
+        layerBuilder.init();
     }
 
 
@@ -120,19 +123,20 @@ public class NeuralNetwork {
 
     /**
      * 训练过程
-     * @param dataSet   数据集
+     * @param iterator   数据集
      *
      */
-    public void train(DataSet dataSet){
+    public void train(DataSetIterator iterator){
         log.info("train => start");
+        long count = 0;
         for(int i=1;i<=numEpochs;i++) {
-            while (dataSet.hasNext()) {
-                //向前传播算法 FP
-                DataSet batch = dataSet.next();
-                INDArray data = batch.getX();
-                INDArray label = batch.getY();
-                for (int j = 0; j < builder.size(); j++) {
-                    NeuralNetworkLayer layer = builder.get(j);
+            //向前传播算法 FP
+            while (iterator.hasNext()) {
+                DataSet batch = iterator.next();
+                INDArray data = batch.getFeatures();
+                INDArray label = batch.getLabels();
+                for (int j = 0; j < layerBuilder.size(); j++) {
+                    NeuralNetworkLayer layer = layerBuilder.get(j);
                     data = layer.forward(data);
                 }
 
@@ -140,22 +144,23 @@ public class NeuralNetwork {
                 //输出层的反向传播
                 INDArray delta = lossFunction.gradient(data, label);
 
-                for (int j = builder.size() - 1; j >= 0; j--) {
-                    NeuralNetworkLayer layer = builder.get(j);
+                for (int j = layerBuilder.size() - 1; j >= 0; j--) {
+                    NeuralNetworkLayer layer = layerBuilder.get(j);
                     delta = layer.back(delta, lambda);
                 }
 
                 //更新参数
-                for (int j = 0; j < builder.size(); j++) {
-                    NeuralNetworkLayer layer = builder.get(j);
+                for (int j = 0; j < layerBuilder.size(); j++) {
+                    NeuralNetworkLayer layer = layerBuilder.get(j);
                     layer.updateParam(alpha);
                 }
 
                 //损失函数得分
                 if (iterationListener != null) {
-                    iterationListener.cost(i, data, label);
+                    iterationListener.cost(count++, data, label);
                 }
             }
+            iterator.reset();
         }
         log.info("train => over");
 
@@ -168,8 +173,8 @@ public class NeuralNetwork {
      * @return  预测值
      */
     public INDArray predict(INDArray data){
-        for(int j=0;j<builder.size();j++ ){
-            NeuralNetworkLayer layer = builder.get(j);
+        for(int j=0;j<layerBuilder.size();j++ ){
+            NeuralNetworkLayer layer = layerBuilder.get(j);
             data = layer.forward(data);
         }
         return data;
