@@ -179,7 +179,7 @@ public class DenseLayer implements NeuralNetworkLayer {
             newDelta = delta;
         } else {
             //delta(l) = delta(l+1) * w(l+1).T*(a(l)*(1-a(l))))
-            newDelta = (delta.mmul(layerBuilder.get(index + 1).w().transpose())).muli(activation.derivative(a));
+            newDelta = delta.mmul(layerBuilder.get(index + 1).w().transpose()).mul(activation.derivative(a));
         }
         //dw(l) = a(l-1).T*delta(l) + lambda*w(l)
         INDArray a = (index == 0) ? input : layerBuilder.get(index - 1).a();

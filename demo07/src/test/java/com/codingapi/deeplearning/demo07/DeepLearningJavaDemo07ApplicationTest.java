@@ -58,7 +58,7 @@ class DeepLearningJavaDemo07ApplicationTest {
                         .build();
 
         //Loss函数监听
-        neuralNetwork.initListeners(new ScoreLogTrainingListener(100));
+        neuralNetwork.initListeners(new ScoreLogTrainingListener(1));
 
         //训练数据
         neuralNetwork.train(mnistTrain);

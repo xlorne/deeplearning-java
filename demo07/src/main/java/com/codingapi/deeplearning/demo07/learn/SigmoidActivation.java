@@ -26,7 +26,7 @@ public class SigmoidActivation implements Activation{
 
     @Override
     public INDArray derivative(INDArray a) {
-        return a.muli(a.rsub(1));
+        return a.mul(a.rsub(1));
     }
 
 }
