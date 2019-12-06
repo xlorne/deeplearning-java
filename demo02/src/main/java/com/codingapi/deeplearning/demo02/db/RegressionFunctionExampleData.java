@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * 数据操作工具类
@@ -26,7 +27,7 @@ public class RegressionFunctionExampleData {
         INDArray array =  Nd4j.create(number,3);
         for(int i=0;i<number;i++){
             //为什么将x/number ,是为了梯度下降可更高效的操作，而做的特征缩放
-            BigDecimal x = new BigDecimal(i).divide(new BigDecimal(number),5,BigDecimal.ROUND_UP);
+            BigDecimal x = new BigDecimal(i).divide(new BigDecimal(number),5, RoundingMode.HALF_UP);
             BigDecimal y =  regressionFunction.getY(x);
             double[] row = new double[]{1,x.doubleValue(),y.doubleValue()};
             array.putRow(i, Nd4j.create(row));

@@ -23,7 +23,7 @@ class DeepLearningJavaDemo07ApplicationTest {
     @Test
     void train() throws IOException {
 
-        int batchSize = 128;
+        int batchSize = 64;
         int rngSeed = 123;
 
         DataSetIterator mnistTrain = new MnistDataSetIterator(batchSize, true, rngSeed);
@@ -53,13 +53,13 @@ class DeepLearningJavaDemo07ApplicationTest {
                         .layers(neuralNetworkLayerBuilder)
                         .lossFunction(new SoftMaxLossFunction())
                         .seed(rngSeed)
-                        .numEpochs(100)
+                        .numEpochs(15)
                         .alpha(0.0001)
-                        .lambda(1e-4)
+                        .lambda(1e-3)
                         .build();
 
         //Loss函数监听
-        neuralNetwork.initListeners(new ScoreLogTrainingListener(100));
+        neuralNetwork.initListeners(new ScoreLogTrainingListener(10));
 
         //训练数据
         neuralNetwork.train(mnistTrain);

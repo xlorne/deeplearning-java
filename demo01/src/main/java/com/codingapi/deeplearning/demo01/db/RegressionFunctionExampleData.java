@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
+
 
 /**
  * 数据操作工具类
@@ -28,7 +30,7 @@ public class RegressionFunctionExampleData {
         RegressionFunction regressionFunction = new RegressionFunction(a,b);
         for(int i=0;i<number;i++){
             //为什么将x/number ,是为了梯度下降可更高效的操作，而做的特征缩放
-            BigDecimal x = new BigDecimal(i).divide(new BigDecimal(number),5,BigDecimal.ROUND_UP);
+            BigDecimal x = new BigDecimal(i).divide(new BigDecimal(number),5, RoundingMode.HALF_UP);
             BigDecimal y =  regressionFunction.getY(x);
             exampleDataMapper.save(new ExampleData(x,y));
         }
