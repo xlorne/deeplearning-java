@@ -61,8 +61,8 @@ public class DenseLayer implements NeuralNetworkLayer {
     private INDArray dw;
     //b的代价函数导数
     private INDArray db;
-    //第一层时接受的x的参数，仅当第一层时才会有值
-    private INDArray x;
+    //改层的输入值
+    private INDArray input;
     //是否是输出层
     private boolean isOutLayer;
     //当前层数索引
@@ -156,10 +156,8 @@ public class DenseLayer implements NeuralNetworkLayer {
      */
     @Override
     public INDArray forward(INDArray data) {
+        input = data;
         log.debug("forward before=> {}, w.shape->{},b.shape->{}", index, w.shape(), b.shape());
-        if (index == 0) {
-            x = data;
-        }
         a = activation.forward(data, w, b);
         log.debug("forward res => {}, w.shape->{},b.shape->{},a.shape->{}",
                 index, w.shape(), b.shape(), a.shape());
@@ -174,21 +172,21 @@ public class DenseLayer implements NeuralNetworkLayer {
      * @return 该层的delta，以及更新了dw,db值
      */
     @Override
-    public INDArray back(INDArray delta, double lambda) {
+    public INDArray backprop(INDArray delta, double lambda) {
         INDArray newDelta;
-        log.debug("back=> {}, w.shape->{},b.shape->{}", index, w.shape(), b.shape());
+        log.debug("backprop=> {}, w.shape->{},b.shape->{}", index, w.shape(), b.shape());
         if (isOutLayer) {
             newDelta = delta;
         } else {
-            //delta(l) = delta(l+1)* w(l+1).T*(a(l)*(1-a(l))))
-            newDelta = delta.mmul(layerBuilder.get(index + 1).w().transpose()).mul(activation.back(a));
+            //delta(l) = delta(l+1) * w(l+1).T*(a(l)*(1-a(l))))
+            newDelta = (delta.mmul(layerBuilder.get(index + 1).w().transpose())).muli(activation.derivative(a));
         }
         //dw(l) = a(l-1).T*delta(l) + lambda*w(l)
-        INDArray a = (index == 0) ? x : layerBuilder.get(index - 1).a();
+        INDArray a = (index == 0) ? input : layerBuilder.get(index - 1).a();
         dw = a.transpose().mmul(newDelta).add(w.mul(lambda));
         //db(l) = delta(l).*ones() => sum(delta(l),0)
         db = Nd4j.sum(newDelta, 0);
-        log.debug("back res=> {}, delta.shape->{},dw.shape->{},db.shape->{}",
+        log.debug("backprop res=> {}, delta.shape->{},dw.shape->{},db.shape->{}",
                 index, newDelta.shape(), dw.shape(), db.shape());
         return newDelta;
     }

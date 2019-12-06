@@ -146,7 +146,7 @@ public class NeuralNetwork {
 
                 for (int j = layerBuilder.size() - 1; j >= 0; j--) {
                     NeuralNetworkLayer layer = layerBuilder.get(j);
-                    delta = layer.back(delta, lambda);
+                    delta = layer.backprop(delta, lambda);
                 }
 
                 //更新参数

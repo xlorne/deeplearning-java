@@ -29,7 +29,7 @@ public class SoftMaxActivation implements Activation{
 
 
     @Override
-    public INDArray back(INDArray a) {
+    public INDArray derivative(INDArray a) {
         int columns =  a.max(1).amaxNumber().intValue();
         long length = a.length();
         double values[] = new double[(int)length];

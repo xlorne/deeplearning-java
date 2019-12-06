@@ -23,7 +23,7 @@ public interface NeuralNetworkLayer {
      * @param lambda
      * @return
      */
-    INDArray back(INDArray delta,double lambda);
+    INDArray backprop(INDArray delta, double lambda);
 
 
     /**

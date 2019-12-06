@@ -26,7 +26,7 @@ public interface Activation {
      * @param a
      * @return
      */
-    INDArray back(INDArray a);
+    INDArray derivative(INDArray a);
 
 
 }
