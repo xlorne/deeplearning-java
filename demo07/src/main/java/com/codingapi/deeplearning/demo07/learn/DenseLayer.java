@@ -92,7 +92,7 @@ public class DenseLayer implements NeuralNetworkLayer {
     @Override
     public void init() {
         //w 实际的维度就是 输入,输出值的大小
-        w = Nd4j.rand(in, out);
+        w = Nd4j.rand(in, out).mul(Math.sqrt(1d/in));
         //b 是一个Vector 长度为out
         b = Nd4j.rand(1, out);
 

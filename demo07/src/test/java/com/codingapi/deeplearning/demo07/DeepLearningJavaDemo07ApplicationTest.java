@@ -9,7 +9,6 @@ import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 /**
  *
@@ -27,7 +26,7 @@ class DeepLearningJavaDemo07ApplicationTest {
         int rngSeed = 123;
 
         DataSetIterator mnistTrain = new MnistDataSetIterator(batchSize, true, rngSeed);
-        DataSetIterator mnistTest = new MnistDataSetIterator(batchSize, true, rngSeed);
+        DataSetIterator mnistTest = new MnistDataSetIterator(batchSize, false, rngSeed);
 
         //创建神经网络层
         NeuralNetworkLayerBuilder neuralNetworkLayerBuilder
@@ -53,28 +52,33 @@ class DeepLearningJavaDemo07ApplicationTest {
                         .layers(neuralNetworkLayerBuilder)
                         .lossFunction(new SoftMaxLossFunction())
                         .seed(rngSeed)
-                        .numEpochs(15)
-                        .alpha(0.0001)
+                        .numEpochs(1)
+                        .alpha(0.000001)
                         .lambda(1e-3)
                         .build();
 
         //Loss函数监听
-        neuralNetwork.initListeners(new ScoreLogTrainingListener(10));
+        neuralNetwork.initListeners(new ScoreLogTrainingListener(100));
 
         //训练数据
         neuralNetwork.train(mnistTrain);
 
         //预测数据
+        double count = 0;
+        int success = 0;
         while (mnistTest.hasNext()){
             DataSet dataSet =  mnistTest.next();
             INDArray res = neuralNetwork.predict(dataSet.getFeatures());
             INDArray labels = dataSet.getLabels();
-            if(Arrays.equals(res.toFloatVector(),labels.toFloatVector())){
-                System.out.println("res的可能性结果:Ok");
-            }else{
-                System.out.println("res的可能性结果:Error");
+            int rows = res.rows();
+            for(int i=0;i<rows;i++){
+                count++;
+                if(MaxUtils.maxIndex(res.getRow(i).toDoubleVector())==MaxUtils.maxIndex(labels.getRow(i).toDoubleVector())){
+                    success++;
+                }
             }
         }
+        System.out.println(String.format("success:%f",(success/count)));
 
 
     }
