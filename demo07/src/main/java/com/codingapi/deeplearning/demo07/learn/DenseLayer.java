@@ -79,6 +79,9 @@ public class DenseLayer implements NeuralNetworkLayer {
      */
     private int in, out;
 
+    private double lambda;
+    private double alpha;
+
 
     @Override
     public void build(NeuralNetworkLayerBuilder layerBuilder, int index) {
@@ -90,11 +93,14 @@ public class DenseLayer implements NeuralNetworkLayer {
      * 初始化权重参数
      */
     @Override
-    public void init() {
+    public void init(double lambda,double alpha,long seed) {
+        this.lambda = lambda;
+        this.alpha = alpha;
+
         //w 实际的维度就是 输入,输出值的大小
-        w = Nd4j.rand(in, out).mul(Math.sqrt(1d/in));
+        w = Nd4j.rand(in, out,seed).mul(Math.sqrt(2/(in+out)));
         //b 是一个Vector 长度为out
-        b = Nd4j.rand(1, out);
+        b = Nd4j.rand(1, out,seed);
 
         //打印隐藏参数大小
         log.info("index:{},size:{}x{}", index, in, out);
@@ -172,13 +178,13 @@ public class DenseLayer implements NeuralNetworkLayer {
      * @return 该层的delta，以及更新了dw,db值
      */
     @Override
-    public INDArray backprop(INDArray delta, double lambda) {
+    public INDArray backprop(INDArray delta) {
         INDArray newDelta;
         log.debug("backprop=> {}, w.shape->{},b.shape->{}", index, w.shape(), b.shape());
         if (isOutLayer) {
             newDelta = delta;
         } else {
-            //delta(l) = delta(l+1) * w(l+1).T*(a(l)*(1-a(l))))
+            //delta(l) = (delta(l+1) * w(l+1).T).*(activation.derivative(a))
             newDelta = delta.mmul(layerBuilder.get(index + 1).w().transpose()).mul(activation.derivative(a));
         }
         //dw(l) = a(l-1).T*delta(l) + lambda*w(l)
@@ -188,6 +194,7 @@ public class DenseLayer implements NeuralNetworkLayer {
         db = Nd4j.sum(newDelta, 0);
         log.debug("backprop res=> {}, delta.shape->{},dw.shape->{},db.shape->{}",
                 index, newDelta.shape(), dw.shape(), db.shape());
+//        log.info("index:{},dw:{},db:{}",index,dw,db);
         return newDelta;
     }
 
@@ -195,10 +202,9 @@ public class DenseLayer implements NeuralNetworkLayer {
     /**
      * 一次梯度后的更新参数方法
      *
-     * @param alpha 学习率
      */
     @Override
-    public void updateParam(double alpha) {
+    public void updateParam() {
         w = w.sub(dw.mul(alpha));
         b = b.sub(db.mul(alpha));
         log.debug("updateParam=> {}, w.shape->{},b.shape->{}", index, w.shape(), b.shape());

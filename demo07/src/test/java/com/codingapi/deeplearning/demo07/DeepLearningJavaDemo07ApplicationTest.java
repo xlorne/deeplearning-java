@@ -54,7 +54,7 @@ class DeepLearningJavaDemo07ApplicationTest {
                         .seed(rngSeed)
                         .numEpochs(1)
                         .alpha(0.006)
-                        .lambda(1e-3)
+                        .lambda(1e-4)
                         .build();
 
         //Loss函数监听

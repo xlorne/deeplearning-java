@@ -20,16 +20,15 @@ public interface NeuralNetworkLayer {
     /**
      * 反向传播
      * @param delta
-     * @param lambda
      * @return
      */
-    INDArray backprop(INDArray delta, double lambda);
+    INDArray backprop(INDArray delta);
 
 
     /**
      * 初始化参数
      */
-    void init();
+    void init(double lamdba,double alpha,long seed);
 
     /**
      * 权重值
@@ -45,9 +44,8 @@ public interface NeuralNetworkLayer {
 
     /**
      * 更新参数
-     * @param alpha
      */
-    void updateParam(double alpha);
+    void updateParam();
 
     /**
      * 构建网络层

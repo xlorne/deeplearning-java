@@ -59,12 +59,12 @@ public class NeuralNetworkLayerBuilder {
     /**
      * 初始化所有层的权重 w,b
      */
-    public void init() {
+    public void init(double lamdba,double alpha,long seed) {
         if(!noOutLay){
             throw new RuntimeException("没有输出层");
         }
         for (NeuralNetworkLayer layer:list()){
-            layer.init();
+            layer.init(lamdba,alpha,seed);
         }
         log.info("init rand w,b ");
     }

@@ -112,7 +112,7 @@ public class NeuralNetwork {
         this.lossFunction = lossFunction;
         Nd4j.getRandom().setSeed(seed);
         //初始化权重
-        layerBuilder.init();
+        layerBuilder.init(lambda,alpha,seed);
     }
 
 
@@ -146,13 +146,13 @@ public class NeuralNetwork {
 
                 for (int j = layerBuilder.size() - 1; j >= 0; j--) {
                     NeuralNetworkLayer layer = layerBuilder.get(j);
-                    delta = layer.backprop(delta, lambda);
+                    delta = layer.backprop(delta);
                 }
 
                 //更新参数
                 for (int j = 0; j < layerBuilder.size(); j++) {
                     NeuralNetworkLayer layer = layerBuilder.get(j);
-                    layer.updateParam(alpha);
+                    layer.updateParam();
                 }
 
                 //损失函数得分
