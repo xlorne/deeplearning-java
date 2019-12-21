@@ -28,10 +28,8 @@ public class NeuralListener {
         this.lossFunction = lossFunction;
     }
 
-    public void cost(long index,int batchSize,INDArray predict, INDArray y) {
-        double sum =  lossFunction.score(predict,y);
-        BigDecimal allCost = new BigDecimal(sum);
-        double cost = allCost.divide(new BigDecimal(batchSize),8, RoundingMode.HALF_UP).doubleValue();
+    public void cost(long index,INDArray predict, INDArray y) {
+        double cost =  lossFunction.score(predict,y);
         for (TrainingListener trainingListener:trainingListeners){
             trainingListener.done(index,cost);
         }

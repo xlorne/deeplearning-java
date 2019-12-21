@@ -1,6 +1,7 @@
 package com.codingapi.deeplearning.demo07.learn;
 
 import org.nd4j.linalg.api.ndarray.INDArray;
+import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.ops.transforms.Transforms;
 
 /**
@@ -14,8 +15,8 @@ public class SoftMaxLossFunction implements LossFunction {
     @Override
     public double score(INDArray predict, INDArray y) {
         // x 误差值
-        INDArray res =  y.mul(Transforms.log(predict).mul(-1));
-        return res.sumNumber().doubleValue();
+        INDArray res =  y.mul(Transforms.log(predict)).mul(-1).div(predict.rows());
+        return Nd4j.sum(res).sumNumber().doubleValue();
     }
 
     @Override

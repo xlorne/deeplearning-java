@@ -52,7 +52,7 @@ class DeepLearningJavaDemo07ApplicationTest {
                         .layers(neuralNetworkLayerBuilder)
                         .lossFunction(new SoftMaxLossFunction())
                         .seed(rngSeed)
-                        .numEpochs(1)
+                        .numEpochs(15)
                         .alpha(0.006)
                         .lambda(1e-4)
                         .build();

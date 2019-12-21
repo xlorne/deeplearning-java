@@ -157,7 +157,7 @@ public class NeuralNetwork {
 
                 //损失函数得分
                 if (iterationListener != null) {
-                    iterationListener.cost(count++,iterator.batch(), data, label);
+                    iterationListener.cost(count++, data, label);
                 }
             }
             iterator.reset();
