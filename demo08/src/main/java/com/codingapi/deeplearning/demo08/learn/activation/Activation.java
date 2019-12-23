@@ -2,12 +2,14 @@ package com.codingapi.deeplearning.demo08.learn.activation;
 
 import org.nd4j.linalg.api.ndarray.INDArray;
 
+import java.io.Serializable;
+
 /**
  * @author lorne
  * @date 2019-11-15
  * @description 激活函数
  */
-public interface Activation {
+public interface Activation extends Serializable {
 
 
     /**

@@ -2,6 +2,7 @@ package com.codingapi.deeplearning.demo08.learn.layer;
 
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * @description
  */
 @Slf4j
-public class NeuralNetworkLayerBuilder {
+public class NeuralNetworkLayerBuilder implements Serializable {
 
     private boolean noOutLay = false;
 

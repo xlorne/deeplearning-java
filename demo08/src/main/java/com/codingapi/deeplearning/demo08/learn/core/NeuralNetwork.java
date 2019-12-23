@@ -3,11 +3,19 @@ package com.codingapi.deeplearning.demo08.learn.core;
 import com.codingapi.deeplearning.demo08.learn.layer.NeuralNetworkLayer;
 import com.codingapi.deeplearning.demo08.learn.layer.NeuralNetworkLayerBuilder;
 import com.codingapi.deeplearning.demo08.learn.loss.LossFunction;
+import com.codingapi.deeplearning.demo08.learn.utils.SerializeUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.compress.utils.ByteUtils;
+import org.apache.commons.io.FileUtils;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.api.DataSet;
 import org.nd4j.linalg.dataset.api.iterator.DataSetIterator;
 import org.nd4j.linalg.factory.Nd4j;
+
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
 
 /**
  *
@@ -16,7 +24,7 @@ import org.nd4j.linalg.factory.Nd4j;
  * @description 神经网络实现
  */
 @Slf4j
-public class NeuralNetwork {
+public class NeuralNetwork implements Serializable {
 
 
     /**
@@ -120,8 +128,13 @@ public class NeuralNetwork {
      * 将训练模型保存到本地
      * @param path  保存路径
      */
-    public void save(String path){
-        //todo 保存模型
+    public void save(String path) throws IOException {
+       File file = new File(path);
+       if(!file.exists()){
+           file.createNewFile();
+       }
+       byte[] data = SerializeUtils.serialize(this);
+       FileUtils.writeByteArrayToFile(file,data);
     }
 
 

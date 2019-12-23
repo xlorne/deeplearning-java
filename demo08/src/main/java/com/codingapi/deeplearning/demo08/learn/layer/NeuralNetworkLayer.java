@@ -2,12 +2,14 @@ package com.codingapi.deeplearning.demo08.learn.layer;
 
 import org.nd4j.linalg.api.ndarray.INDArray;
 
+import java.io.Serializable;
+
 /**
  * @author lorne
  * @date 2019-11-15
  * @description
  */
-public interface NeuralNetworkLayer {
+public interface NeuralNetworkLayer extends Serializable {
 
     /**
      * 前向传播

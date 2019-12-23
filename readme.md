@@ -76,7 +76,7 @@ https://www.youtube.com/watch?v=UGWr-O6PBug
 [demo07](demo07)      
 增加随机梯度下降算法，增加测试集。首测 94.18% 😀       
 [demo08](demo08)      
-模型的保存 ing...       
+模型的保存,基于kryo序列化后存储到本地.        
     
 
 ## QA

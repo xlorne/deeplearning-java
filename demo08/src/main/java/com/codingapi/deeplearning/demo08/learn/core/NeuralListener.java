@@ -4,6 +4,8 @@ import com.codingapi.deeplearning.demo08.learn.loss.LossFunction;
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
+import java.io.Serializable;
+
 /**
  * 计算代价函数的值，打印得分
  * @author lorne
@@ -11,7 +13,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
  * @description 逻辑回归损失函数
  */
 @Slf4j
-public class NeuralListener {
+public class NeuralListener implements Serializable {
 
 
     private LossFunction lossFunction;
@@ -34,7 +36,7 @@ public class NeuralListener {
     }
 
 
-    public  interface TrainingListener{
+    public  interface TrainingListener extends Serializable{
         /**
          * 执行监听业务
          * @param index   训练次数
