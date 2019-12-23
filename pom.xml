@@ -11,6 +11,7 @@
         <module>demo05</module>
         <module>demo06</module>
         <module>demo07</module>
+        <module>demo08</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

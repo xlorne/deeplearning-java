@@ -75,7 +75,8 @@ https://www.youtube.com/watch?v=UGWr-O6PBug
 实现SoftMax回归神经网络框架，进一步对神经网络做优化   
 [demo07](demo07)      
 增加随机梯度下降算法，增加测试集。首测 94.18% 😀       
- 
+[demo08](demo08)      
+模型的保存       
     
 
 ## QA
