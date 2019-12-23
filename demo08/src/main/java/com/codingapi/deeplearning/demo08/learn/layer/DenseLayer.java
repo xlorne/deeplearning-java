@@ -196,7 +196,7 @@ public class DenseLayer implements NeuralNetworkLayer {
         db = Nd4j.sum(newDelta, 0);
         log.debug("backprop res=> {}, delta.shape->{},dw.shape->{},db.shape->{}",
                 index, newDelta.shape(), dw.shape(), db.shape());
-//        log.info("index:{},dw:{},db:{}",index,dw,db);
+        log.debug("index:{},dw:{},db:{}",index,dw,db);
         return newDelta;
     }
 

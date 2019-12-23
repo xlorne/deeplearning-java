@@ -5,8 +5,6 @@ import com.codingapi.deeplearning.demo08.learn.layer.NeuralNetworkLayerBuilder;
 import com.codingapi.deeplearning.demo08.learn.loss.LossFunction;
 import com.codingapi.deeplearning.demo08.learn.utils.SerializeUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.compress.utils.ByteUtils;
 import org.apache.commons.io.FileUtils;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.api.DataSet;
