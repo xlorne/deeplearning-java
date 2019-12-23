@@ -1,10 +1,8 @@
-package com.codingapi.deeplearning.demo08.learn;
+package com.codingapi.deeplearning.demo08.learn.core;
 
+import com.codingapi.deeplearning.demo08.learn.loss.LossFunction;
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 /**
  * 计算代价函数的值，打印得分
@@ -40,7 +38,7 @@ public class NeuralListener {
         /**
          * 执行监听业务
          * @param index   训练次数
-         * @param sum   损失值
+         * @param cost   损失值
          */
         void done(long index,double cost);
     }

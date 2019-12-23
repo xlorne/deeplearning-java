@@ -1,4 +1,4 @@
-package com.codingapi.deeplearning.demo08.learn;
+package com.codingapi.deeplearning.demo08.learn.activation;
 
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
@@ -9,7 +9,7 @@ import org.nd4j.linalg.ops.transforms.Transforms;
  * @date 2019-11-15
  * @description e^{z}\over {sum_k e^zk}
  */
-public class SoftMaxActivation implements Activation{
+public class SoftMaxActivation implements Activation {
 
     @Override
     public INDArray forward(INDArray x, INDArray w, INDArray b) {

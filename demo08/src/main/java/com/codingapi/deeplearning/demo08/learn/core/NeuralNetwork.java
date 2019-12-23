@@ -1,5 +1,8 @@
-package com.codingapi.deeplearning.demo08.learn;
+package com.codingapi.deeplearning.demo08.learn.core;
 
+import com.codingapi.deeplearning.demo08.learn.layer.NeuralNetworkLayer;
+import com.codingapi.deeplearning.demo08.learn.layer.NeuralNetworkLayerBuilder;
+import com.codingapi.deeplearning.demo08.learn.loss.LossFunction;
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.dataset.api.DataSet;
@@ -14,16 +17,6 @@ import org.nd4j.linalg.factory.Nd4j;
  */
 @Slf4j
 public class NeuralNetwork {
-
-
-    /**
-     * 正则化参数
-     */
-    private double lambda;
-    /**
-     * 学习率
-     */
-    private double alpha;
 
 
     /**
@@ -47,66 +40,8 @@ public class NeuralNetwork {
     private LossFunction lossFunction;
 
 
-    public static NeuralNetworkBuilder builder(){
-        return new NeuralNetworkBuilder();
-    }
-
-    public static class NeuralNetworkBuilder{
-        private NeuralNetworkLayerBuilder builder;
-        private double lambda;
-        private double alpha;
-        private int numEpochs;
-        private long seed;
-        private LossFunction lossFunction;
-
-        private NeuralNetworkBuilder() {
-            lambda = 0;
-            alpha = 0.1;
-            numEpochs = 10000;
-            seed = 123;
-        }
-
-        public NeuralNetworkBuilder layers(NeuralNetworkLayerBuilder builder){
-            this.builder = builder;
-            return this;
-        }
-
-        public NeuralNetworkBuilder numEpochs(int numEpochs){
-            this.numEpochs = numEpochs;
-            return this;
-        }
-
-        public NeuralNetworkBuilder lambda(double lambda){
-            this.lambda = lambda;
-            return this;
-        }
-
-        public NeuralNetworkBuilder alpha(double alpha){
-            this.alpha = alpha;
-            return this;
-        }
-
-        public NeuralNetworkBuilder seed(long seed){
-            this.seed = seed;
-            return this;
-        }
-
-        public NeuralNetworkBuilder lossFunction(LossFunction lossFunction){
-            this.lossFunction = lossFunction;
-            return this;
-        }
-
-        public NeuralNetwork build(){
-            return new NeuralNetwork(lambda,alpha,numEpochs,seed,builder,lossFunction);
-        }
-
-
-    }
-
-    private NeuralNetwork(double lambda, double alpha, int numEpochs,long seed,
+    protected NeuralNetwork(double lambda, double alpha, int numEpochs,long seed,
                          NeuralNetworkLayerBuilder layerBuilder,LossFunction lossFunction) {
-        this.lambda = lambda;
-        this.alpha = alpha;
         this.numEpochs = numEpochs;
         this.layerBuilder = layerBuilder;
         this.lossFunction = lossFunction;
@@ -126,7 +61,7 @@ public class NeuralNetwork {
      * @param iterator   数据集
      *
      */
-    public void train(DataSetIterator iterator){
+    public void fit(DataSetIterator iterator){
         log.info("train => start");
         long count = 0;
         for(int i=1;i<=numEpochs;i++) {
@@ -179,6 +114,16 @@ public class NeuralNetwork {
         }
         return data;
     }
+
+
+    /**
+     * 将训练模型保存到本地
+     * @param path  保存路径
+     */
+    public void save(String path){
+        //todo 保存模型
+    }
+
 
 
 }

@@ -1,4 +1,4 @@
-package com.codingapi.deeplearning.demo08.learn;
+package com.codingapi.deeplearning.demo08.learn.loss;
 
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
@@ -9,7 +9,7 @@ import org.nd4j.linalg.ops.transforms.Transforms;
  * @date 2019-11-15
  * @description J(\theta )=-\frac{1}{m} \sum_{i=1}^m y^{(i)}log(h_{(\theta )}(x^{i}))+(1-y^{i})log(1-h_{\theta }(x^{i}))
  */
-public class LogisticRegressionLossFunction implements LossFunction {
+public class LossLogLoss implements LossFunction {
 
 
     @Override

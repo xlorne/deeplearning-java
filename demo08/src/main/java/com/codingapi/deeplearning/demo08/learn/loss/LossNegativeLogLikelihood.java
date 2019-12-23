@@ -1,4 +1,4 @@
-package com.codingapi.deeplearning.demo08.learn;
+package com.codingapi.deeplearning.demo08.learn.loss;
 
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
@@ -9,7 +9,7 @@ import org.nd4j.linalg.ops.transforms.Transforms;
  * @date 2019-11-15
  * @description Loss = -\sum_i y_i log(a_i)
  */
-public class SoftMaxLossFunction implements LossFunction {
+public class LossNegativeLogLikelihood implements LossFunction {
 
 
     @Override

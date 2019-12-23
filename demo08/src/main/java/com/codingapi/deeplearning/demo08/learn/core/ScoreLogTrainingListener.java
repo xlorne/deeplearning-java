@@ -1,4 +1,4 @@
-package com.codingapi.deeplearning.demo08.learn;
+package com.codingapi.deeplearning.demo08.learn.core;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package com.codingapi.deeplearning.demo08.learn;
+package com.codingapi.deeplearning.demo08.learn.activation;
 
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
@@ -10,7 +10,7 @@ import org.nd4j.linalg.ops.transforms.Transforms;
  * @description {1 \over {1+e^{-\W \times x}}}
  */
 @Slf4j
-public class SigmoidActivation implements Activation{
+public class SigmoidActivation implements Activation {
 
     @Override
     public INDArray forward(INDArray x, INDArray w, INDArray b) {
