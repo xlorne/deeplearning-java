@@ -77,7 +77,8 @@ https://www.youtube.com/watch?v=UGWr-O6PBug
 增加随机梯度下降算法，增加测试集。首测 94.18% 😀       
 [demo08](demo08)      
 模型的保存,基于kryo序列化后存储到本地.        
-    
+[demo09](demo09)      
+在线手写识别数字，mnist测试数据识别率为 96.13%，在线识别率没有那么高，原因在图片处理上存在差异          
 
 ## QA
 Q: 为什么用java的方式去实现深度学习，而不用已有的Python、GO这些语言？  

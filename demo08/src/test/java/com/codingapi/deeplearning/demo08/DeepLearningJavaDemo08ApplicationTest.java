@@ -46,7 +46,7 @@ class DeepLearningJavaDemo08ApplicationTest {
                         .input(28*28,1000)
                         .activation(new SigmoidActivation())
                         .build())
-                .addLayer(DenseLayer.builder()
+                .addLayer(DenseLayer.builder( )
                         .input(1000,1000)
                         .activation(new SigmoidActivation())
                         .build())
