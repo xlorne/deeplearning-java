@@ -28,28 +28,9 @@ public class SubsamplingLayer implements NeuralNetworkLayer {
         return null;
     }
 
-    @Override
-    public INDArray backprop(INDArray delta) {
-        return null;
-    }
 
     @Override
     public void init(double lamdba, double alpha, long seed) {
-
-    }
-
-    @Override
-    public INDArray w() {
-        return null;
-    }
-
-    @Override
-    public INDArray a() {
-        return null;
-    }
-
-    @Override
-    public void updateParam() {
 
     }
 
@@ -58,8 +39,4 @@ public class SubsamplingLayer implements NeuralNetworkLayer {
 
     }
 
-    @Override
-    public boolean isOutLayer() {
-        return false;
-    }
 }

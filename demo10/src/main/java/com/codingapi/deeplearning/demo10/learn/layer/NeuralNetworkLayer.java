@@ -18,37 +18,6 @@ public interface NeuralNetworkLayer extends Serializable {
      */
     INDArray forward(INDArray data);
 
-
-    /**
-     * 反向传播
-     * @param delta
-     * @return
-     */
-    INDArray backprop(INDArray delta);
-
-
-    /**
-     * 初始化参数
-     */
-    void init(double lamdba,double alpha,long seed);
-
-    /**
-     * 权重值
-     * @return
-     */
-    INDArray w();
-
-    /**
-     * 预测值
-     * @return
-     */
-    INDArray a();
-
-    /**
-     * 更新参数
-     */
-    void updateParam();
-
     /**
      * 构建网络层
      * @param layer
@@ -56,9 +25,11 @@ public interface NeuralNetworkLayer extends Serializable {
      */
     void build(NeuralNetworkLayerBuilder layer,int index);
 
+
     /**
-     * 是否是输出层
-     * @return
+     * 初始化参数
      */
-    boolean isOutLayer();
+    void init(double lamdba,double alpha,long seed);
+
+
 }

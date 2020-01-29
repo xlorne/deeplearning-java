@@ -51,7 +51,7 @@ import org.nd4j.linalg.factory.Nd4j;
  * db = db-alpha*db
  */
 @Slf4j
-public class DenseLayer implements NeuralNetworkLayer {
+public class DenseLayer implements FeedForwardLayer {
 
     //W权重，通过Random初始化
     private INDArray w;
@@ -187,10 +187,10 @@ public class DenseLayer implements NeuralNetworkLayer {
             newDelta = delta;
         } else {
             //delta(l) = (delta(l+1) * w(l+1).T).*(activation.derivative(a))
-            newDelta = delta.mmul(layerBuilder.get(index + 1).w().transpose()).mul(activation.derivative(a));
+            newDelta = delta.mmul(layerBuilder.getFeedForwardLayer(index + 1).w().transpose()).mul(activation.derivative(a));
         }
         //dw(l) = a(l-1).T*delta(l) + lambda*w(l)
-        INDArray a = (index == 0) ? input : layerBuilder.get(index - 1).a();
+        INDArray a = (index == 0) ? input : layerBuilder.getFeedForwardLayer(index - 1).a();
         dw = a.transpose().mmul(newDelta).add(w.mul(lambda));
         //db(l) = delta(l).*ones() => sum(delta(l),0)
         db = Nd4j.sum(newDelta, 0);

@@ -19,8 +19,11 @@ public class NeuralNetworkLayerBuilder implements Serializable {
 
     private List<NeuralNetworkLayer> layers;
 
+    private List<FeedForwardLayer> feedForwardLayers;
+
     private NeuralNetworkLayerBuilder(){
         this.layers = new ArrayList<>();
+        this.feedForwardLayers = new ArrayList<>();
     }
 
     private static NeuralNetworkLayerBuilder builder;
@@ -40,7 +43,10 @@ public class NeuralNetworkLayerBuilder implements Serializable {
         int index = layers.size();
         layer.build(this,index);
         layers.add(layer);
-        noOutLay = layer.isOutLayer();
+        if(layer instanceof FeedForwardLayer) {
+            feedForwardLayers.add(((FeedForwardLayer)layer));
+            noOutLay = ((FeedForwardLayer)layer).isOutLayer();
+        }
         return this;
     }
 
@@ -49,8 +55,16 @@ public class NeuralNetworkLayerBuilder implements Serializable {
         return layers;
     }
 
+    public List<FeedForwardLayer> feedForwardLayers() {
+        return feedForwardLayers;
+    }
+
     public int size(){
         return layers.size();
+    }
+
+    public FeedForwardLayer getFeedForwardLayer(int index) {
+        return feedForwardLayers.get(index);
     }
 
     public NeuralNetworkLayer get(int index) {

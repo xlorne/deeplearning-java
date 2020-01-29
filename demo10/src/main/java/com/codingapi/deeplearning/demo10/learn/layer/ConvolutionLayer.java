@@ -8,7 +8,7 @@ import org.nd4j.linalg.api.ndarray.INDArray;
  * @date 2020/1/29
  * @description
  */
-public class ConvolutionLayer implements NeuralNetworkLayer {
+public class ConvolutionLayer implements FeedForwardLayer {
 
     private int channels;
     private int[] kernelSizes;

@@ -1,5 +1,6 @@
 package com.codingapi.deeplearning.demo10.learn.core;
 
+import com.codingapi.deeplearning.demo10.learn.layer.FeedForwardLayer;
 import com.codingapi.deeplearning.demo10.learn.layer.NeuralNetworkLayer;
 import com.codingapi.deeplearning.demo10.learn.layer.NeuralNetworkLayerBuilder;
 import com.codingapi.deeplearning.demo10.learn.loss.LossFunction;
@@ -85,14 +86,14 @@ public class NeuralNetwork implements Serializable {
                 //输出层的反向传播
                 INDArray delta = lossFunction.gradient(data, label);
 
-                for (int j = layerBuilder.size() - 1; j >= 0; j--) {
-                    NeuralNetworkLayer layer = layerBuilder.get(j);
+                for (int j = layerBuilder.feedForwardLayers().size() - 1; j >= 0; j--) {
+                    FeedForwardLayer layer = layerBuilder.getFeedForwardLayer(j);
                     delta = layer.backprop(delta);
                 }
 
                 //更新参数
-                for (int j = 0; j < layerBuilder.size(); j++) {
-                    NeuralNetworkLayer layer = layerBuilder.get(j);
+                for (int j = 0; j < layerBuilder.feedForwardLayers().size(); j++) {
+                    FeedForwardLayer layer = layerBuilder.getFeedForwardLayer(j);
                     layer.updateParam();
                 }
 
