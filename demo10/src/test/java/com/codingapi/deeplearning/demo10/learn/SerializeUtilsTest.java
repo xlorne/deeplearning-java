@@ -1,6 +1,6 @@
 package com.codingapi.deeplearning.demo10.learn;
 
-import com.codingapi.deeplearning.demo08.learn.utils.SerializeUtils;
+import com.codingapi.deeplearning.demo10.learn.utils.SerializeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Hex;
 import org.nd4j.linalg.api.ndarray.INDArray;

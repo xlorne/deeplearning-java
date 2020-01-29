@@ -1,8 +1,8 @@
 package com.codingapi.deeplearning.demo10.learn.core;
 
-import com.codingapi.deeplearning.demo08.learn.layer.NeuralNetworkLayerBuilder;
-import com.codingapi.deeplearning.demo08.learn.loss.LossFunction;
-import com.codingapi.deeplearning.demo08.learn.utils.SerializeUtils;
+import com.codingapi.deeplearning.demo10.learn.layer.NeuralNetworkLayerBuilder;
+import com.codingapi.deeplearning.demo10.learn.loss.LossFunction;
+import com.codingapi.deeplearning.demo10.learn.utils.SerializeUtils;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;

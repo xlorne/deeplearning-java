@@ -1,14 +1,14 @@
 package com.codingapi.deeplearning.demo10;
 
-import com.codingapi.deeplearning.demo08.learn.activation.SigmoidActivation;
-import com.codingapi.deeplearning.demo08.learn.activation.SoftMaxActivation;
-import com.codingapi.deeplearning.demo08.learn.core.NeuralNetwork;
-import com.codingapi.deeplearning.demo08.learn.core.NeuralNetworkBuilder;
-import com.codingapi.deeplearning.demo08.learn.layer.DenseLayer;
-import com.codingapi.deeplearning.demo08.learn.layer.NeuralNetworkLayerBuilder;
-import com.codingapi.deeplearning.demo08.learn.core.ScoreLogTrainingListener;
-import com.codingapi.deeplearning.demo08.learn.loss.LossNegativeLogLikelihood;
-import com.codingapi.deeplearning.demo08.learn.utils.MaxUtils;
+import com.codingapi.deeplearning.demo10.learn.activation.SigmoidActivation;
+import com.codingapi.deeplearning.demo10.learn.activation.SoftMaxActivation;
+import com.codingapi.deeplearning.demo10.learn.core.NeuralNetwork;
+import com.codingapi.deeplearning.demo10.learn.core.NeuralNetworkBuilder;
+import com.codingapi.deeplearning.demo10.learn.layer.DenseLayer;
+import com.codingapi.deeplearning.demo10.learn.layer.NeuralNetworkLayerBuilder;
+import com.codingapi.deeplearning.demo10.learn.core.ScoreLogTrainingListener;
+import com.codingapi.deeplearning.demo10.learn.loss.LossNegativeLogLikelihood;
+import com.codingapi.deeplearning.demo10.learn.utils.MaxUtils;
 import org.deeplearning4j.datasets.iterator.impl.MnistDataSetIterator;
 import org.junit.jupiter.api.Test;
 import org.nd4j.linalg.api.ndarray.INDArray;

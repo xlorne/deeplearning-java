@@ -1,6 +1,6 @@
 package com.codingapi.deeplearning.demo10.learn.core;
 
-import com.codingapi.deeplearning.demo08.learn.loss.LossFunction;
+import com.codingapi.deeplearning.demo10.learn.loss.LossFunction;
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
 

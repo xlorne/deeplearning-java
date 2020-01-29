@@ -1,7 +1,7 @@
 package com.codingapi.deeplearning.demo10.learn.layer;
 
-import com.codingapi.deeplearning.demo08.learn.activation.Activation;
-import com.codingapi.deeplearning.demo08.learn.activation.SigmoidActivation;
+import com.codingapi.deeplearning.demo10.learn.activation.Activation;
+import com.codingapi.deeplearning.demo10.learn.activation.SigmoidActivation;
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;

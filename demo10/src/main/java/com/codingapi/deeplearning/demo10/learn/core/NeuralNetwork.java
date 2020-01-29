@@ -1,9 +1,9 @@
 package com.codingapi.deeplearning.demo10.learn.core;
 
-import com.codingapi.deeplearning.demo08.learn.layer.NeuralNetworkLayer;
-import com.codingapi.deeplearning.demo08.learn.layer.NeuralNetworkLayerBuilder;
-import com.codingapi.deeplearning.demo08.learn.loss.LossFunction;
-import com.codingapi.deeplearning.demo08.learn.utils.SerializeUtils;
+import com.codingapi.deeplearning.demo10.learn.layer.NeuralNetworkLayer;
+import com.codingapi.deeplearning.demo10.learn.layer.NeuralNetworkLayerBuilder;
+import com.codingapi.deeplearning.demo10.learn.loss.LossFunction;
+import com.codingapi.deeplearning.demo10.learn.utils.SerializeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.nd4j.linalg.api.ndarray.INDArray;
