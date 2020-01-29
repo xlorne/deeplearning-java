@@ -31,5 +31,4 @@ public interface NeuralNetworkLayer extends Serializable {
      */
     void init(double lamdba,double alpha,long seed);
 
-
 }

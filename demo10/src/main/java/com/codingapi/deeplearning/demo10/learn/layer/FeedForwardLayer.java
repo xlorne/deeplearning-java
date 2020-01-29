@@ -17,8 +17,6 @@ public interface FeedForwardLayer extends NeuralNetworkLayer {
      */
     INDArray backprop(INDArray delta);
 
-
-
     /**
      * 权重值
      * @return
@@ -42,4 +40,5 @@ public interface FeedForwardLayer extends NeuralNetworkLayer {
      * @return
      */
     boolean isOutLayer();
+
 }

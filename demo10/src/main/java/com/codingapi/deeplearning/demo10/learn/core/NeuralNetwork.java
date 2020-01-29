@@ -77,23 +77,28 @@ public class NeuralNetwork implements Serializable {
                 DataSet batch = iterator.next();
                 INDArray data = batch.getFeatures();
                 INDArray label = batch.getLabels();
-                for (int j = 0; j < layerBuilder.size(); j++) {
-                    NeuralNetworkLayer layer = layerBuilder.get(j);
+
+                NeuralNetworkLayerBuilder.NeuralNetworkLayerIterator neuralNetworkLayerIterator
+                        =  layerBuilder.neuralNetworkLayerIterator();
+                while (neuralNetworkLayerIterator.hasNext()){
+                    NeuralNetworkLayer layer = neuralNetworkLayerIterator.next();
                     data = layer.forward(data);
                 }
 
                 //反向传播 BP
                 //输出层的反向传播
                 INDArray delta = lossFunction.gradient(data, label);
-
-                for (int j = layerBuilder.feedForwardLayers().size() - 1; j >= 0; j--) {
-                    FeedForwardLayer layer = layerBuilder.getFeedForwardLayer(j);
+                NeuralNetworkLayerBuilder.BFIterator bfIterator = layerBuilder.bFIterator();
+                while (bfIterator.hasNext()){
+                    FeedForwardLayer layer = bfIterator.next();
                     delta = layer.backprop(delta);
                 }
 
                 //更新参数
-                for (int j = 0; j < layerBuilder.feedForwardLayers().size(); j++) {
-                    FeedForwardLayer layer = layerBuilder.getFeedForwardLayer(j);
+                NeuralNetworkLayerBuilder.FeedForwardLayerIterator feedForwardLayerIterator
+                        =  layerBuilder.feedForwardLayerIterator();
+                while (feedForwardLayerIterator.hasNext()){
+                    FeedForwardLayer layer = feedForwardLayerIterator.next();
                     layer.updateParam();
                 }
 
@@ -115,8 +120,9 @@ public class NeuralNetwork implements Serializable {
      * @return  预测值
      */
     public INDArray predict(INDArray data){
-        for(int j=0;j<layerBuilder.size();j++ ){
-            NeuralNetworkLayer layer = layerBuilder.get(j);
+        NeuralNetworkLayerBuilder.NeuralNetworkLayerIterator neuralNetworkLayerIterator =  layerBuilder.neuralNetworkLayerIterator();
+        while (neuralNetworkLayerIterator.hasNext()){
+            NeuralNetworkLayer layer = neuralNetworkLayerIterator.next();
             data = layer.forward(data);
         }
         return data;

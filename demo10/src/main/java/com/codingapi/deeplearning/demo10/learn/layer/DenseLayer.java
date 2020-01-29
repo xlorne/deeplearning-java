@@ -50,7 +50,7 @@ import org.nd4j.linalg.factory.Nd4j;
  * db = db-alpha*db
  */
 @Slf4j
-public class DenseLayer implements FeedForwardLayer {
+public class DenseLayer extends BaseLayer {
 
     //W权重，通过Random初始化
     private INDArray w;
@@ -66,10 +66,6 @@ public class DenseLayer implements FeedForwardLayer {
     private INDArray input;
     //是否是输出层
     private boolean isOutLayer;
-    //当前层数索引
-    private int index;
-    //所有的网络层
-    private NeuralNetworkLayerBuilder layerBuilder;
     //激活函数
     private Activation activation;
 
@@ -83,12 +79,6 @@ public class DenseLayer implements FeedForwardLayer {
     private double lambda;
     private double alpha;
 
-
-    @Override
-    public void build(NeuralNetworkLayerBuilder layerBuilder, int index) {
-        this.index = index;
-        this.layerBuilder = layerBuilder;
-    }
 
     /**
      * 初始化权重参数
@@ -146,10 +136,10 @@ public class DenseLayer implements FeedForwardLayer {
             newDelta = delta;
         } else {
             //delta(l) = (delta(l+1) * w(l+1).T).*(activation.derivative(a))
-            newDelta = delta.mmul(layerBuilder.getFeedForwardLayer(index + 1).w().transpose()).mul(activation.derivative(a));
+            newDelta = delta.mmul(getAfterFeedForwardLayer().w().transpose()).mul(activation.derivative(a));
         }
         //dw(l) = a(l-1).T*delta(l) + lambda*w(l)
-        INDArray a = (index == 0) ? input : layerBuilder.getFeedForwardLayer(index - 1).a();
+        INDArray a = (index == 0) ? input : getNextFeedForwardLayer().a();
         dw = a.transpose().mmul(newDelta).add(w.mul(lambda));
         //db(l) = delta(l).*ones() => sum(delta(l),0)
         db = Nd4j.sum(newDelta, 0);
