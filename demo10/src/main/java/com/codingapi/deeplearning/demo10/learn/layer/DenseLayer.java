@@ -1,7 +1,6 @@
 package com.codingapi.deeplearning.demo10.learn.layer;
 
 import com.codingapi.deeplearning.demo10.learn.activation.Activation;
-import com.codingapi.deeplearning.demo10.learn.activation.SigmoidActivation;
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
@@ -108,53 +107,14 @@ public class DenseLayer implements FeedForwardLayer {
         log.info("index:{},size:{}x{}", index, in, out);
     }
 
-    private DenseLayer(int in, int out, Activation activation, boolean isOutLayer) {
+    protected DenseLayer(int in, int out, Activation activation, boolean isOutLayer) {
         this.in = in;
         this.out = out;
         this.activation = activation;
         this.isOutLayer = isOutLayer;
     }
 
-    private static DenseLayerBuilder builder;
 
-    public static DenseLayerBuilder builder(){
-        if(builder==null){
-            builder = new DenseLayerBuilder();
-        }
-        return builder;
-    }
-
-
-    public static class DenseLayerBuilder {
-        private int in;
-        private int out;
-        private Activation activation = new SigmoidActivation();
-        private boolean isOutLayer = false;
-
-        private DenseLayerBuilder() {
-        }
-
-        public DenseLayerBuilder input(int in, int out) {
-            this.in = in;
-            this.out = out;
-            return this;
-        }
-
-        public DenseLayerBuilder isOutLayer(boolean isOutLayer) {
-            this.isOutLayer = isOutLayer;
-            return this;
-        }
-
-        public DenseLayerBuilder activation(Activation activation) {
-            this.activation = activation;
-            return this;
-        }
-
-        public DenseLayer build() {
-            return new DenseLayer(in, out, activation, isOutLayer);
-        }
-
-    }
 
     /**
      * 正向传播
@@ -171,7 +131,6 @@ public class DenseLayer implements FeedForwardLayer {
                 index, w.shape(), b.shape(), a.shape());
         return a;
     }
-
 
     /**
      * 反向传播
@@ -225,5 +184,11 @@ public class DenseLayer implements FeedForwardLayer {
     @Override
     public boolean isOutLayer() {
         return isOutLayer;
+    }
+
+    private static DenseLayerBuilder builder = new DenseLayerBuilder();
+
+    public static DenseLayerBuilder builder(){
+        return builder;
     }
 }
