@@ -4,9 +4,11 @@ import com.codingapi.deeplearning.demo10.learn.activation.SigmoidActivation;
 import com.codingapi.deeplearning.demo10.learn.activation.SoftMaxActivation;
 import com.codingapi.deeplearning.demo10.learn.core.NeuralNetwork;
 import com.codingapi.deeplearning.demo10.learn.core.NeuralNetworkBuilder;
+import com.codingapi.deeplearning.demo10.learn.core.ScoreLogTrainingListener;
+import com.codingapi.deeplearning.demo10.learn.layer.ConvolutionLayer;
 import com.codingapi.deeplearning.demo10.learn.layer.DenseLayer;
 import com.codingapi.deeplearning.demo10.learn.layer.NeuralNetworkLayerBuilder;
-import com.codingapi.deeplearning.demo10.learn.core.ScoreLogTrainingListener;
+import com.codingapi.deeplearning.demo10.learn.layer.SubsamplingLayer;
 import com.codingapi.deeplearning.demo10.learn.loss.LossNegativeLogLikelihood;
 import com.codingapi.deeplearning.demo10.learn.utils.MaxUtils;
 import org.deeplearning4j.datasets.iterator.impl.MnistDataSetIterator;
@@ -39,9 +41,23 @@ class DeepLearningJavaDemo10ApplicationTest {
         DataSetIterator mnistTrain = new MnistDataSetIterator(batchSize, true, rngSeed);
         DataSetIterator mnistTest = new MnistDataSetIterator(batchSize, false, rngSeed);
 
+
+        int channels = 1;
+
         //创建神经网络层
         NeuralNetworkLayerBuilder neuralNetworkLayerBuilder
                 = NeuralNetworkLayerBuilder.builder()
+                .addLayer(ConvolutionLayer.builder()
+                        .nIn(channels)
+                        .kernelSize(2, 2)
+                        .stride(1, 1)
+                        .nOut(20)
+                        .activation(new SigmoidActivation())
+                        .build())
+                .addLayer(SubsamplingLayer.builder()
+                        .kernelSize(2, 2)
+                        .stride(2, 2)
+                        .build())
                 .addLayer(DenseLayer.builder()
                         .input(28*28,1000)
                         .activation(new SigmoidActivation())
