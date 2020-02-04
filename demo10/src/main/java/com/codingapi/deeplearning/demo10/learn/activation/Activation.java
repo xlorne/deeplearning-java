@@ -20,7 +20,7 @@ public interface Activation extends Serializable {
      * @param b     b
      * @return
      */
-    INDArray forward(INDArray x, INDArray w, INDArray b);
+    INDArray activation(INDArray data);
 
 
     /**

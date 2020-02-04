@@ -116,7 +116,9 @@ public class DenseLayer extends BaseLayer {
     public INDArray forward(INDArray data) {
         input = data;
         log.debug("forward before=> {}, w.shape->{},b.shape->{}", index, w.shape(), b.shape());
-        a = activation.forward(data, w, b);
+        //z = w.Tx+b
+        INDArray z = data.mmul(w).add(b.broadcast(data.rows(), b.columns()));
+        a = activation.activation(z);
         log.debug("forward res => {}, w.shape->{},b.shape->{},a.shape->{}",
                 index, w.shape(), b.shape(), a.shape());
         return a;
