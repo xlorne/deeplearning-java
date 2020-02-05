@@ -30,8 +30,9 @@ public class SubsamplingLayer implements NeuralNetworkLayer {
 
 
     @Override
-    public void init(double lamdba, double alpha, long seed) {
+    public int init(int input, double lamdba, double alpha, long seed) {
 
+        return -1;
     }
 
     @Override

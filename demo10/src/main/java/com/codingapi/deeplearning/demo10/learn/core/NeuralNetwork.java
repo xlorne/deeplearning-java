@@ -47,14 +47,14 @@ public class NeuralNetwork implements Serializable {
     private LossFunction lossFunction;
 
 
-    protected NeuralNetwork(double lambda, double alpha, int numEpochs,long seed,
-                         NeuralNetworkLayerBuilder layerBuilder,LossFunction lossFunction) {
+    protected NeuralNetwork(double lambda, double alpha, int numEpochs, long seed,
+                            NeuralNetworkLayerBuilder layerBuilder, LossFunction lossFunction, InputType inputType) {
         this.numEpochs = numEpochs;
         this.layerBuilder = layerBuilder;
         this.lossFunction = lossFunction;
         Nd4j.getRandom().setSeed(seed);
         //初始化权重
-        layerBuilder.init(lambda,alpha,seed);
+        layerBuilder.init(inputType,lambda,alpha,seed);
     }
 
 

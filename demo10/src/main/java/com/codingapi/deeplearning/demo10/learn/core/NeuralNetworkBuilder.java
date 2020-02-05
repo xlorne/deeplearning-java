@@ -3,6 +3,8 @@ package com.codingapi.deeplearning.demo10.learn.core;
 import com.codingapi.deeplearning.demo10.learn.layer.NeuralNetworkLayerBuilder;
 import com.codingapi.deeplearning.demo10.learn.loss.LossFunction;
 import com.codingapi.deeplearning.demo10.learn.utils.SerializeUtils;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -25,6 +27,9 @@ public class NeuralNetworkBuilder {
     private double alpha;
     private int numEpochs;
     private long seed;
+
+    private InputType inputType;
+
     private LossFunction lossFunction;
 
     private NeuralNetworkBuilder() {
@@ -59,13 +64,18 @@ public class NeuralNetworkBuilder {
         return this;
     }
 
+    public NeuralNetworkBuilder inputType(int width,int height,int depth){
+        this.inputType = new InputType(width, height, depth);
+        return this;
+    }
+
     public NeuralNetworkBuilder lossFunction(LossFunction lossFunction){
         this.lossFunction = lossFunction;
         return this;
     }
 
     public NeuralNetwork build(){
-        return new NeuralNetwork(lambda,alpha,numEpochs,seed,builder,lossFunction);
+        return new NeuralNetwork(lambda,alpha,numEpochs,seed,builder,lossFunction,inputType);
     }
 
 
@@ -83,5 +93,4 @@ public class NeuralNetworkBuilder {
         NeuralNetwork neuralNetwork =  SerializeUtils.deserialize(data,NeuralNetwork.class);
         return neuralNetwork;
     }
-
 }

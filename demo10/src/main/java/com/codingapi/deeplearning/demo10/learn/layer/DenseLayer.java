@@ -1,6 +1,7 @@
 package com.codingapi.deeplearning.demo10.learn.layer;
 
 import com.codingapi.deeplearning.demo10.learn.activation.Activation;
+import com.codingapi.deeplearning.demo10.learn.core.InputType;
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
@@ -84,17 +85,26 @@ public class DenseLayer extends BaseLayer {
      * 初始化权重参数
      */
     @Override
-    public void init(double lambda,double alpha,long seed) {
+    public int init(int input, double lambda, double alpha, long seed) {
         this.lambda = lambda;
         this.alpha = alpha;
+        if(in>0) {
+            //w 实际的维度就是 输入,输出值的大小
+            w = Nd4j.rand(in, out, seed).mul(Math.sqrt(2 / (in + out)));
+            //b 是一个Vector 长度为out
+            b = Nd4j.rand(1, out, seed);
 
-        //w 实际的维度就是 输入,输出值的大小
-        w = Nd4j.rand(in, out,seed).mul(Math.sqrt(2/(in+out)));
-        //b 是一个Vector 长度为out
-        b = Nd4j.rand(1, out,seed);
+            //打印隐藏参数大小
+            log.info("index:{},size:{}x{}", index, in, out);
+            return out;
+        }else {
+            w = Nd4j.rand(input,out, seed).mul(Math.sqrt(2 / (input + out)));
+            b = Nd4j.rand(1, out, seed);
+            //打印隐藏参数大小
+            log.info("index:{},size:{}x{}", index, input, out);
+            return out;
+        }
 
-        //打印隐藏参数大小
-        log.info("index:{},size:{}x{}", index, in, out);
     }
 
     protected DenseLayer(int in, int out, Activation activation, boolean isOutLayer) {

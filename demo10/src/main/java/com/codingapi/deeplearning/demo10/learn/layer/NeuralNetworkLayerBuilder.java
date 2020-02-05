@@ -1,5 +1,6 @@
 package com.codingapi.deeplearning.demo10.learn.layer;
 
+import com.codingapi.deeplearning.demo10.learn.core.InputType;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.Serializable;
@@ -57,12 +58,16 @@ public class NeuralNetworkLayerBuilder implements Serializable {
     /**
      * 初始化所有层的权重 w,b
      */
-    public void init(double lamdba,double alpha,long seed) {
+    public void init(InputType inputType, double lamdba, double alpha, long seed) {
         if(!noOutLay){
             throw new RuntimeException("没有输出层");
         }
+        int input = -1;
+        if(inputType!=null) {
+            input = inputType.getHeight() * inputType.getWidth() * inputType.getDepth();
+        }
         for (NeuralNetworkLayer layer:list()){
-            layer.init(lamdba,alpha,seed);
+            input =  layer.init(input,lamdba,alpha,seed);
         }
         log.info("init rand w,b ");
     }

@@ -46,6 +46,7 @@ public class ConvolutionLayer extends BaseLayer {
 
         INDArray convolutionData =  Nd4j.empty();
         for(INDArray filter:filters){
+
             convolutionData.add(convolution(data,filter));
         }
 
@@ -63,13 +64,15 @@ public class ConvolutionLayer extends BaseLayer {
     }
 
     @Override
-    public void init(double lamdba, double alpha, long seed) {
+    public int init(int input, double lamdba, double alpha, long seed) {
         filters = new ArrayList<>();
         for(int i = 0;i< outChannels;i++){
             filters.add(Nd4j.rand(kernelSizes,seed));
         }
         //
-//        w = Nd4j.rand();
+        w = Nd4j.rand(outChannels,1,seed);
+
+        return -1;
     }
 
     @Override
