@@ -51,6 +51,7 @@ class DeepLearningJavaDemo10ApplicationTest {
 //                        .nIn(channels)
 //                        .kernelSize(2, 2)
 //                        .stride(1, 1)
+//                        .padding(0,0)
 //                        .nOut(20)
 //                        .activation(new SigmoidActivation())
 //                        .build())

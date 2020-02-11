@@ -1,6 +1,7 @@
 package com.codingapi.deeplearning.demo10.learn.layer;
 
 import com.codingapi.deeplearning.demo10.learn.activation.Activation;
+import com.codingapi.deeplearning.demo10.learn.core.InputType;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
 
@@ -35,44 +36,58 @@ public class ConvolutionLayer extends BaseLayer {
 
     private INDArray a;
 
+    private double lambda;
+    private double alpha;
+
+
 
     private INDArray convolution(INDArray data, INDArray filter) {
         //for(){}
-        return null;
+        return Nd4j.empty();
     }
 
     @Override
     public INDArray forward(INDArray data) {
 
-        INDArray convolutionData =  Nd4j.empty();
-        for(INDArray filter:filters){
+//        INDArray convolutionData =  Nd4j.empty();
+//        for(INDArray filter:filters){
+//            convolutionData.add(convolution(data,filter));
+//        }
+//        //z = w.Tx+b
+//        INDArray z = data.mmul(w).add(b.broadcast(data.rows(), b.columns()));
+//        a =  activation.activation(z);
 
-            convolutionData.add(convolution(data,filter));
-        }
-
-        //z = w.Tx+b
-        INDArray z = data.mmul(w).add(b.broadcast(data.rows(), b.columns()));
-
-        a =  activation.activation(z);
-
-        return a;
+        return data;
     }
 
     @Override
     public INDArray backprop(INDArray delta) {
-        return null;
+        return delta;
     }
 
+
+
     @Override
-    public int init(int input, double lamdba, double alpha, long seed) {
+    public LayerInitor initLayer(LayerInitor layerInitor) {
+        this.lambda = layerInitor.getLamdba();
+        this.alpha = layerInitor.getAlpha();
+
+        InputType inputType = layerInitor.getInputType();
+
+        long seed = layerInitor.getSeed();
+
         filters = new ArrayList<>();
         for(int i = 0;i< outChannels;i++){
             filters.add(Nd4j.rand(kernelSizes,seed));
         }
-        //
-        w = Nd4j.rand(outChannels,1,seed);
+        //{(n +2 x padding-filter) \over strides + 1}
+        int in = ((inputType.getHeight() + 2 * padding[0] - kernelSizes[0]) / strides[0] + 1 );
 
-        return -1;
+        w = Nd4j.rand(in,outChannels,seed).mul(Math.sqrt(2 / (in + outChannels)));
+
+        b = Nd4j.rand(1,outChannels);
+
+        return new LayerInitor(in*outChannels,alpha,lambda,seed,new InputType(in,in,outChannels));
     }
 
     @Override
@@ -87,7 +102,7 @@ public class ConvolutionLayer extends BaseLayer {
 
     @Override
     public void updateParam() {
-
+        //todo update param
     }
 
     @Override

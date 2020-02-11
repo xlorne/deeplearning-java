@@ -2,6 +2,7 @@ package com.codingapi.deeplearning.demo10.learn.core;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
 /**
  * @author lorne
@@ -10,6 +11,7 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
+@ToString
 public class InputType {
 
     private int width;

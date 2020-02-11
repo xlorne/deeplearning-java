@@ -66,10 +66,17 @@ public class NeuralNetworkLayerBuilder implements Serializable {
         if(inputType!=null) {
             input = inputType.getHeight() * inputType.getWidth() * inputType.getDepth();
         }
-        for (NeuralNetworkLayer layer:list()){
-            input =  layer.init(input,lamdba,alpha,seed);
+        LayerInitor layerInitor = new LayerInitor(input,lamdba,alpha,seed,inputType);
+        List<NeuralNetworkLayer> list = list();
+        log.info("init Weight .... ");
+        for (int i=0;i<list.size();i++){
+            NeuralNetworkLayer layer = list.get(i);
+            int row = layerInitor.getInput();
+            layerInitor =  layer.initLayer(layerInitor);
+            int out = layerInitor.getInput();
+            log.info("layer:index:{},input:{},out:{}",i,row,out);
         }
-        log.info("init rand w,b ");
+
     }
 
     public NeuralNetworkLayerBuilder build(){

@@ -68,7 +68,7 @@ public class ConvolutionLayerBuilder {
         return this;
     }
 
-    public ConvolutionLayerBuilder padding(int[] padding){
+    public ConvolutionLayerBuilder padding(int... padding){
         this.padding = padding;
         return this;
     }

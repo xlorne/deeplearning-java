@@ -12,6 +12,12 @@ public class SubsamplingLayer implements NeuralNetworkLayer {
     private int[] kernelSizes;
     private int[] strides;
 
+    //当前层数索引
+    protected int index;
+    //所有的网络层
+    protected NeuralNetworkLayerBuilder layerBuilder;
+
+
     private static  SubsamplingLayerBuilder builder = new SubsamplingLayerBuilder();
 
     public static SubsamplingLayerBuilder builder() {
@@ -25,19 +31,19 @@ public class SubsamplingLayer implements NeuralNetworkLayer {
 
     @Override
     public INDArray forward(INDArray data) {
-        return null;
+        return data;
     }
 
 
     @Override
-    public int init(int input, double lamdba, double alpha, long seed) {
-
-        return -1;
+    public LayerInitor initLayer(LayerInitor layerInitor) {
+        return layerInitor;
     }
 
     @Override
     public void build(NeuralNetworkLayerBuilder layer, int index) {
-
+        this.index = index;
+        this.layerBuilder = layer;
     }
 
 }

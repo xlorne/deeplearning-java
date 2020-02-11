@@ -1,6 +1,5 @@
 package com.codingapi.deeplearning.demo10.learn.layer;
 
-import com.codingapi.deeplearning.demo10.learn.core.InputType;
 import org.nd4j.linalg.api.ndarray.INDArray;
 
 import java.io.Serializable;
@@ -30,6 +29,6 @@ public interface NeuralNetworkLayer extends Serializable {
     /**
      * 初始化参数
      */
-    int init(int input, double lamdba, double alpha, long seed);
+    LayerInitor initLayer(LayerInitor layerInitor);
 
 }
