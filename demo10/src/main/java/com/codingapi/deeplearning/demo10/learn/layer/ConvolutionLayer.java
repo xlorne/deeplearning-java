@@ -2,8 +2,10 @@ package com.codingapi.deeplearning.demo10.learn.layer;
 
 import com.codingapi.deeplearning.demo10.learn.activation.Activation;
 import com.codingapi.deeplearning.demo10.learn.core.InputType;
+import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
+import org.nd4j.linalg.indexing.NDArrayIndex;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +15,12 @@ import java.util.List;
  * @date 2020/1/29
  * @description
  */
+@Slf4j
 public class ConvolutionLayer extends BaseLayer {
 
     //管道数量
     private int channels;
+
     //内核大小
     private int[] kernelSizes;
     //卷积步长
@@ -39,29 +43,43 @@ public class ConvolutionLayer extends BaseLayer {
     private double lambda;
     private double alpha;
 
-
+    private int outSize;
 
     private INDArray convolution(INDArray data, INDArray filter) {
-        //for(){}
-        return Nd4j.empty();
+
+        INDArray outArray = Nd4j.create(outSize,outSize);
+        for(int x=0;x<outSize;x++){
+            for(int y=0;y<outSize;y++){
+                INDArray item = data.get(NDArrayIndex.interval(x,x+kernelSizes[0]),NDArrayIndex.interval(y,y+kernelSizes[1]));
+                Number sum =  item.mul(filter).sumNumber();
+                outArray.put(x,y,sum);
+            }
+        }
+
+        return outArray;
     }
 
     @Override
     public INDArray forward(INDArray data) {
 
-//        INDArray convolutionData =  Nd4j.empty();
-//        for(INDArray filter:filters){
-//            convolutionData.add(convolution(data,filter));
-//        }
-//        //z = w.Tx+b
-//        INDArray z = data.mmul(w).add(b.broadcast(data.rows(), b.columns()));
-//        a =  activation.activation(z);
+        INDArray a = Nd4j.create(outSize,outChannels);
 
-        return data;
+        for(int i=0;i<outChannels;i++){
+            INDArray filter = filters.get(i);
+
+            INDArray convolution =  convolution(data,filter);
+
+            INDArray z = convolution.mmul(w.getColumn(i)).add(b.getColumn(i));
+
+            a.putColumn(i,activation.activation(z));
+        }
+        this.a = a;
+        return a;
     }
 
     @Override
     public INDArray backprop(INDArray delta) {
+
         return delta;
     }
 
@@ -81,13 +99,15 @@ public class ConvolutionLayer extends BaseLayer {
             filters.add(Nd4j.rand(kernelSizes,seed));
         }
         //{(n +2 x padding-filter) \over strides + 1}
-        int in = ((inputType.getHeight() + 2 * padding[0] - kernelSizes[0]) / strides[0] + 1 );
+        outSize = ((inputType.getHeight() + 2 * padding[0] - kernelSizes[0]) / strides[0] + 1 );
 
-        w = Nd4j.rand(in,outChannels,seed).mul(Math.sqrt(2 / (in + outChannels)));
+        w = Nd4j.rand(outSize,outChannels,seed).mul(Math.sqrt(2 / (outSize + outChannels)));
 
         b = Nd4j.rand(1,outChannels);
 
-        return new LayerInitor(in*outChannels,alpha,lambda,seed,new InputType(in,in,outChannels));
+        log.info("convolution layer index:{},w:{},b{}", index, w.shape(), b.shape());
+
+        return new LayerInitor(outSize*outChannels,alpha,lambda,seed,new InputType(outSize,outSize,outChannels));
     }
 
     @Override
