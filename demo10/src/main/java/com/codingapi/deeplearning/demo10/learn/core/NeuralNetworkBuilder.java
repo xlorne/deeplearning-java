@@ -64,8 +64,9 @@ public class NeuralNetworkBuilder {
         return this;
     }
 
-    public NeuralNetworkBuilder inputType(int width,int height,int depth){
-        this.inputType = new InputType(width, height, depth);
+
+    public NeuralNetworkBuilder inputType(int width,int height,int channel){
+        this.inputType = new InputType(width, height,channel);
         return this;
     }
 

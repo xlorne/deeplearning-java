@@ -8,9 +8,6 @@ import org.nd4j.linalg.factory.Nd4j;
 import org.nd4j.linalg.indexing.INDArrayIndex;
 import org.nd4j.linalg.indexing.NDArrayIndex;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * @author lorne
  * @date 2020/1/29
@@ -34,7 +31,7 @@ public class ConvolutionLayer extends BaseLayer {
     private int[] padding;
 
 
-    private List<INDArray> filters;
+    private INDArray filters;
 
     private INDArray b;
 
@@ -53,7 +50,7 @@ public class ConvolutionLayer extends BaseLayer {
      * @return
      */
     private INDArray convolution(INDArray data, INDArray filter) {
-        int depth = input.getDepth();
+        int depth = input.getChannel();
         int patch = data.rows();
 
         INDArray batchOutArray = Nd4j.create(patch,(outSize*outSize*depth));
@@ -92,7 +89,7 @@ public class ConvolutionLayer extends BaseLayer {
         log.info("forward:shape:{}",data.shape());
         int patch = data.rows();
 
-        int depth = input.getDepth();
+        int depth = input.getChannel();
 
         //todo data padding ...
 
@@ -101,7 +98,7 @@ public class ConvolutionLayer extends BaseLayer {
 
         for(int i=0;i<outChannels;i++){
 
-            INDArray filter = filters.get(i);
+            INDArray filter = filters.getRow(i).reshape(kernelSizes);
 
             INDArray convolution =  convolution(data,filter);
 
@@ -138,15 +135,10 @@ public class ConvolutionLayer extends BaseLayer {
 
         long seed = layerInitor.getSeed();
 
-        filters = new ArrayList<>();
-        for(int i = 0;i< outChannels;i++){
-            //todo 需要计算depth
-            filters.add(Nd4j.rand(kernelSizes,seed));
-        }
+        filters = Nd4j.rand(outChannels,kernelSizes[0]*kernelSizes[1],seed);
+
         //{(n +2 x padding-filter) \over strides + 1}
         outSize = ((inputType.getHeight() + 2 * padding[0] - kernelSizes[0]) / strides[0] + 1 );
-
-//        w = Nd4j.rand(outSize*outSize,outChannels,seed).mul(Math.sqrt(2 / (outSize*outSize + outChannels)));
 
         b = Nd4j.rand(1,outChannels,seed);
 

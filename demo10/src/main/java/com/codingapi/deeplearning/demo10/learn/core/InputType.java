@@ -14,7 +14,7 @@ public class InputType {
 
     private int width;
     private int height;
-    private int depth;
+    private int channel;
 
 
     private final int inputSize;
@@ -24,11 +24,11 @@ public class InputType {
         this.inputSize = inputSize;
     }
 
-    public InputType(int width, int height, int depth) {
+    public InputType(int width, int height,int channel) {
         this.width = width;
         this.height = height;
-        this.depth = depth;
+        this.channel = channel;
 
-        this.inputSize = width*height*depth;
+        this.inputSize = width*height*channel;
     }
 }
