@@ -31,4 +31,10 @@ public interface NeuralNetworkLayer extends Serializable {
      */
     LayerInitor initLayer(LayerInitor layerInitor);
 
+    /**
+     * 预测值
+     * @return
+     */
+    INDArray a();
+
 }

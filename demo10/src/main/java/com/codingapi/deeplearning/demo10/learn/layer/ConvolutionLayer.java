@@ -139,14 +139,12 @@ public class ConvolutionLayer extends BaseLayer {
 
         b = Nd4j.rand(1,outChannels,seed);
 
-        log.info("convolution layer index:{},b{}", index,  b.shape());
-
         return new LayerInitor(alpha,lambda,seed,new InputType(outSize,outSize,outChannels));
     }
 
     @Override
     public INDArray w() {
-        return null;
+        return filters;
     }
 
     @Override

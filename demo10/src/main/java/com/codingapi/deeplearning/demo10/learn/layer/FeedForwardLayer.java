@@ -23,11 +23,6 @@ public interface FeedForwardLayer extends NeuralNetworkLayer {
      */
     INDArray w();
 
-    /**
-     * 预测值
-     * @return
-     */
-    INDArray a();
 
     /**
      * 更新参数

@@ -67,10 +67,10 @@ public class NeuralNetworkLayerBuilder implements Serializable {
         log.info("init Weight .... ");
         for (int i=0;i<list.size();i++){
             NeuralNetworkLayer layer = list.get(i);
-            log.info("layer:index:{}",i);
-            log.info("input-type:{}",layerInitor.getInputType());
+            log.info("layer:index:{},name:{}",i,layer.getClass().getSimpleName());
+            log.info("\tinput =>{}",layerInitor.getInputType());
             layerInitor =  layer.initLayer(layerInitor);
-            log.info("output-type:{}",layerInitor.getInputType());
+            log.info("\toutput=>{}",layerInitor.getInputType());
         }
 
     }
@@ -83,16 +83,17 @@ public class NeuralNetworkLayerBuilder implements Serializable {
         return new NeuralNetworkLayerIterator(layers);
     }
 
-    public FeedForwardLayer getNextFeedForwardLayer(int index) {
+    public NeuralNetworkLayer getNextFeedForwardLayer(int index) {
         if(index<0){
             return null;
         }
          NeuralNetworkLayer neuralNetworkLayer =  layers.get(index-1);
-         if(neuralNetworkLayer instanceof FeedForwardLayer){
-             return (FeedForwardLayer) neuralNetworkLayer;
+         if(neuralNetworkLayer != null){
+             return neuralNetworkLayer;
          }
         return getNextFeedForwardLayer(index-1);
     }
+
 
     public FeedForwardLayer getAfterFeedForwardLayer(int index) {
         if(index>layers.size()){
@@ -102,7 +103,7 @@ public class NeuralNetworkLayerBuilder implements Serializable {
         if(neuralNetworkLayer instanceof FeedForwardLayer){
             return (FeedForwardLayer) neuralNetworkLayer;
         }
-        return getNextFeedForwardLayer(index+1);
+        return getAfterFeedForwardLayer(index+1);
     }
 
     public static class NeuralNetworkLayerIterator implements Iterator<NeuralNetworkLayer>{

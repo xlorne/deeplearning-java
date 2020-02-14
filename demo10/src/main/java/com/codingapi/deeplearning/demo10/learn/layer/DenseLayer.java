@@ -91,7 +91,6 @@ public class DenseLayer extends BaseLayer {
         w = Nd4j.rand(input,out, seed).mul(Math.sqrt(2 / (input + out)));
         b = Nd4j.rand(1, out, seed);
         //打印隐藏参数大小
-        log.info("dense layer index:{},size:{}x{}", index, input, out);
         return new LayerInitor(lambda,alpha,seed,new InputType(out));
     }
 

@@ -20,11 +20,19 @@ public abstract class BaseLayer implements FeedForwardLayer{
         this.layerBuilder = layerBuilder;
     }
 
+    /**
+     * 获取index + 1 FeedForwardLayer
+     * @return
+     */
     protected FeedForwardLayer getAfterFeedForwardLayer(){
         return layerBuilder.getAfterFeedForwardLayer(index);
     }
 
-    protected FeedForwardLayer getNextFeedForwardLayer(){
+    /**
+     * 获取index - 1 FeedForwardLayer
+     * @return
+     */
+    protected NeuralNetworkLayer getNextFeedForwardLayer(){
         return layerBuilder.getNextFeedForwardLayer(index);
     }
 }
