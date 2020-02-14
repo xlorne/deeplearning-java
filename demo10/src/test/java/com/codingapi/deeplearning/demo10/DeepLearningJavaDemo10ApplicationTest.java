@@ -32,7 +32,7 @@ class DeepLearningJavaDemo10ApplicationTest {
     @Test
     void train() throws IOException {
 
-        int batchSize = 64;
+        int batchSize = 16;
         int rngSeed = 123;
 
         //保存的路径

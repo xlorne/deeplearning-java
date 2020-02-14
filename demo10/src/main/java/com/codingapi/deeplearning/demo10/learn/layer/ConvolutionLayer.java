@@ -45,40 +45,40 @@ public class ConvolutionLayer extends BaseLayer {
 
     /**
      * 卷积计算
-     * @param data
-     * @param filter
+     * @param data   [patch,(n,n,channel)]
+     * @param filter [channel,(kernelSizes)]
      * @return
      */
     private INDArray convolution(INDArray data, INDArray filter) {
-        int depth = input.getChannel();
+        int channel = input.getChannel();
         int patch = data.rows();
 
-        INDArray batchOutArray = Nd4j.create(patch,(outSize*outSize*depth));
+        INDArray batchOutArray = Nd4j.create(patch,(outSize*outSize));
 
         for(int i=0;i<patch;i++) {
 
-            INDArray outDepthArray = Nd4j.create(depth,outSize*outSize);
+            INDArray outDepthArray = Nd4j.zeros(outSize,outSize);
 
-            INDArray depthData = data.getRow(i).reshape(depth,input.getHeight()*input.getWidth());
-
-            for(int d=0;d<depth;d++) {
-                INDArray rowData = depthData.getRow(d).reshape(input.getHeight(),input.getWidth());
+            INDArray channelData = data.getRow(i).reshape(input.getChannel(),input.getHeight()*input.getWidth());
+            for(int c=0;c<channel;c++) {
+                INDArray rowData = channelData.getRow(c).reshape(input.getHeight(),input.getWidth());
                 INDArray outArray = Nd4j.create(outSize,outSize);
+                INDArray channelFilter = filter.getRow(c).reshape(kernelSizes);
                 for (int x = 0; x < outSize; x++) {
                     for (int y = 0; y < outSize; y++) {
 
                         INDArray item = rowData.get(NDArrayIndex.interval(x, x + kernelSizes[0]),
                                 NDArrayIndex.interval(y, y + kernelSizes[1]));
 
-                        Number sum = item.mul(filter).sumNumber();
+                        Number sum = item.mul(channelFilter).sumNumber();
 
                         outArray.put(x, y, sum);
                     }
                 }
-                outDepthArray.putRow(d,outArray.reshape(1,outSize*outSize));
+                outDepthArray.add(outArray);
             }
 
-            batchOutArray.putRow(i,outDepthArray.reshape(1,depth*outSize*outSize));
+            batchOutArray.putRow(i,outDepthArray.reshape(1,outSize*outSize));
         }
 
         return batchOutArray;
@@ -86,19 +86,15 @@ public class ConvolutionLayer extends BaseLayer {
 
     @Override
     public INDArray forward(INDArray data) {
-        log.info("forward:shape:{}",data.shape());
         int patch = data.rows();
-
-        int depth = input.getChannel();
 
         //todo data padding ...
 
-        INDArray a = Nd4j.create(patch,outChannels*outSize*outSize*depth);
-        log.info("res:{}",a.shape());
+        INDArray a = Nd4j.create(patch,outChannels*outSize*outSize);
 
         for(int i=0;i<outChannels;i++){
 
-            INDArray filter = filters.getRow(i).reshape(kernelSizes);
+            INDArray filter = filters.getRow(i).reshape(input.getChannel(),kernelSizes[0]*kernelSizes[1]);
 
             INDArray convolution =  convolution(data,filter);
 
@@ -108,8 +104,9 @@ public class ConvolutionLayer extends BaseLayer {
 
             INDArrayIndex[] index = new INDArrayIndex[]{
                     NDArrayIndex.interval(0,patch),
-                    NDArrayIndex.interval(outSize*outSize*depth*i,outSize*outSize*depth*i+outSize*outSize*depth)};
-            log.info("index: row:({},{}),columns:({},{})",0,patch,outSize*outSize*depth*i,outSize*outSize*depth*i+outSize*outSize*depth);
+                    NDArrayIndex.interval(
+                             outSize*outSize*i,
+                             outSize*outSize*(i+1))};
 
             a.put(index,res);
         }
@@ -135,7 +132,7 @@ public class ConvolutionLayer extends BaseLayer {
 
         long seed = layerInitor.getSeed();
 
-        filters = Nd4j.rand(outChannels,kernelSizes[0]*kernelSizes[1],seed);
+        filters = Nd4j.rand(outChannels,inputType.getChannel()*kernelSizes[0]*kernelSizes[1],seed);
 
         //{(n +2 x padding-filter) \over strides + 1}
         outSize = ((inputType.getHeight() + 2 * padding[0] - kernelSizes[0]) / strides[0] + 1 );

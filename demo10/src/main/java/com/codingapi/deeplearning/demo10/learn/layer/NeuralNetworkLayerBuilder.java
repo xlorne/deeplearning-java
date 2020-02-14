@@ -159,7 +159,7 @@ public class NeuralNetworkLayerBuilder implements Serializable {
                 return true;
             }
             int currentIndex = index;
-            return hasNext(currentIndex++);
+            return hasNext(++currentIndex);
         }
 
         private boolean hasNext(int index) {
@@ -170,7 +170,7 @@ public class NeuralNetworkLayerBuilder implements Serializable {
             if(layer instanceof FeedForwardLayer){
                 return true;
             }
-            return hasNext(index++);
+            return hasNext(++index);
         }
 
         @Override
@@ -212,7 +212,7 @@ public class NeuralNetworkLayerBuilder implements Serializable {
                 return true;
             }
             int currentIndex = index;
-            return hasNext(currentIndex--);
+            return hasNext(--currentIndex);
         }
 
         private boolean hasNext(int index) {
@@ -223,7 +223,7 @@ public class NeuralNetworkLayerBuilder implements Serializable {
             if(layer instanceof FeedForwardLayer){
                 return true;
             }
-            return hasNext(index--);
+            return hasNext(--index);
         }
 
 
