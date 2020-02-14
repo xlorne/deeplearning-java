@@ -4,7 +4,6 @@ import com.codingapi.deeplearning.demo10.learn.core.InputType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 /**
  * @author lorne
@@ -17,7 +16,6 @@ import lombok.ToString;
 public class LayerInitor {
 
 
-    private int input;
     private double lamdba;
     private double alpha;
     private long seed;
@@ -27,7 +25,6 @@ public class LayerInitor {
     @Override
     public String toString() {
         return "LayerInitor{" +
-                "input=" + input +
                 ", inputType=" + inputType +
                 '}';
     }

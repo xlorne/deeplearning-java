@@ -62,19 +62,15 @@ public class NeuralNetworkLayerBuilder implements Serializable {
         if(!noOutLay){
             throw new RuntimeException("没有输出层");
         }
-        int input = -1;
-        if(inputType!=null) {
-            input = inputType.getHeight() * inputType.getWidth() * inputType.getDepth();
-        }
-        LayerInitor layerInitor = new LayerInitor(input,lamdba,alpha,seed,inputType);
+        LayerInitor layerInitor = new LayerInitor(lamdba,alpha,seed,inputType);
         List<NeuralNetworkLayer> list = list();
         log.info("init Weight .... ");
         for (int i=0;i<list.size();i++){
             NeuralNetworkLayer layer = list.get(i);
-            int row = layerInitor.getInput();
+            log.info("layer:index:{}",i);
+            log.info("input-type:{}",layerInitor.getInputType());
             layerInitor =  layer.initLayer(layerInitor);
-            int out = layerInitor.getInput();
-            log.info("layer:index:{},input:{},out:{}",i,row,out);
+            log.info("output-type:{}",layerInitor.getInputType());
         }
 
     }

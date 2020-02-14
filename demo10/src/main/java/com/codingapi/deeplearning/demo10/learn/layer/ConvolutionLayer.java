@@ -5,6 +5,7 @@ import com.codingapi.deeplearning.demo10.learn.core.InputType;
 import lombok.extern.slf4j.Slf4j;
 import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.linalg.factory.Nd4j;
+import org.nd4j.linalg.indexing.INDArrayIndex;
 import org.nd4j.linalg.indexing.NDArrayIndex;
 
 import java.util.ArrayList;
@@ -35,7 +36,6 @@ public class ConvolutionLayer extends BaseLayer {
 
     private List<INDArray> filters;
 
-    private INDArray w;
     private INDArray b;
 
     private INDArray a;
@@ -44,34 +44,77 @@ public class ConvolutionLayer extends BaseLayer {
     private double alpha;
 
     private int outSize;
+    private InputType input;
 
+    /**
+     * 卷积计算
+     * @param data
+     * @param filter
+     * @return
+     */
     private INDArray convolution(INDArray data, INDArray filter) {
+        int depth = input.getDepth();
+        int patch = data.rows();
 
-        INDArray outArray = Nd4j.create(outSize,outSize);
-        for(int x=0;x<outSize;x++){
-            for(int y=0;y<outSize;y++){
-                INDArray item = data.get(NDArrayIndex.interval(x,x+kernelSizes[0]),NDArrayIndex.interval(y,y+kernelSizes[1]));
-                Number sum =  item.mul(filter).sumNumber();
-                outArray.put(x,y,sum);
+        INDArray batchOutArray = Nd4j.create(patch,(outSize*outSize*depth));
+
+        for(int i=0;i<patch;i++) {
+
+            INDArray outDepthArray = Nd4j.create(depth,outSize*outSize);
+
+            INDArray depthData = data.getRow(i).reshape(depth,input.getHeight()*input.getWidth());
+
+            for(int d=0;d<depth;d++) {
+                INDArray rowData = depthData.getRow(d).reshape(input.getHeight(),input.getWidth());
+                INDArray outArray = Nd4j.create(outSize,outSize);
+                for (int x = 0; x < outSize; x++) {
+                    for (int y = 0; y < outSize; y++) {
+
+                        INDArray item = rowData.get(NDArrayIndex.interval(x, x + kernelSizes[0]),
+                                NDArrayIndex.interval(y, y + kernelSizes[1]));
+
+                        Number sum = item.mul(filter).sumNumber();
+
+                        outArray.put(x, y, sum);
+                    }
+                }
+                outDepthArray.putRow(d,outArray.reshape(1,outSize*outSize));
             }
+
+            batchOutArray.putRow(i,outDepthArray.reshape(1,depth*outSize*outSize));
         }
 
-        return outArray;
+        return batchOutArray;
     }
 
     @Override
     public INDArray forward(INDArray data) {
+        log.info("forward:shape:{}",data.shape());
+        int patch = data.rows();
 
-        INDArray a = Nd4j.create(outSize,outChannels);
+        int depth = input.getDepth();
+
+        //todo data padding ...
+
+        INDArray a = Nd4j.create(patch,outChannels*outSize*outSize*depth);
+        log.info("res:{}",a.shape());
 
         for(int i=0;i<outChannels;i++){
+
             INDArray filter = filters.get(i);
 
             INDArray convolution =  convolution(data,filter);
 
-            INDArray z = convolution.mmul(w.getColumn(i)).add(b.getColumn(i));
+            INDArray z = convolution.addi(b.getNumber(0,i));
 
-            a.putColumn(i,activation.activation(z));
+            INDArray res = activation.activation(z);
+
+            INDArrayIndex[] index = new INDArrayIndex[]{
+                    NDArrayIndex.interval(0,patch),
+                    NDArrayIndex.interval(outSize*outSize*depth*i,outSize*outSize*depth*i+outSize*outSize*depth)};
+            log.info("index: row:({},{}),columns:({},{})",0,patch,outSize*outSize*depth*i,outSize*outSize*depth*i+outSize*outSize*depth);
+
+            a.put(index,res);
         }
         this.a = a;
         return a;
@@ -89,6 +132,7 @@ public class ConvolutionLayer extends BaseLayer {
     public LayerInitor initLayer(LayerInitor layerInitor) {
         this.lambda = layerInitor.getLamdba();
         this.alpha = layerInitor.getAlpha();
+        this.input = layerInitor.getInputType();
 
         InputType inputType = layerInitor.getInputType();
 
@@ -96,23 +140,24 @@ public class ConvolutionLayer extends BaseLayer {
 
         filters = new ArrayList<>();
         for(int i = 0;i< outChannels;i++){
+            //todo 需要计算depth
             filters.add(Nd4j.rand(kernelSizes,seed));
         }
         //{(n +2 x padding-filter) \over strides + 1}
         outSize = ((inputType.getHeight() + 2 * padding[0] - kernelSizes[0]) / strides[0] + 1 );
 
-        w = Nd4j.rand(outSize,outChannels,seed).mul(Math.sqrt(2 / (outSize + outChannels)));
+//        w = Nd4j.rand(outSize*outSize,outChannels,seed).mul(Math.sqrt(2 / (outSize*outSize + outChannels)));
 
-        b = Nd4j.rand(1,outChannels);
+        b = Nd4j.rand(1,outChannels,seed);
 
-        log.info("convolution layer index:{},w:{},b{}", index, w.shape(), b.shape());
+        log.info("convolution layer index:{},b{}", index,  b.shape());
 
-        return new LayerInitor(outSize*outChannels,alpha,lambda,seed,new InputType(outSize,outSize,outChannels));
+        return new LayerInitor(alpha,lambda,seed,new InputType(outSize,outSize,outChannels));
     }
 
     @Override
     public INDArray w() {
-        return w;
+        return null;
     }
 
     @Override
