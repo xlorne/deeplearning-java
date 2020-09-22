@@ -2,13 +2,17 @@
 我将尽可能用白话的方式去解释深度学习技术，学习过程中我会用所掌握的一些技术去动手做一些比较有意思的项目，在体验的过程中去理解原理。
 
 ## 课程介绍
-本课程将采用java技术来实现深度学习技术，当然若我在后面现实的过程中发现实在实现不下去的话...，也可能会切换到Python上去做，或许也会基于已有的技术框架来实现。尽管学过了深度学习的课程，但是自己动手去一点点实现还是有些困难的，得需要深扣细节和算法细节，由于个人能力有限所以更新可能不会特别及时还望见谅。
-
+课程将分为三部分:
+* 基础知识  
+    机器学习基础，简单的线性回归与逻辑回归，搭建一个简单的神经网络，封装一个简单的DNN框架。 
+* 动手实现   
+    了解自动微分ND4j,学习了解DNN、CNN、RNN原理，动手实现他们。
+* 框架部分  
+    学习使用DL4J框架，学习Tensorflow、Gluon框架。
+    
 若你懂的java，了解springboot，对AI感兴趣就一块加入学习吧。
 
-## 学习分享
-
-我是基于吴恩达老师的开源课程学习的，大家感兴趣可以先去看吴恩达老师的公开课，建议先去看机器学习，然后再看深度学习的课程。   
+## 学习分享   
 
 机器学习  
 https://study.163.com/course/courseMain.htm?courseId=1004570029   
@@ -21,8 +25,9 @@ https://deeplearning4j.org/
 机器学习支持向量机   
 https://www.youtube.com/watch?v=o3oRG9VpVXU   
 自然常数e   
-https://www.youtube.com/watch?v=mZE0RmCbDe8   
-
+https://www.youtube.com/watch?v=mZE0RmCbDe8 
+动手学深度学习
+https://github.com/d2l-ai/d2l-zh
       
 
 ### 参考资料
@@ -37,28 +42,18 @@ https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes
 
 ## 视频课程
 
+待更新...
+
+
 ### 学习讨论
 我会将实现的过程用视频方式来讲解，然后再将视频发布到B站和YouTube上，视频地址我会整理到下面，若有问题可在知识星球([智慧探索实验室](images/discuss.jpg))上讨论。
 
 ### 视频目录
-001 重新认识人工智能技术    
-https://www.youtube.com/watch?v=4qaXSGdK3S8  
-https://www.bilibili.com/video/av73467525  
-002 线性回归机器学习原理  
-https://www.youtube.com/watch?v=FCZIVqNY9GQ  
-https://www.bilibili.com/video/av73467652  
-003 线性回归机器学习java实现  
-https://www.bilibili.com/video/av73467810  
-https://www.youtube.com/watch?v=UGWr-O6PBug  
-004 逻辑回归的机器学习原理  
-录制中...  
-005 逻辑回归的机器学习java实现  
-录制中...  
-006 理解神经网络  
-录制中...  
-007 基于神经网络的java实现  
-录制中...  
-
+视频讲重新录制
+计划如下：
+1、深度学习基础
+2、手动实现：DNN CNN RNN
+3、框架使用
 
 ## 项目目录
 [demo01](demo01)   
