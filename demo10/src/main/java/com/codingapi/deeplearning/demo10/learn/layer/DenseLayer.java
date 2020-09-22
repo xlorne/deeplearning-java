@@ -85,7 +85,7 @@ public class DenseLayer extends BaseLayer {
     public LayerInitor initLayer(LayerInitor layerInitor) {
         this.lambda = layerInitor.getLamdba();
         this.alpha = layerInitor.getAlpha();
-        long seed = layerInitor.getSeed();
+        int seed = layerInitor.getSeed();
         int input = in>0?in:layerInitor.getInputType().getInputSize();
 
         w = Nd4j.rand(input,out, seed).mul(Math.sqrt(2 / (input + out)));

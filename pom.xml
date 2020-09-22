@@ -23,9 +23,9 @@
     </parent>
     <groupId>com.codingapi.deepleaning</groupId>
     <artifactId>deeplearning-java</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>deeplearning-java</name>
-    <description>deeplearning-java project for Spring Boot</description>
+    <version>0.0.1</version>
+    <name>DeepLearning-java</name>
+    <description>DeepLearning-java project for Spring Boot</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -53,6 +53,25 @@
             </exclusions>
         </dependency>
     </dependencies>
+
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>org.nd4j</groupId>
+                <artifactId>nd4j-native-platform</artifactId>
+                <version>1.0.0-beta5</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.deeplearning4j</groupId>
+                <artifactId>deeplearning4j-datasets</artifactId>
+                <version>1.0.0-beta5</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <plugins>

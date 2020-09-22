@@ -95,7 +95,7 @@ public class DenseLayer implements NeuralNetworkLayer {
      * 初始化权重参数
      */
     @Override
-    public void init(double lambda,double alpha,long seed) {
+    public void init(double lambda,double alpha,int seed) {
         this.lambda = lambda;
         this.alpha = alpha;
 

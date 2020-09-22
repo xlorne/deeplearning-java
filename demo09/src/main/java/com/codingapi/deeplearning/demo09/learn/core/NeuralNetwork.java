@@ -47,7 +47,7 @@ public class NeuralNetwork implements Serializable {
     private LossFunction lossFunction;
 
 
-    protected NeuralNetwork(double lambda, double alpha, int numEpochs,long seed,
+    protected NeuralNetwork(double lambda, double alpha, int numEpochs,int seed,
                          NeuralNetworkLayerBuilder layerBuilder,LossFunction lossFunction) {
         this.numEpochs = numEpochs;
         this.layerBuilder = layerBuilder;

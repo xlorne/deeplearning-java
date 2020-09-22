@@ -58,7 +58,7 @@ public class NeuralNetworkLayerBuilder implements Serializable {
     /**
      * 初始化所有层的权重 w,b
      */
-    public void init(InputType inputType, double lamdba, double alpha, long seed) {
+    public void init(InputType inputType, double lamdba, double alpha, int seed) {
         if(!noOutLay){
             throw new RuntimeException("没有输出层");
         }

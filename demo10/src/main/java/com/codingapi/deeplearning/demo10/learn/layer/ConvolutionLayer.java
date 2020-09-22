@@ -130,7 +130,7 @@ public class ConvolutionLayer extends BaseLayer {
 
         InputType inputType = layerInitor.getInputType();
 
-        long seed = layerInitor.getSeed();
+        int seed = layerInitor.getSeed();
 
         filters = Nd4j.rand(outChannels,inputType.getChannel()*kernelSizes[0]*kernelSizes[1],seed);
 

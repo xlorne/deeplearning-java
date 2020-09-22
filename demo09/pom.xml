@@ -3,9 +3,9 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>deeplearning-java</artifactId>
         <groupId>com.codingapi.deepleaning</groupId>
-        <version>0.0.1-SNAPSHOT</version>
+        <artifactId>deeplearning-java</artifactId>
+        <version>0.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -37,13 +37,11 @@
         <dependency>
             <groupId>org.nd4j</groupId>
             <artifactId>nd4j-native-platform</artifactId>
-            <version>1.0.0-beta7</version>
         </dependency>
 
         <dependency>
             <groupId>org.deeplearning4j</groupId>
             <artifactId>deeplearning4j-datasets</artifactId>
-            <version>1.0.0-beta7</version>
         </dependency>
 
         <!-- 对象序列化/反序列化框架 -->

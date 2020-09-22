@@ -56,7 +56,7 @@ public class NeuralNetwork {
         private double lambda;
         private double alpha;
         private int numEpochs;
-        private long seed;
+        private int seed;
         private LossFunction lossFunction;
 
         private NeuralNetworkBuilder() {
@@ -86,7 +86,7 @@ public class NeuralNetwork {
             return this;
         }
 
-        public NeuralNetworkBuilder seed(long seed){
+        public NeuralNetworkBuilder seed(int seed){
             this.seed = seed;
             return this;
         }
@@ -103,7 +103,7 @@ public class NeuralNetwork {
 
     }
 
-    private NeuralNetwork(double lambda, double alpha, int numEpochs,long seed,
+    private NeuralNetwork(double lambda, double alpha, int numEpochs,int seed,
                          NeuralNetworkLayerBuilder layerBuilder,LossFunction lossFunction) {
         this.lambda = lambda;
         this.alpha = alpha;

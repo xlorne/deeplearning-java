@@ -28,7 +28,7 @@ public interface NeuralNetworkLayer {
     /**
      * 初始化参数
      */
-    void init(double lamdba,double alpha,long seed);
+    void init(double lamdba,double alpha,int seed);
 
     /**
      * 权重值

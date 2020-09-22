@@ -18,7 +18,7 @@ public class LayerInitor {
 
     private double lamdba;
     private double alpha;
-    private long seed;
+    private int seed;
     private InputType inputType;
 
 

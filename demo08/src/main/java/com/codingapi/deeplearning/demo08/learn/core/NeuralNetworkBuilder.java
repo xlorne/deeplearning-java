@@ -24,7 +24,7 @@ public class NeuralNetworkBuilder {
     private double lambda;
     private double alpha;
     private int numEpochs;
-    private long seed;
+    private int seed;
     private LossFunction lossFunction;
 
     private NeuralNetworkBuilder() {
@@ -54,7 +54,7 @@ public class NeuralNetworkBuilder {
         return this;
     }
 
-    public NeuralNetworkBuilder seed(long seed){
+    public NeuralNetworkBuilder seed(int seed){
         this.seed = seed;
         return this;
     }
