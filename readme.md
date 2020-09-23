@@ -49,11 +49,11 @@ https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes
 我会将实现的过程用视频方式来讲解，然后再将视频发布到B站和YouTube上，视频地址我会整理到下面，若有问题可在知识星球([智慧探索实验室](images/discuss.jpg))上讨论。
 
 ### 视频目录
-视频讲重新录制
-计划如下：
-1、深度学习基础
-2、手动实现：DNN CNN RNN
-3、框架使用
+视频讲重新录制. 
+计划如下：    
+1、深度学习基础.  
+2、手动实现：DNN CNN RNN.  
+3、框架使用.  
 
 ## 项目目录
 [demo01](demo01)   
