@@ -75,7 +75,7 @@ https://github.com/fengdu78/Coursera-ML-AndrewNg-Notes
 [demo09](demo09)      
 在线手写识别数字，mnist测试数据识别率为 96.13%，在线识别率没有那么高，原因在图片处理上存在差异          
 [demo10](demo10)     
-卷积神经网络，尝试搭建中...   
+通过自动微分框架，重写DNN框架，优化中...   
 
 ## QA
 Q: 为什么用java的方式去实现深度学习，而不用已有的Python、GO这些语言？  
