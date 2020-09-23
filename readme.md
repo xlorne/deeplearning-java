@@ -25,9 +25,9 @@ https://deeplearning4j.org/
 机器学习支持向量机   
 https://www.youtube.com/watch?v=o3oRG9VpVXU   
 自然常数e   
-https://www.youtube.com/watch?v=mZE0RmCbDe8 
-动手学深度学习
-https://github.com/d2l-ai/d2l-zh
+https://www.youtube.com/watch?v=mZE0RmCbDe8    
+动手学深度学习.  
+https://github.com/d2l-ai/d2l-zh.   
       
 
 ### 参考资料
