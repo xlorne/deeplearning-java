@@ -7,13 +7,12 @@ import org.nd4j.linalg.api.ndarray.INDArray;
 import org.nd4j.shade.protobuf.common.collect.Maps;
 
 /**
- * @author lorne
- * @date 2019-11-15
+ *
  * Sigmoid: f(x) = {1 \over {1+e^{-x}}}
+ * @author lorne
  */
 @Slf4j
 public class SigmoidActivation implements Activation {
-
 
     private transient SameDiff sameDiff;
 
