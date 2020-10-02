@@ -2,7 +2,6 @@ package com.codingapi.deeplearning.demo10.learn.core;
 
 import com.codingapi.deeplearning.demo10.learn.loss.LossFunction;
 import lombok.extern.slf4j.Slf4j;
-import org.nd4j.linalg.api.ndarray.INDArray;
 
 import java.io.Serializable;
 
@@ -28,8 +27,7 @@ public class NeuralListener implements Serializable {
         this.lossFunction = lossFunction;
     }
 
-    public void cost(long index,INDArray predict, INDArray y) {
-        double cost =  lossFunction.score(predict,y);
+    public void cost(long index,double cost) {
         for (TrainingListener trainingListener:trainingListeners){
             trainingListener.done(index,cost);
         }

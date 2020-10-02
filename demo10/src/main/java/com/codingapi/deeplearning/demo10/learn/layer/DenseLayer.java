@@ -132,7 +132,7 @@ public class DenseLayer extends BaseLayer {
         INDArray newDelta;
         log.debug("backprop=> {}, w.shape->{},b.shape->{}", index, w.shape(), b.shape());
         if (isOutLayer) {
-            newDelta = delta;
+            newDelta = delta.mul(activation.derivative(a));
         } else {
             //delta(l) = (delta(l+1) * w(l+1).T).*(activation.derivative(a))
             newDelta = delta.mmul(getAfterFeedForwardLayer().w().transpose()).mul(activation.derivative(a));

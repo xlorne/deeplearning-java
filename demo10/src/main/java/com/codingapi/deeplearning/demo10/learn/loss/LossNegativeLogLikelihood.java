@@ -1,8 +1,12 @@
 package com.codingapi.deeplearning.demo10.learn.loss;
 
+import org.nd4j.autodiff.samediff.SDVariable;
+import org.nd4j.autodiff.samediff.SameDiff;
+import org.nd4j.linalg.api.buffer.DataType;
 import org.nd4j.linalg.api.ndarray.INDArray;
-import org.nd4j.linalg.factory.Nd4j;
-import org.nd4j.linalg.ops.transforms.Transforms;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author lorne
@@ -12,16 +16,42 @@ import org.nd4j.linalg.ops.transforms.Transforms;
 public class LossNegativeLogLikelihood implements LossFunction {
 
 
+    private transient SameDiff sameDiff;
+
+    public LossNegativeLogLikelihood() {
+        sameDiff = SameDiff.create();
+
+        SDVariable predict =  sameDiff.var("predict");
+        SDVariable labels =  sameDiff.placeHolder("labels", DataType.FLOAT);
+
+        sameDiff.loss().softmaxCrossEntropy("outputs",labels,predict);
+    }
+
+
     @Override
     public double score(INDArray predict, INDArray y) {
-        // x 误差值
-        INDArray res =  y.mul(Transforms.log(predict)).mul(-1).div(predict.rows());
-        return Nd4j.sum(res).sumNumber().doubleValue();
+        Map<String,INDArray> placeholders = new HashMap<>();
+
+        placeholders.put("labels",y);
+
+        sameDiff.getVariable("predict").setArray(predict);
+
+        INDArray res =  sameDiff.output(placeholders,"outputs").get("outputs");
+
+        return res.sumNumber().doubleValue();
     }
 
     @Override
     public INDArray gradient(INDArray data, INDArray y) {
         //简化完就是预测值减去y
-        return data.sub(y);
+        Map<String,INDArray> placeholders = new HashMap<>();
+
+        placeholders.put("labels",y);
+
+        sameDiff.execBackwards(placeholders);
+
+        INDArray gradient =  sameDiff.getGradForVariable("predict").getArr();
+
+        return gradient;
     }
 }

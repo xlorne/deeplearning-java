@@ -85,6 +85,13 @@ public class NeuralNetwork implements Serializable {
                     data = layer.forward(data);
                 }
 
+                double cost =  lossFunction.score(data,label);
+
+                //损失函数得分
+                if (iterationListener != null) {
+                    iterationListener.cost(count++, cost);
+                }
+
                 //反向传播 BP
                 //输出层的反向传播
                 INDArray delta = lossFunction.gradient(data, label);
@@ -102,10 +109,6 @@ public class NeuralNetwork implements Serializable {
                     layer.updateParam();
                 }
 
-                //损失函数得分
-                if (iterationListener != null) {
-                    iterationListener.cost(count++, data, label);
-                }
             }
             iterator.reset();
         }
