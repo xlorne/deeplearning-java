@@ -50,7 +50,7 @@ public class SoftMaxActivation implements Activation {
     @Override
     public INDArray derivative(INDArray a) {
         //通过自动微分 SameDiff 计算导数
-        sameDiff.execBackwards(null);
+        sameDiff.calculateGradients(null);
         INDArray gradient =  sameDiff.getGradForVariable("inputs").getArr();
         return gradient;
     }

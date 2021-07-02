@@ -63,7 +63,7 @@ public class SameDiffSoftMaxTest {
         System.out.println(sameDiffOut);
 
         //通过自动微分 SameDiff 计算导数
-        sameDiff.execBackwards(null);
+        sameDiff.calculateGradients(null);
 
 //        inputs = inputs.add(1);
 

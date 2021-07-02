@@ -36,7 +36,7 @@ public class SigmoidActivation implements Activation {
 
     @Override
     public INDArray derivative(INDArray a) {
-        sameDiff.execBackwards(null);
+        sameDiff.calculateGradients(null);
         INDArray gradient =  sameDiff.getGradForVariable("inputs").getArr();
         return gradient;
     }

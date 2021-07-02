@@ -24,7 +24,7 @@ public class LossNegativeLogLikelihood implements LossFunction {
         SDVariable predict =  sameDiff.var("predict");
         SDVariable labels =  sameDiff.placeHolder("labels", DataType.FLOAT);
 
-        sameDiff.loss().softmaxCrossEntropy("outputs",labels,predict);
+        sameDiff.loss().softmaxCrossEntropy("outputs",labels,predict,null);
     }
 
 
@@ -48,7 +48,7 @@ public class LossNegativeLogLikelihood implements LossFunction {
 
         placeholders.put("labels",y);
 
-        sameDiff.execBackwards(placeholders);
+        sameDiff.calculateGradients(placeholders);
 
         INDArray gradient =  sameDiff.getGradForVariable("predict").getArr();
 

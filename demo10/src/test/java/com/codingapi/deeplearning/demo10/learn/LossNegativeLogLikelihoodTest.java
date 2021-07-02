@@ -34,7 +34,7 @@ public class LossNegativeLogLikelihoodTest {
         SDVariable labels =  sameDiff.placeHolder("labels", DataType.FLOAT);
 
 
-        sameDiff.loss().softmaxCrossEntropy("outputs",labels,sameDiff.nn().softmax(predict));
+        sameDiff.loss().softmaxCrossEntropy("outputs",labels,sameDiff.nn().softmax(predict),null);
 
         Map<String, INDArray> placeholders = new HashMap<>();
         placeholders.put("labels",Transforms.softmax(label));
@@ -50,7 +50,7 @@ public class LossNegativeLogLikelihoodTest {
 
         Map<String,INDArray> placeholders1 = new HashMap<>();
         placeholders1.put("labels",Transforms.softmax(label));
-        sameDiff.execBackwards(placeholders1);
+        sameDiff.calculateGradients(placeholders1);
 
         INDArray gradient =  sameDiff.getGradForVariable("predict").getArr();
         System.out.println("gradient outs:");
